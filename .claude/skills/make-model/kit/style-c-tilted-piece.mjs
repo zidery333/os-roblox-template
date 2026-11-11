@@ -1,4 +1,4 @@
-// Style C piece whose prisms can each be turned (a weapon tilted forward at an elbow), plus an octagon prism and a tilt matrix. Use with style-c-glb.mjs (Builder, grow).
+// Style C piece whose prisms can each be turned (a tool tilted forward at an elbow), plus an octagon prism and a tilt matrix. Use with style-c-glb.mjs (Builder, grow).
 import * as THREE from 'three';
 import { Builder, grow } from './style-c-glb.mjs';
 

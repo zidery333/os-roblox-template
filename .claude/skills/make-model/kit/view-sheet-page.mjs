@@ -1,7 +1,8 @@
 // Writes a one-file view of a style test sheet: the .glb's top-level groups in a row in a 3D viewer (white, soft light and shadow, spin and zoom,
 // a label under each group (every other one a row lower), buttons for three-quarter, front and straight top-down), a line of each group's size and triangles, and a picture under it
 // on a light checkerboard. Everything is inside the page (three r128 from cdnjs, the .glb and the PNG as base64). Open with ?view=top or ?view=front to start there.
-// Run: node view-sheet-page.mjs sheet.glb picture.png out.html "Page title" "Picture caption" '{"Tower":"Watch tower",...}'   (needs three@0.170.0 for the sizes)
+// Run: node view-sheet-page.mjs sheet.glb picture.png out.html "Page title" "Picture caption" '{"Crate":"Wooden crate",...}'   (needs three@0.170.0 for the sizes)
+// The caption is the picture's heading too.
 import fs from 'fs';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
@@ -30,7 +31,7 @@ fs.writeFileSync(out, `<title>${esc(title)}</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&display=swap">
 <style>
-/* Layout: one white stage for the 3D row on top, the numbers in a strip under it, the button picture on its checkerboard below. One light look on purpose: the models are judged on white. */
+/* Layout: one white stage for the 3D row on top, the numbers in a strip under it, the picture on its checkerboard below. One light look on purpose: the models are judged on white. */
 :root {
   --paper: #ffffff; --ink: #141418; --soft: #5d6068; --line: #e6e7ea; --chip: #f3f3f1; --gold: #ffc928;
   --display: "Fredoka", ui-rounded, "Arial Rounded MT Bold", system-ui, sans-serif;
@@ -70,16 +71,15 @@ section p { margin: 0; color: var(--soft); font-variant-numeric: tabular-nums; }
     <canvas id="view"></canvas>
     <div class="tools">
       <button id="b-three" aria-pressed="true">Three-quarter</button>
-      <button id="b-top" aria-pressed="false">Top-down (game view)</button>
+      <button id="b-top" aria-pressed="false">Top-down</button>
       <button id="b-front" aria-pressed="false">Front</button>
       <span>Drag to spin &middot; scroll or pinch to zoom</span>
     </div>
   </div>
   <ul class="parts">${rows.map((r) => `<li><b>${esc(r.label)}</b><span>${r.size.join(' &times; ')} studs</span><span>${fmt(r.tris)} triangles</span></li>`).join('')}</ul>
   <section>
-    <h2>Build button</h2>
-    <div class="checker"><img alt="Build button with a silicon crystal icon" src="data:image/png;base64,${fs.readFileSync(png).toString('base64')}"></div>
-    <p>${esc(caption)}</p>
+    <h2>${esc(caption)}</h2>
+    <div class="checker"><img alt="${esc(caption)}" src="data:image/png;base64,${fs.readFileSync(png).toString('base64')}"></div>
   </section>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -127,7 +127,7 @@ function fit(dir) {
 }
 const VIEWS = { three: [0.3, 0.5, -0.8], top: [0, 1, -0.0001], front: [0, 0.1, -1] };
 let current = 'three';
-// top: a long lens, so it reads nearly flat like the game's high camera
+// top: a long lens, so it reads nearly flat, like a camera high above
 function setView(v) { current = v; camera.fov = v === 'top' ? 12 : 30; camera.updateProjectionMatrix(); for (const k of Object.keys(VIEWS)) document.getElementById('b-' + k).setAttribute('aria-pressed', String(k === v)); if (box) fit(VIEWS[v]); }
 for (const k of Object.keys(VIEWS)) document.getElementById('b-' + k).onclick = () => setView(k);
 new THREE.GLTFLoader().parse(bytes(MODEL), '', (g) => {

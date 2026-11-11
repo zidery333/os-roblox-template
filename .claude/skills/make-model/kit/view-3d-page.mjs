@@ -1,13 +1,15 @@
-// Writes a one-file 3D view page (white studio light, soft shadow, spin and zoom, the .glb inside as base64, three r128 from CDN): node view-3d-page.mjs model.glb out.html "Title" "13 x 73 x 7 studs · 752 triangles" [extras.json]
+// Writes a one-file 3D view page (white studio light, soft shadow, spin and zoom, the .glb inside as base64, three r128 from CDN): node view-3d-page.mjs model.glb out.html "Title" "12 x 8 x 6 studs · 600 triangles" [extras.json]
 // extras.json (optional, view only, never in the model): [{ "glb": "/abs/path/Character.glb", "label": "5-tall player", "pos": [x, y, z], "rotY": -1.5708,
-//   "only": "^(Wall_Right|Shelf_Top)$", "clipX": 40, "clipZ": 90, "clipY": 200 }]. "only" keeps parts whose name (Outline_ taken off) matches;
+//   "only": "^(Back_Wall|Side_Wall)$", "clipX": 40, "clipZ": 90, "clipY": 200 }]. "only" keeps parts whose name (Outline_ taken off) matches;
 //   clipX/Z/Y cut that file off past those distances from the model. Each extra gets a toggle. Use it to show a wall the model hangs on, or a character for size.
 //   A player-sized block: { "box": [4, 5, 1], "label": "player" } (sizes in studs, as the prompt gives them), stood on the floor just right of the model
 //   unless "pos" (its bottom middle) says where. Open the page with ?view=front, back, left, right, top or three-quarter (the default; a bare ?front
-//   works too) to start from that side. No packages needed.
+//   works too) to start from that side. No packages needed. The view is framed on the model and its player blocks by their own points
+//   (fit-corners.mjs, which must sit beside this file), filling about four fifths of the width.
 // For a PNG: serve the folder with save-png-server.mjs, open the page in the built-in browser, take one browser screenshot, then in javascript_tool:
 //   renderer.render(scene, camera); fetch('/save?name=x.png', { method: 'POST', body: canvas.toDataURL('image/png') })
 import fs from 'fs';
+import { FIT_CORNERS_JS } from './fit-corners.mjs';
 const [model, outFile, title = 'Model', info = '', extrasFile] = process.argv.slice(2);
 const b64 = (f) => fs.readFileSync(f).toString('base64');
 const extras = extrasFile ? JSON.parse(fs.readFileSync(extrasFile, 'utf8')) : [];
@@ -53,6 +55,8 @@ const ground = new THREE.Mesh(new THREE.PlaneGeometry(4000, 4000), new THREE.Sha
 ground.rotation.x = -Math.PI / 2; ground.position.y = -0.02; ground.receiveShadow = true; scene.add(ground);
 const controls = new THREE.OrbitControls(camera, canvas); controls.enableDamping = true;
 const loader = new THREE.GLTFLoader();
+${FIT_CORNERS_JS}
+const framed = new THREE.Group(); scene.add(framed); // the model and its player blocks: what the view is framed on
 // Glow_ parts drawn unlit, so they show their exact colour (lit plus emissive washes amber out to yellow)
 const unlit = (root) => root.traverse((o) => { if (o.isMesh && o.name.startsWith('Glow_')) o.material = new THREE.MeshBasicMaterial({ map: o.material.map, color: o.material.map ? 0xffffff : o.material.color }); });
 const shadows = (root) => root.traverse((o) => { if (o.isMesh) { o.castShadow = !o.name.startsWith('Outline_'); o.receiveShadow = true; } });
@@ -61,25 +65,24 @@ const q = new URLSearchParams(location.search), VIEW = (q.get('view') || locatio
 const SIDES = { front: [0, 0.12, -1], back: [0, 0.12, 1], left: [-1, 0.12, 0], right: [1, 0.12, 0], top: [0, 1, -0.001], 'three-quarter': [0.55, 0.35, -0.76] };
 const blocks = []; // player-sized blocks, placed once the model's size is known
 loader.parse(bytes(MODEL), '', (g) => {
-  shadows(g.scene); unlit(g.scene); scene.add(g.scene);
+  shadows(g.scene); unlit(g.scene); framed.add(g.scene);
   const mbox = new THREE.Box3().setFromObject(g.scene);
   for (const { e, mesh } of blocks) {
     const [w, h] = e.box, p = e.pos || [mbox.min.x - w / 2 - Math.max(1, w / 2), mbox.min.y, (mbox.min.z + mbox.max.z) / 2]; // -X shows on the right from the front
     mesh.position.set(p[0], p[1] + h / 2, p[2]);
   }
-  // frame it: the side asked for (front three-quarter by default), whole box in view, blocks included
+  // frame it: the side asked for (front three-quarter by default), fitted by the model's and blocks' own points, room left for the labels
   const box = mbox.clone(); for (const { mesh } of blocks) box.expandByObject(mesh);
-  const c = box.getCenter(new THREE.Vector3()), s = box.getSize(new THREE.Vector3());
-  const r = s.length() / 2, d = r / Math.sin(THREE.MathUtils.degToRad(17.5)) * 1.05;
-  controls.target.copy(c);
-  camera.position.copy(c).add(new THREE.Vector3(...(SIDES[VIEW] || SIDES['three-quarter'])).normalize().multiplyScalar(d));
+  const c = box.getCenter(new THREE.Vector3()), r = box.getSize(new THREE.Vector3()).length() / 2;
+  resize(); fitCorners(camera, controls, framed, SIDES[VIEW] || SIDES['three-quarter'], 0.8, 0.75);
   sun.position.copy(c).add(new THREE.Vector3(r, r * 3, -r * 1.5)); sun.target.position.copy(c);
   Object.assign(sun.shadow.camera, { left: -r * 1.5, right: r * 1.5, top: r * 1.5, bottom: -r * 1.5, near: 1, far: r * 10 });
+  sun.shadow.camera.updateProjectionMatrix();
   fill.position.copy(c).add(new THREE.Vector3(r * 1.5, r, r * 1.2));
-  resize(); window.ready = true;
+  window.ready = true;
 });
 EXTRAS.forEach((e, i) => {
-  const group = new THREE.Group(); scene.add(group);
+  const group = new THREE.Group(); (e.box ? framed : scene).add(group);
   document.getElementById('x' + i).onchange = (ev) => { group.visible = ev.target.checked; };
   if (e.box) { // a plain grey player-sized block
     const mesh = new THREE.Mesh(new THREE.BoxGeometry(...e.box), new THREE.MeshStandardMaterial({ color: 0xb9bdc4, roughness: 0.9 }));

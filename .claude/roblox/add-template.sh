@@ -4,6 +4,7 @@
 # Never overwrites a file that is already there. Works on a Mac and on Windows inside WSL.
 
 set -euo pipefail
+unset CDPATH # a CDPATH someone set makes cd print the folder, which would end up in $here
 here="$(cd "$(dirname "$0")" && pwd)"
 dest="${1:-}"
 name="${2:-}"
@@ -23,7 +24,8 @@ if [ ! -d "$dest" ]; then
 fi
 
 # The name as sed puts it in: plain for most files, with " and \ escaped for JSON files.
-for_sed() { printf '%s' "$1" | sed 's/[&/\]/\\&/g'; }
+# | not / around the pattern: Linux's sed (on Windows, in WSL) reads a / inside [ ] as the end of it.
+for_sed() { printf '%s' "$1" | sed 's|[&/\]|\\&|g'; }
 plain="$(for_sed "$name")"
 json="$(for_sed "$(printf '%s' "$name" | sed 's/[\"]/\\&/g')")"
 

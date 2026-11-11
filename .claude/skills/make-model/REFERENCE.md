@@ -40,13 +40,17 @@ How to build it:
    (move, recolour, add, remove, rename parts) and writes it out again.
 2. Check it before showing it: `node inspect-glb.mjs <file>` (each part's name, box and triangles)
    against the prompt's size and triangle range. Then run check-planes.mjs, check-open-edges.mjs and
-   check-ground.mjs on every file, and the swing checks on anything that moves. The first model of a
+   check-ground.mjs on every file, and the swing checks on anything that moves (the part names they
+   look for are in "Part names the checks know" in .claude/skills/make-model/REFERENCE.md). Every
+   check exits 1 on a problem or when it found nothing to check: read what it printed. The first model of a
    game sets the look for all the others: if this is it, make 4 clearly different versions on one
    look sheet (view-look-sheet-page.mjs) for the person to pick from.
 3. A picture prompt (a UI kit, icons, a logo) gets PNGs instead, drawn in code at the size it asks.
-   Run check-pictures.mjs and check-cut-edges.mjs on them. Skip any game mock-ups or phone screens.
-4. If the prompt bans colours, check every file with check-banned-colours.mjs (3D: its texture via
-   glb-colours-png.mjs), not by eye.
+   Run check-pictures.mjs and check-cut-edges.mjs on them (`--allow` names the pieces that stretch, so
+   they may touch the edge). Skip any game mock-ups or phone screens.
+4. If the prompt bans colours, check every file with check-banned-colours.mjs, not by eye. 3D: write
+   its textures out with glb-colours-png.mjs and check every PNG it writes (a model with two palettes
+   has two).
 5. Make the view, one HTML page with everything inside it, published with the Artifact tool (load
    the artifact-design skill first): view-3d-page.mjs (one model), view-multi-page.mjs (several),
    view-sheet-page.mjs (a style sheet), or a picture sheet: every picture labelled with its name and
@@ -97,7 +101,33 @@ The kit is plain Node, so it runs the same on both.
   `CHROME_PATH`). If Chrome won't start, it is missing Linux libraries: `ldd <chrome> | grep not`
   lists them, and `sudo apt install` puts them in. Keep the scratch copy in the Linux home (`~/`),
   not under `/mnt/c`: it is much faster there.
+- **Which Chrome:** any recent one works (tried with Chrome 157). The kit's puppeteer-core 23.11.1 was
+  made for Chrome 131: if a newer one ever won't start, install
+  `chrome-headless-shell@131.0.6778.204` the same way. Node must be 18 or newer.
 - Studio is never touched by this skill, so nothing here needs the Windows side.
+
+## Part names the checks know
+
+The kit's checks find parts and groups by name, so a model that uses these names gets checked. A name
+may start with its colour slot (`Trim_Mount`, `Body_Axle`). A moving group is a group holding its
+parts, never a part itself: a part named `Spin_Fan` is not checked as a spinner.
+
+| Name | What it is | Used by |
+| --- | --- | --- |
+| `Spin_…` | a group that spins on and on, round its own up | check-spin-room |
+| `Sweep_…` | a group that swings back and forth, a half turn round its own up | check-sweep |
+| `Aim_…` | a group that turns to face a target, a full circle round its own up | check-sweep |
+| `Bob_…` | a group that moves up and down (`--bob` studs each way, 0.5 unless the prompt says) | check-sweep |
+| any name you pass | a hinged lid or door: a node whose pivot sits on its hinge | check-hinge |
+| `Gate1`, `Gate2`, or names you pass | the two halves of a double door | check-hinge-swing |
+| `Mount`, `Axle` | the still part a moving group sits on or turns round: left out, as it touches on purpose | check-spin-room, check-sweep |
+| `Collar` | the ring an `Aim_` head turns on: left out, its gap printed on its own | check-sweep |
+| `Turntable` | a piece inside a moving group that turns in place on its `Mount`: left out | check-sweep |
+| `Leg_Front1`, `Leg_Front2`, `Leg_Back1`, `Leg_Back2` | a creature's legs, also tried in walking poses | check-joint-swing |
+| `Outline_…` | an outline shell: left out of the swing checks, check-ground and check-open-edges | several |
+| `Glow_…` | a glowing part (the game makes it Neon): a different look in check-planes, never "lifted" in check-ground | check-planes, check-ground |
+
+Hinged lids and doors have no left-out name: they stay 0.3 clear of everything, as the rules say.
 
 ## Tidy the lessons
 

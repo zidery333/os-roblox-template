@@ -19,7 +19,8 @@ A Roblox game made in this folder with Claude. Read this whole file before touch
   no new errors in the output log.
 - **Where code goes:**
   - `Code/Shared/Config/` the numbers (prices, damage, speeds). Balance changes go here.
-  - `Code/Shared/Logic/` pure rules, no Roblox services. Every module here gets a test in `Tests/`.
+  - `Code/Shared/Logic/` pure rules, no Roblox services. Every module here gets a test, `Tests/<Module>.spec.luau`
+    (only files named `.spec.luau` run).
   - `Code/Shared/Net.luau` every remote's name. Add the name here first.
   - `Code/Server/` everything that matters (coins, damage, saves). The server decides.
   - `Code/Client/` input, camera, UI, effects. The client asks; it never decides.

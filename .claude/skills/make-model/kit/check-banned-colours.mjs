@@ -1,7 +1,7 @@
 // Flags PNGs that use a colour the game bans (the prompt's "never" lines), dark shades and old reused pieces included.
 // Run: node check-banned-colours.mjs --ban red,blue <folder or .png> [more]   (needs @napi-rs/canvas; looks in subfolders too)
 // Colour names: red, orange, yellow, green, cyan, blue, purple, pink. There is no default: pass only what this game bans.
-// For a 3D model, write its colour texture out first with glb-colours-png.mjs. Exits 1 if any picture is flagged, 2 if no PNGs or no --ban.
+// For a 3D model, write its colour textures out first with glb-colours-png.mjs (every PNG it writes). Exits 1 if any picture is flagged, or if there are no PNGs or no --ban.
 import { loadImage, createCanvas } from '@napi-rs/canvas';
 import fs from 'fs';
 import path from 'path';
@@ -12,13 +12,13 @@ const HUES = { red: [[340, 360], [0, 18]], orange: [[18, 45]], yellow: [[45, 70]
 const args = process.argv.slice(2), bi = args.indexOf('--ban');
 const ban = bi >= 0 ? (args[bi + 1] || '').split(',').map((s) => s.trim().toLowerCase()).filter(Boolean) : [];
 const paths = args.filter((_, i) => bi < 0 || (i !== bi && i !== bi + 1));
-if (!ban.length || !paths.length) { console.error('Usage: node check-banned-colours.mjs --ban red,blue <folder or .png> [more]'); process.exit(2); }
-for (const b of ban) if (!HUES[b]) { console.error('unknown colour', b, '- use', Object.keys(HUES).join(', ')); process.exit(2); }
+if (!ban.length || !paths.length) { console.error('Usage: node check-banned-colours.mjs --ban red,blue <folder or .png> [more]'); process.exit(1); }
+for (const b of ban) if (!HUES[b]) { console.error('unknown colour', b, '- use', Object.keys(HUES).join(', ')); process.exit(1); }
 const walk = (p) => fs.statSync(p).isDirectory()
 	? fs.readdirSync(p).filter((f) => !f.startsWith('.') && f !== 'node_modules').flatMap((f) => walk(path.join(p, f)))
 	: p.toLowerCase().endsWith('.png') ? [p] : [];
 const files = paths.flatMap(walk).sort();
-if (!files.length) { console.error('no PNGs found in', paths.join(', ')); process.exit(2); }
+if (!files.length) { console.error('no PNGs found in', paths.join(', ')); process.exit(1); }
 const which = (h) => ban.find((b) => HUES[b].some(([lo, hi]) => h >= lo && h < hi));
 let bad = 0;
 for (const f of files) {

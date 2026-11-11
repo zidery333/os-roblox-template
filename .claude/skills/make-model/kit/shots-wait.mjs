@@ -2,10 +2,13 @@
 // Run: node shots-wait.mjs page.html outDir name1="query1" name2="query2" ...   (needs puppeteer-core and a Chrome; about 2 s a shot)
 // Which Chrome: set CHROME_PATH to its full path. Without it, this tries the usual places for Mac, Linux and WSL (Linux inside Windows).
 // On WSL use a Linux Chrome, not the Windows one: npx @puppeteer/browsers install chrome-headless-shell@stable, then point CHROME_PATH at it.
+// Any recent Chrome works (tried with Chrome 157). puppeteer-core 23.11.1 was made for Chrome 131: if a newer one ever won't start,
+// install that one instead: npx @puppeteer/browsers install chrome-headless-shell@131.0.6778.204
 // WebGL here runs on the CPU (SwiftShader); --no-sandbox is fine because the page is your own local file.
 import puppeteer from 'puppeteer-core';
 import fs from 'fs';
 import path from 'path';
+import { pathToFileURL } from 'url';
 
 const [page, outDir, ...jobs] = process.argv.slice(2);
 if (!page || !outDir) { console.error('Usage: node shots-wait.mjs page.html outDir name="query" ...'); process.exit(2); }
@@ -32,7 +35,7 @@ const browser = await puppeteer.launch({ executablePath: findChrome(), headless:
 	args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--hide-scrollbars', ...(process.platform === 'linux' ? ['--no-sandbox'] : [])] });
 const tab = await browser.newPage();
 await tab.setViewport({ width: 1400, height: 900 });
-const url = 'file://' + path.resolve(page);
+const url = pathToFileURL(path.resolve(page)).href; // spaces and # in a folder name are written so Chrome finds the file
 for (const job of jobs) {
 	const i = job.indexOf('='), name = job.slice(0, i), q = job.slice(i + 1);
 	await tab.goto(url + '?' + q, { waitUntil: 'load', timeout: 120000 });

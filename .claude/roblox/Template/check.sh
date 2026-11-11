@@ -48,6 +48,10 @@ types() {
 	local out status
 	out=$(luau-lsp analyze --platform=roblox --sourcemap="$map" --definitions=@roblox=Types/globalTypes.d.luau Code 2>&1)
 	status=$?
+	# An old Roblox call is only a warning to luau-lsp, which still says ok. Here it fails.
+	if printf '%s\n' "$out" | grep -q "DeprecatedApi"; then
+		status=1
+	fi
 	rm -f "$map"
 	printf '%s\n' "$out" | grep -vE '^\[(INFO|WARN)\]' | awk '!seen[$0]++'
 	return "$status"

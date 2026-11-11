@@ -309,22 +309,26 @@
       "b234fc86bc9761cda142c7dc7d277515dd7109b0"
     ],
     ".claude/skills/build-game/REFERENCE.md": [
-      "b03cb4b7b5334ed0c6845793bd5fc6cf6d695aa9"
+      "b03cb4b7b5334ed0c6845793bd5fc6cf6d695aa9",
+      "0c3a12b5705e686c643ae2dd15072113a3310186"
     ],
     ".claude/skills/build-game/SKILL.md": [
       "7f009e3e687a37cb7d841fc2a17052d7fbfa8dbe"
     ],
     ".claude/skills/make-model/LESSONS.md": [
-      "a1d46900bcae5fc1ac25d33133ff1b76cc770418"
+      "a1d46900bcae5fc1ac25d33133ff1b76cc770418",
+      "f1c76bf6bf29a11c7e7de2bd9f1b3b9ed4cb68b3"
     ],
     ".claude/skills/make-model/REFERENCE.md": [
-      "a90da262d7e3109a8d223b7d94fc7d7c7e1577a4"
+      "a90da262d7e3109a8d223b7d94fc7d7c7e1577a4",
+      "8f2b4f2acf666b27d8bfe108dad2978764a5653f"
     ],
     ".claude/skills/make-model/SKILL.md": [
       "7b652059a3e2be7a17774e79533f4fb3d838b755"
     ],
     ".claude/skills/make-model/kit/README.md": [
-      "779728b9c640c425955f6554d570ff924a990015"
+      "779728b9c640c425955f6554d570ff924a990015",
+      "046f31d6df09a32cfa589bd342c1e36977974bd7"
     ],
     ".claude/skills/make-model/kit/brick-glb.mjs": [
       "5dc59853c790ec83b319e5f537418898abf8ea47"
@@ -333,37 +337,48 @@
       "0a92bdbcbe51319d1f44931a1a930dfcbb6fb30d"
     ],
     ".claude/skills/make-model/kit/check-banned-colours.mjs": [
-      "f189cc0b5317a04c1e8292e28f96285c01e871a5"
+      "f189cc0b5317a04c1e8292e28f96285c01e871a5",
+      "ae8199da6ce5301101b4b14898d10ccaa755e89f"
     ],
     ".claude/skills/make-model/kit/check-cut-edges.mjs": [
-      "2bb40c1978aef6e8f55d8d9a4314907530c72e80"
+      "2bb40c1978aef6e8f55d8d9a4314907530c72e80",
+      "1e19c5cfb72e50265085290514887ad5a991b3d9"
     ],
     ".claude/skills/make-model/kit/check-ground.mjs": [
-      "78fd816a185ca86031316805a81f6b0d269303c1"
+      "78fd816a185ca86031316805a81f6b0d269303c1",
+      "66416766592b354456211e9ec9be1d0aa49961d9"
     ],
     ".claude/skills/make-model/kit/check-hinge-swing.mjs": [
-      "97a13c711f789cc957729d9548e3d83c11c9c472"
+      "97a13c711f789cc957729d9548e3d83c11c9c472",
+      "1ee478f0ee6bd48ddde5bb8aa256f3d8d78a038c"
     ],
     ".claude/skills/make-model/kit/check-hinge.mjs": [
-      "ed8c7bf5d049c72e9d76ce66284e88750b572d44"
+      "ed8c7bf5d049c72e9d76ce66284e88750b572d44",
+      "2b2e20051b6a6879a0c420e5b701eb0e6b97edac"
     ],
     ".claude/skills/make-model/kit/check-joint-swing.mjs": [
-      "d6cc84f7c5209da0d96c23dbc4f4eb16aec2c1dc"
+      "d6cc84f7c5209da0d96c23dbc4f4eb16aec2c1dc",
+      "5de01c302d3301b4dd4506daaa30e36fe90cedc0"
     ],
     ".claude/skills/make-model/kit/check-open-edges.mjs": [
-      "72e18d24371682e812cec90e453252b33b39df70"
+      "72e18d24371682e812cec90e453252b33b39df70",
+      "672d4fc41eae8dddad96ed40e962f48ba58089b3"
     ],
     ".claude/skills/make-model/kit/check-pictures.mjs": [
-      "0fe9c1a0cd3d180a0d2757ad7fa2a8333337e0d7"
+      "0fe9c1a0cd3d180a0d2757ad7fa2a8333337e0d7",
+      "6263c3a05d8c5d746c97c36d05c5ae15bc72e409"
     ],
     ".claude/skills/make-model/kit/check-planes.mjs": [
-      "c32bed3be2ea39885595ff59bdbfde914dcfb8c1"
+      "c32bed3be2ea39885595ff59bdbfde914dcfb8c1",
+      "29cf8917aabf5dd0e21d1c2fb983b94047c4f335"
     ],
     ".claude/skills/make-model/kit/check-spin-room.mjs": [
-      "0bc52b477941b6e266cdc772835a2b0d43eeabf6"
+      "0bc52b477941b6e266cdc772835a2b0d43eeabf6",
+      "c681ed5f37911a7f5d1162f81e977333d8d317ea"
     ],
     ".claude/skills/make-model/kit/check-sweep.mjs": [
-      "3a1955dbcdaa6d6866814918be13b60b190c1054"
+      "3a1955dbcdaa6d6866814918be13b60b190c1054",
+      "9d9f3905ffdbea1408225b926d998ae6f5876edb"
     ],
     ".claude/skills/make-model/kit/clay-glb.mjs": [
       "bde278259a6df3e282b2db920997e923545acc28"
@@ -384,10 +399,12 @@
       "a2c8cbd0d4ca1fc0add3658748c2573b2e631eb6"
     ],
     ".claude/skills/make-model/kit/glb-colours-png.mjs": [
-      "600eab5eca66666a00663e1629044173ffcd9ff9"
+      "600eab5eca66666a00663e1629044173ffcd9ff9",
+      "65d517c7adc758aa3c25214096bd3b9dcec32b84"
     ],
     ".claude/skills/make-model/kit/glb-textures.mjs": [
-      "6a74b7f1a500afdfbf5faee73a008b230a954f03"
+      "6a74b7f1a500afdfbf5faee73a008b230a954f03",
+      "34053b506bcd1c7e59301c038d036b955d38cb01"
     ],
     ".claude/skills/make-model/kit/hull-octagons.mjs": [
       "b93b3d34f43eed0306d969b4e33612fce8ddd866"
@@ -396,10 +413,12 @@
       "a08546a06a41c7a70ab48a7f2b679beccbda5317"
     ],
     ".claude/skills/make-model/kit/inspect-glb.mjs": [
-      "8acd2830bd12073cf1b6821a7082e8a320374408"
+      "8acd2830bd12073cf1b6821a7082e8a320374408",
+      "4f955a5e9964daaa4eb51492c65a2c4345d99560"
     ],
     ".claude/skills/make-model/kit/package.json": [
-      "5110fd5a0e57fa711a324f26315bf7c5797c6ef0"
+      "5110fd5a0e57fa711a324f26315bf7c5797c6ef0",
+      "6bd356bd7781e60eba4732c688c1e4e1ada1a904"
     ],
     ".claude/skills/make-model/kit/picture-helpers.mjs": [
       "add9c21bd4e39c2d37229b22a677e6b55c57a76a"
@@ -411,7 +430,8 @@
       "0022f2ecbb878602c9a110c81043378b90f07f04"
     ],
     ".claude/skills/make-model/kit/shots-wait.mjs": [
-      "69fefd029af51c31207594eb7d64bf458602970a"
+      "69fefd029af51c31207594eb7d64bf458602970a",
+      "6aa0f7586019427a696ce0659d16d95baab452dc"
     ],
     ".claude/skills/make-model/kit/stretch-frames.mjs": [
       "0f93fb9386c78ca453f1b44e443e303074c08ede"
@@ -426,10 +446,12 @@
       "6b3b45618f7822e073c6b3d7b77b5b314ec1a46f"
     ],
     ".claude/skills/make-model/kit/style-c-joined-boxes.mjs": [
-      "447fa6840079eb6305333c4d7c7c939a50b6aa95"
+      "447fa6840079eb6305333c4d7c7c939a50b6aa95",
+      "4674b20aab0dc579774c99db4631251da390b24b"
     ],
     ".claude/skills/make-model/kit/style-c-leaning-sign.mjs": [
-      "3dbc7e2446c5ee73376602987bd0db869c220926"
+      "3dbc7e2446c5ee73376602987bd0db869c220926",
+      "8eb3c838fe7f6ea9efa42c6f0e96dd5b0094df5b"
     ],
     ".claude/skills/make-model/kit/style-c-moving-parts.mjs": [
       "1c6c03c8fcf19b01d3a64b854a60242d59d5afd6"
@@ -438,7 +460,8 @@
       "ffa861d1dda680c711df31c5697a3b7091d94ea1"
     ],
     ".claude/skills/make-model/kit/style-c-tilted-piece.mjs": [
-      "4557c33b06e26f94f08901d1684c25533e0b606a"
+      "4557c33b06e26f94f08901d1684c25533e0b606a",
+      "a0295ed99d004c703e091b8f63d00c97e4a4360a"
     ],
     ".claude/skills/make-model/kit/style-f-faceted-gem.mjs": [
       "e64ddfb0b05e04b37eedfb01c6fb6f48ebc801f0"
@@ -447,7 +470,8 @@
       "df67957a1a17986a9c931a963a5e9cf028e76e94"
     ],
     ".claude/skills/make-model/kit/toon-extras.mjs": [
-      "0d4d7acb570f384a96d58331471d0ad01c3568aa"
+      "0d4d7acb570f384a96d58331471d0ad01c3568aa",
+      "efb454cf92bafea6562f96e7c96e6489b5909086"
     ],
     ".claude/skills/make-model/kit/toon-glb.mjs": [
       "fbed48b28b5e6f094e5775de2c555603f702b623"
@@ -456,19 +480,23 @@
       "c879db3227799ef80b207f21264b710902bfd2cb"
     ],
     ".claude/skills/make-model/kit/view-3d-page.mjs": [
-      "1b2e0c9184486f9b9dcd2d9a6d18f457dde2c02d"
+      "1b2e0c9184486f9b9dcd2d9a6d18f457dde2c02d",
+      "395e0ea2eee684a79d5a55f065ffa2dbb33a9564"
     ],
     ".claude/skills/make-model/kit/view-look-sheet-page.mjs": [
       "ba87daa0b21c3e837589d02ddd8936b6bfc94e98"
     ],
     ".claude/skills/make-model/kit/view-multi-page.mjs": [
-      "3b31ee8768b454db3a0e0a027847e70721e7f04d"
+      "3b31ee8768b454db3a0e0a027847e70721e7f04d",
+      "50826e113b764b20b26280f169855ed585f001fc"
     ],
     ".claude/skills/make-model/kit/view-sheet-page.mjs": [
-      "226b2e8875644a67b099795ffed4287bc7046841"
+      "226b2e8875644a67b099795ffed4287bc7046841",
+      "958da58e91c3b22205a03994500ac13da072b26a"
     ],
     ".claude/skills/make-model/kit/voxel-glb.mjs": [
-      "e0e48496d3e7c9845e66e070aef82ae766484c8f"
+      "e0e48496d3e7c9845e66e070aef82ae766484c8f",
+      "fa1939475d6a82e675ab8667e81d0bb2b99c282a"
     ],
     ".claude/skills/new-game/SKILL.md": [
       "e351e2854798e7d4a96d98070d592bb03dd4d696"
@@ -480,7 +508,8 @@
       "4996b471cdac2f60aeec64cfef659b0af18da654"
     ],
     ".claude/roblox/LESSONS.md": [
-      "efa69511909f7e221b6586fe6418870f0af3e922"
+      "efa69511909f7e221b6586fe6418870f0af3e922",
+      "8a6360e2a07aa317f3c748246d5c5f4fc9fe72df"
     ],
     ".claude/roblox/README.md": [
       "614323c0f72776359c5ad0cfa344d19c4fd3438b"
@@ -492,10 +521,12 @@
       "20c58f903b398d1d47e195e9f16e1d9f4946893b"
     ],
     ".claude/roblox/Template/CLAUDE.md": [
-      "b029f6cf64434d4eb548c0b417c45ee1fbceb241"
+      "b029f6cf64434d4eb548c0b417c45ee1fbceb241",
+      "302e84018e7ae5c4e19a0b69ab68b9685f43faf9"
     ],
     ".claude/roblox/Template/Code/Client/Main.client.luau": [
-      "5f0a68ea8b3fd5ef95cedebcbf2d0828110987d9"
+      "5f0a68ea8b3fd5ef95cedebcbf2d0828110987d9",
+      "6d5a7dce7d6e7963d8b34984743ff759204d3e4a"
     ],
     ".claude/roblox/Template/Code/Server/Main.server.luau": [
       "f2621fd20a77579393217a8991ff3fca73aea9f0"
@@ -507,31 +538,36 @@
       "1841b99238217d6b1e4209680b8893140d3307f4"
     ],
     ".claude/roblox/Template/Code/Shared/Net.luau": [
-      "5a78c280a68699f3d8fd0194129fe2ab75bc9da9"
+      "5a78c280a68699f3d8fd0194129fe2ab75bc9da9",
+      "77fcefc3aee960997202825c956c557430416595"
     ],
     ".claude/roblox/Template/Plan.md": [
       "d20553e37788a5461ab9909a2bf6dabfa171c415"
     ],
     ".claude/roblox/Template/Tests/Source.spec.luau": [
-      "24a1864724b71e3ee07605abd9d5da3885b2dc75"
+      "24a1864724b71e3ee07605abd9d5da3885b2dc75",
+      "e98d7266d5f8880864d2b35749fbe3bd7920a76b"
     ],
     ".claude/roblox/Template/Tests/Wallet.spec.luau": [
       "2f526dd593f57c6488c10da07d593864c3017230"
     ],
     ".claude/roblox/Template/Tests/run.luau": [
-      "60413aa4315e88b344e8429a55b9d844d9b8ead1"
+      "60413aa4315e88b344e8429a55b9d844d9b8ead1",
+      "f6d5777091fd88f7b24eab72284d288d3c75b75f"
     ],
     ".claude/roblox/Template/Types/globalTypes.d.luau": [
       "f4be27fc5c1c0ded4c864fe4d18e3af037cc420a"
     ],
     ".claude/roblox/Template/check.sh": [
-      "ff353d286a083b51ec1ffa8578d548b480087bb7"
+      "ff353d286a083b51ec1ffa8578d548b480087bb7",
+      "199c6c74acbb8be4aac70778de513c3bc1705a8a"
     ],
     ".claude/roblox/Template/default.project.json": [
       "872aec5018bb2983aac3efeb55a8ef332bd06bcd"
     ],
     ".claude/roblox/Template/roblox-game.yml": [
-      "35409293d599d25ae2d723c84339d41d255b4cda"
+      "35409293d599d25ae2d723c84339d41d255b4cda",
+      "af677e4d3e05a233f0b8714a8c9658d4d417a354"
     ],
     ".claude/roblox/Template/rokit.toml": [
       "43f4ee707c4abfe14531ab7bd0f26e4ae746aad3"
@@ -540,13 +576,15 @@
       "4a427f8084e085f41e968e135c9d88413a24eb71"
     ],
     ".claude/roblox/Template/start-rojo.sh": [
-      "a648f05aeb30de36f935ed8d25e9baaa77659cbf"
+      "a648f05aeb30de36f935ed8d25e9baaa77659cbf",
+      "8120a0d0718a28a48201ef658a36d71846b7cb6b"
     ],
     ".claude/roblox/Template/stylua.toml": [
       "7c44e89b3c891a74a2835b49b1f01088beebc604"
     ],
     ".claude/roblox/add-template.sh": [
-      "719b495e6e4637baefd7e02e7bb136ec844baef5"
+      "719b495e6e4637baefd7e02e7bb136ec844baef5",
+      "54095a155861e1774e067b26f806efd83fc70499"
     ],
     ".claude/roblox/how-roblox-games-are-built.md": [
       "1d516fe88aec7771a046f888bd543644463f72f6"
@@ -555,10 +593,14 @@
       "49054cc8254f3bb26869a784856a64666a7585cf"
     ],
     ".claude/roblox/win-localappdata.sh": [
-      "37c21022c776ebd1ee4fc4442e3eed9cc5ed385f"
+      "37c21022c776ebd1ee4fc4442e3eed9cc5ed385f",
+      "40c193b36da266b2c12770958c542faeaa9d981c"
     ],
     ".mcp.json": [
       "d455f437516658657099dc72c924a70f0829cfc7"
+    ],
+    ".claude/roblox/.gitattributes": [
+      "1be7db09c7839f3e72160705b36206b95b60b46b"
     ]
   },
   "keywords": {
@@ -627,7 +669,7 @@
     "allow:Bash(bash os:*)",
     "deny:Read(/.os/backups/**)"
   ],
-  "release": "2026-11-11.1",
+  "release": "2026-11-11.2",
   "extensions": {
     "engineering": [
       "6c94c6112e87cd1c969a0c6eee562f9726093b5b"

@@ -1,0 +1,2 @@
+# These scripts run in bash on a Mac and in WSL: Linux line endings, whatever git does on Windows.
+*.sh text eol=lf

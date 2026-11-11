@@ -1,10 +1,12 @@
 // Writes a one-file 3D view of several .glb files side by side, framed on all of them (white studio light, soft shadow, spin and zoom, every file inside as base64):
 //   node view-multi-page.mjs list.json out.html "Title" "info line"
 // list.json: [{ "glb": "/abs/a.glb", "label": "Boss", "pos": [x, y, z], "rotY": 0, "toggle": false }]. toggle: true gives it an on/off chip (for view-only extras).
-// ?view=side|top|back in the page's address turns the camera, for screenshots.
+// ?view=side|top|back|straight in the page's address turns the camera, for screenshots (straight: square on from the front and a little above, for a
+// grid of upgrade levels placed with "pos"). The view is framed on every file shown by their own points (fit-corners.mjs, which must sit beside this file).
 // "hide": "^(Outline_)?RightArm$" hides that file's matching parts (an arm a held tool replaces); "group": "name"
 //   gives every entry with that name one shared on/off chip (a character built from several files); "floor": true stands that file on 0 (gear shown alone).
 import fs from 'fs';
+import { FIT_CORNERS_JS } from './fit-corners.mjs';
 const [listFile, outFile, title = 'Model', info = ''] = process.argv.slice(2);
 const list = JSON.parse(fs.readFileSync(listFile, 'utf8'));
 const esc = (s) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -50,8 +52,10 @@ const controls = new THREE.OrbitControls(camera, canvas); controls.enableDamping
 const loader = new THREE.GLTFLoader();
 // Glow_ parts drawn unlit, so they show their exact colour (lit plus emissive washes amber out to yellow)
 const unlit = (root) => root.traverse((o) => { if (o.isMesh && o.name.startsWith('Glow_')) o.material = new THREE.MeshBasicMaterial({ map: o.material.map, color: o.material.map ? 0xffffff : o.material.color }); });
+${FIT_CORNERS_JS}
 const all = new THREE.Box3(); let left = LIST.length;
-const dirs = { front: [0.55, 0.35, -0.76], side: [1, 0.25, 0], top: [0.01, 1, -0.2], back: [-0.55, 0.35, 0.76] };
+const models = new THREE.Group(); scene.add(models); // every file shown: what the view is framed on
+const dirs = { front: [0.55, 0.35, -0.76], side: [1, 0.25, 0], top: [0.01, 1, -0.2], back: [-0.55, 0.35, 0.76], straight: [0, 0.25, -1] };
 const dir = dirs[new URLSearchParams(location.search).get('view')] || dirs.front;
 LIST.forEach((e, i) => {
   loader.parse(bytes(e.glb), '', (g) => {
@@ -59,22 +63,20 @@ LIST.forEach((e, i) => {
     g.scene.position.set(...(e.pos || [0, 0, 0])); g.scene.rotation.y = e.rotY || 0;
     if (e.floor) { g.scene.updateMatrixWorld(true); g.scene.position.y -= new THREE.Box3().setFromObject(g.scene).min.y; }
     g.scene.traverse((o) => { if (o.isMesh) { o.castShadow = !o.name.startsWith('Outline_'); o.receiveShadow = true; } });
-    unlit(g.scene); scene.add(g.scene); g.scene.updateMatrixWorld(true); all.union(new THREE.Box3().setFromObject(g.scene));
+    unlit(g.scene); models.add(g.scene); g.scene.updateMatrixWorld(true); all.union(new THREE.Box3().setFromObject(g.scene));
     const box = document.getElementById('x' + i); if (box) box.onchange = (ev) => { g.scene.visible = ev.target.checked; };
     if (e.group) document.querySelectorAll('[data-group]').forEach((gb) => { if (gb.dataset.group === e.group) gb.addEventListener('change', () => { g.scene.visible = gb.checked; }); });
     if (--left === 0) frame();
   });
 });
 function frame() {
-  const c = all.getCenter(new THREE.Vector3()), s = all.getSize(new THREE.Vector3());
-  const r = s.length() / 2, d = r / Math.sin(THREE.MathUtils.degToRad(17.5)) * 0.8;
-  controls.target.copy(c);
-  camera.position.copy(c).add(new THREE.Vector3(...dir).normalize().multiplyScalar(d));
+  const c = all.getCenter(new THREE.Vector3()), r = all.getSize(new THREE.Vector3()).length() / 2;
+  resize(); fitCorners(camera, controls, models, dir, 0.8, 0.75); // by the models' own points, room left for the labels and chips
   sun.position.copy(c).add(new THREE.Vector3(r, r * 3, -r * 1.5)); sun.target.position.copy(c);
   Object.assign(sun.shadow.camera, { left: -r * 1.5, right: r * 1.5, top: r * 1.5, bottom: -r * 1.5, near: 1, far: r * 10 });
   sun.shadow.camera.updateProjectionMatrix();
   fill.position.copy(c).add(new THREE.Vector3(r * 1.5, r, r * 1.2));
-  resize(); window.ready = true;
+  window.ready = true;
 }
 function resize() { const w = innerWidth, h = innerHeight; renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); }
 addEventListener('resize', resize); resize();

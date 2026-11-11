@@ -8,7 +8,8 @@ local process = require("@lune/process")
 
 local passed, failed = 0, 0
 
--- Spec paths under Tests/, like "Grid.spec.luau" or "Rules/Grid.spec.luau", sorted.
+-- Spec paths under Tests/, like "Grid.spec.luau" or "Rules/Grid.spec.luau", sorted. Any other code file there that
+-- isn't a script pasted into Studio (*.studio.luau) is a test that would never run, so it fails instead.
 local function specs(): { string }
 	local found = {}
 	local function walk(dir: string, prefix: string)
@@ -18,6 +19,13 @@ local function specs(): { string }
 				walk(path, `{prefix}{name}/`)
 			elseif string.sub(name, -10) == ".spec.luau" then
 				table.insert(found, prefix .. name)
+			elseif
+				string.match(name, "%.luau?$")
+				and not string.match(name, "%.studio%.luau$")
+				and not (prefix == "" and name == "run.luau")
+			then
+				failed += 1
+				print(`  FAIL  Tests/{prefix}{name} never runs: name it <Name>.spec.luau`)
 			end
 		end
 	end

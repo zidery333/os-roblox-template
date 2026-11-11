@@ -3,10 +3,12 @@
   "private": true,
   "description": "Packages the make-model kit scripts need. Copy the kit to a scratch folder and run npm install there, never in the game folder.",
   "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
   "dependencies": {
     "@gltf-transform/core": "4.1.1",
     "@napi-rs/canvas": "0.1.65",
-    "@resvg/resvg-js": "2.6.2",
     "three": "0.170.0",
     "puppeteer-core": "23.11.1"
   }

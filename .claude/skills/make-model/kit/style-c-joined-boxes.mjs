@@ -1,4 +1,4 @@
-// Style C boxes for pieces joined edge to edge (a desk top in two halves, a back panel, an LED strip) with no black line at the join.
+// Style C boxes for pieces joined edge to edge (a long top in two halves, a back panel, a long trim strip) with no black line at the join.
 // Use: copy it and style-c-glb.mjs beside your build script (npm install three@0.170.0), then
 //   boxPiece(pal, root, 'Top_1', [x0, x1], [y0, y1], [z0, z1], 'oak', { keep: { x1: true }, flushTop: true }) adds the piece and its Outline_ to root.
 // keep: x sides at a join: the shell stops t inside there, with its corners cut back, so nothing black shows through the crack or above it.
@@ -6,7 +6,7 @@
 // rest: it stands on something, so its shell stops LIFT above its bottom. Outline thickness: T() below (2%, never over a fifth of the thinnest side).
 import { Builder } from './style-c-glb.mjs';
 
-export const LIFT = 0.15; // in cm models: 3 studs in game
+export const LIFT = 0.15; // how far over its bottom a resting piece's shell stops
 
 // Outline thickness: 2% of the piece's biggest size, never over a fifth of its thinnest, between 0.08 and 0.5.
 export const T = (s) => Math.min(0.5, Math.max(0.08, Math.min(0.02 * Math.max(...s), 0.2 * Math.min(...s))));
@@ -21,7 +21,7 @@ export function boxPiece(pal, root, name, [x0, x1], [y0, y1], [z0, z1], colour, 
 	const sy0 = rest ? y0 + Math.min(LIFT, (y1 - y0) / 2) : g('y0', y0, -1);
 	const sx0 = g('x0', x0, -1), sx1 = g('x1', x1, 1), sy1 = flushTop ? y1 - 0.05 : g('y1', y1, 1);
 	// At a kept x side the shell's corners are cut back inside the piece, so its end face never pokes out above or below
-	// the joint as a black ridge (seen on the desk top's joint).
+	// the joint as a black ridge (seen on a long top's joint).
 	const lo = Math.max(sy0, y0 + 0.05), hi = y1 - 0.05;
 	const poly = [];
 	if (keep.x0) poly.push([sx0, lo], [sx0 + t, sy0]); else poly.push([sx0, sy0]);

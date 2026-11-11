@@ -24,7 +24,7 @@ globals:
     deprecated:
       message: "use task.delay instead"
       replace:
-        - "task.delay(%1)"
+        - "task.delay(%1, %2)"
   tick:
     args: []
     deprecated:

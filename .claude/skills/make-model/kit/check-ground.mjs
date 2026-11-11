@@ -3,14 +3,15 @@
 // How: looks straight up from under the model on a fine grid (Outline_ shells skipped: they stop over the floor on purpose) and finds the
 // lowest surface in each cell. "Near" cells are lower than --gap (default 2% of the height, at least 0.3); "touching" ones are within --tol of
 // the floor. Fails if a patch of near cells has no touching cell (that part hovers: you see a slit of light under it), or if touching cells
-// are under --ratio of the near cells (it sits on a point, like a ball, instead of sagging onto the floor).
+// are under --ratio of the near cells (it sits on a point, like a ball, instead of sagging onto the floor). Also fails if the model's lowest
+// point isn't at 0 (within --tol): the rules put its bottom at height 0, nothing under it. Exits 1 too if a file has no parts to check.
 import fs from 'fs';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 globalThis.self ??= globalThis; console.warn = () => {};
 const args = process.argv.slice(2), opt = (k, d) => { const i = args.indexOf(k); return i < 0 ? d : Number(args.splice(i, 2)[1]); };
 const TOL = opt('--tol', 0.05), GAP = opt('--gap', NaN), RATIO = opt('--ratio', 0.3), files = args;
-if (!files.length) { console.error('Usage: node check-ground.mjs model.glb [more] [--tol 0.05] [--gap 0.6] [--ratio 0.3]'); process.exit(2); }
+if (!files.length) { console.error('Usage: node check-ground.mjs model.glb [more] [--tol 0.05] [--gap 0.6] [--ratio 0.3]'); process.exit(1); }
 let failed = 0;
 for (const f of files) {
 	const buf = fs.readFileSync(f), ab = buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength);
@@ -24,6 +25,7 @@ for (const f of files) {
 		const v = (i) => new THREE.Vector3().fromBufferAttribute(P, I ? I.getX(i) : i).applyMatrix4(o.matrixWorld);
 		for (let t = 0; t < n; t += 3) { const a = v(t), b = v(t + 1), c = v(t + 2); box.expandByPoint(a).expandByPoint(b).expandByPoint(c); tris.push([a, b, c, o.name]); }
 	});
+	if (!tris.length) { console.log(`FAIL ${f.split('/').pop()}: no parts to check (only outlines, or nothing at all)`); failed++; continue; }
 	const floor = box.min.y, H = box.max.y - floor, gap = Number.isFinite(GAP) ? GAP : Math.max(0.3, 0.02 * H);
 	const cell = Math.max(0.1, Math.max(box.max.x - box.min.x, box.max.z - box.min.z) / 400);
 	const nx = Math.ceil((box.max.x - box.min.x) / cell) + 1, nz = Math.ceil((box.max.z - box.min.z) / cell) + 1;
@@ -68,6 +70,7 @@ for (const f of files) {
 	}
 	for (const h of hovering) { bad = true; console.log(`HOVER ${name} ${h.part}: ${h.gap.toFixed(2)} over the floor, patch ${h.area.toFixed(1)} sq studs`); }
 	if (ratio < RATIO) { bad = true; console.log(`POINT ${name}: only ${(ratio * 100).toFixed(0)}% of the parts near the floor touch it (want ${RATIO * 100}%+): let it sag onto the floor`); }
+	if (Math.abs(floor) > TOL) { bad = true; console.log(`NOT ON 0 ${name}: its lowest point is at ${floor.toFixed(2)}, not 0 (move it so its bottom is at height 0)`); }
 	console.log(`${bad ? 'FAIL' : 'ok  '} ${name}: floor at ${floor.toFixed(2)}, touching ${(touch * cell * cell).toFixed(1)} sq studs of ${(near * cell * cell).toFixed(1)} near it, ${hovering.length} hovering patches`);
 	if (bad) failed++;
 }

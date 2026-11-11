@@ -1,9 +1,10 @@
-// A flat style C sign leant back on a roof, held up by a wedge behind it, so it reads from the front and from above (a Wi-Fi emblem on a router); plus the Wi-Fi shapes.
+// A flat style C sign leant back on a roof, held up by a wedge behind it, so it reads from the front and from above (a shop sign on a roof);
+// plus the shapes for one example sign: a fan-shaped board with three arcs and a dot on it.
 // Use: copy it with style-c-glb.mjs and style-c-flat-shape.mjs beside your build script, npm install three@0.170.0, then
-//   import { leanSign, wifiShapes } from './style-c-leaning-sign.mjs';
-//   const w = wifiShapes(1.5);   // board, arcs, dot outlines in X-Y, the dot at (0, 0); s scales them
-//   leanSign(pal, { board: ['Emblem', w.board, 'red'], faces: [['Arc_1', w.arcs[0], 'gold'], ..., ['Glow_Signal', w.dot, 'glow', true]],
-//     stand: ['Emblem_Stand', 'dark', 1.5 * s], lean: 60, roof: 7.8, z: -1.8, low: 1.2 * s }) -> [[mesh, Outline_ mesh], ...]
+//   import { leanSign, fanSignShapes } from './style-c-leaning-sign.mjs';
+//   const w = fanSignShapes(1.5);   // board, arcs, dot outlines in X-Y, the dot at (0, 0); s scales them
+//   leanSign(pal, { board: ['Sign', w.board, 'red'], faces: [['Arc_1', w.arcs[0], 'gold'], ..., ['Glow_Dot', w.dot, 'glow', true]],
+//     stand: ['Sign_Stand', 'dark', 1.5 * s], lean: 60, roof: 7.8, z: -1.8, low: 1.2 * s }) -> [[mesh, Outline_ mesh], ...]
 // The board is 1 thick (local z 0..1, facing -Z), face pieces stand 0.9 proud and sink 0.1 into it. It is leant back by `lean` degrees
 // round X, its lowest back corner 0.3 into the roof at height `roof`, its (0, 0) point at depth z. `low`: how far the board reaches
 // below (0, 0). The wedge runs from where the board's back meets the roof up to 2 x low up the board, then straight down.
@@ -11,7 +12,7 @@ import * as THREE from 'three';
 import { piece } from './style-c-glb.mjs';
 import { flatPiece } from './style-c-flat-shape.mjs';
 
-export function wifiShapes(s = 1) {
+export function fanSignShapes(s = 1) {
 	const d = THREE.MathUtils.degToRad;
 	const arc = (r0, r1) => {
 		const p = [];

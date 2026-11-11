@@ -1,4 +1,4 @@
-// Finds faces that would flicker. Run: node check-planes.mjs model.glb  (needs three@0.170.0; prints each pair, exits 1 if any, 2 if the file has no parts)
+// Finds faces that would flicker. Run: node check-planes.mjs model.glb  (needs three@0.170.0; prints each pair, exits 1 if any, or if the file has no parts)
 // A pair is two faces facing the same way, under 0.03 apart and overlapping, that look different: another colour, another material,
 // or one a Glow_ part (the game makes those Neon). Any parts, outlines included.
 // A glow part on a plain one of the same colour counts too.
@@ -15,7 +15,7 @@ const look = (o, u) => {
 	return [u, m.name, m.color?.getHexString(), m.emissive?.getHexString(), m.map ? 'map' : '', /^(\d+:)?Glow_/.test(o.name) ? 'glow' : ''].join('|');
 };
 const file = process.argv[2];
-if (!file) { console.error('Usage: node check-planes.mjs model.glb'); process.exit(2); }
+if (!file) { console.error('Usage: node check-planes.mjs model.glb'); process.exit(1); }
 const buf = fs.readFileSync(file);
 const ab = buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength);
 const origWarn = console.warn; console.warn = () => {};
@@ -58,7 +58,7 @@ new GLTFLoader().parse(ab, '', (g) => {
 			tris.push({ mesh: o.uuid, part: o.name, colour: look(o, uv ? uv.getX(id(0)).toFixed(3) : ''), v, n: nrm, d: nrm.dot(v[0]) });
 		}
 	});
-	if (!meshes) { console.error('no parts in ' + file); process.exit(2); }
+	if (!meshes) { console.error('no parts in ' + file); process.exit(1); }
 	// bucket by rounded normal
 	const buckets = new Map();
 	for (const t of tris) {
@@ -91,4 +91,4 @@ new GLTFLoader().parse(ab, '', (g) => {
 	for (const [k, h] of hits) console.log(`${k}: ${h.area.toFixed(2)} sq studs, ${h.gap.toFixed(3)} apart, near ${h.at}`);
 	console.log(hits.size ? `${hits.size} pairs flicker` : 'no faces share a plane');
 	process.exit(hits.size ? 1 : 0);
-}, (e) => { console.error(e); process.exit(2); });
+}, (e) => { console.error(e); process.exit(1); });

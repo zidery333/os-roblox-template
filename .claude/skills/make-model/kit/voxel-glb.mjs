@@ -1,5 +1,6 @@
-// Voxel (block-world) models for Node: fill a grid of equal cubes by colour and part, then mesh it with hidden faces dropped and
-// same-colour runs merged into big quads, while one texture gives every cube its own slight shade.
+// Voxel (block-world) models for Node: fill a grid of equal cubes by colour and part, then mesh it with faces hidden inside a part dropped and
+// same-colour runs merged into big quads, while one texture gives every cube its own slight shade. Faces where two parts meet are kept, so every
+// part is closed on its own (the game can move, hide or recolour one part without a hole showing in the next).
 // Use: import { makeVoxelPalette, Voxels } from './voxel-glb.mjs' (needs three@0.170.0; export with exportGLB from style-c-glb.mjs).
 //   const pal = makeVoxelPalette({ red: '#e8402c', board: ['#1f6b35', 0.04] });  // up to 16 colours, [hex, shade spread] (default 0.07)
 //   const v = new Voxels(0.5); v.box([x0, x1], [y0, y1], [z0, z1], 'red', 'Body'); v.set(x, y, z, 'amber', 'Glow_Eye'); v.clear(...)
@@ -76,7 +77,7 @@ export class Voxels {
 						for (let a = 0; a < W; a++) for (let b = 0; b < H; b++) {
 							const c = [0, 0, 0]; c[d] = q; c[ua] = lo[ua] + a; c[va] = lo[va] + b;
 							const cell = this.get(...c); if (!cell || cell.p !== part) continue;
-							c[d] += sg; if (this.get(...c)) continue; // hidden: something is next to it
+							c[d] += sg; if (this.get(...c)?.p === part) continue; // hidden: the same part is next to it (a face against another part stays, so each part is closed on its own)
 							mask[a + b * W] = cell.c;
 						}
 						for (let b = 0; b < H; b++) for (let a = 0; a < W; a++) {

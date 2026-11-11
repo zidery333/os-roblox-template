@@ -1,9 +1,9 @@
 // Extras for toon-glb.mjs parts: a cheap box chamfered on its upright and top edges only (36 triangles, for
-// things standing on something), and a flat-faceted silicon crystal with one bright facet facing the light, a white glint and one closed ink shell.
+// things standing on something), and a flat-faceted crystal (a gem or ore) with one bright facet facing the light, a white glint and one closed ink shell.
 // Use beside toon-glb.mjs (npm install three@0.170.0):
 //   import { cboxTop, facetCrystal } from './toon-extras.mjs';
 //   part.add(cboxTop(2, 1, 2, 0.3), 'red', { pos: [0, 0.5, 0] });
-//   facetCrystal(pilePart, { x: 0, z: 0, h: 4, r: 1, tiltX: 0.1, tiltZ: -0.2, spin: 0.5, base: 0, body: 'crystal', facet: 'cream', glint: 'white' });
+//   facetCrystal(part, { x: 0, z: 0, h: 4, r: 1, tiltX: 0.1, tiltZ: -0.2, spin: 0.5, base: 0, body: 'crystal', facet: 'cream', glint: 'white' });
 // The palette needs the three colour names you pass. The crystal stands on `base` however it is tilted.
 import * as THREE from 'three';
 import { ConvexGeometry } from 'three/examples/jsm/geometries/ConvexGeometry.js';

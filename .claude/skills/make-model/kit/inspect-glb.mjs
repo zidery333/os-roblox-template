@@ -5,7 +5,7 @@ import fs from 'fs';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 globalThis.self ??= globalThis; console.warn = () => {};
-if (!process.argv[2]) { console.error('Usage: node inspect-glb.mjs model.glb'); process.exit(2); }
+if (!process.argv[2]) { console.error('Usage: node inspect-glb.mjs model.glb'); process.exit(1); }
 const buf = fs.readFileSync(process.argv[2]);
 const ab = buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength);
 new GLTFLoader().parse(ab, '', (g) => {
@@ -22,4 +22,4 @@ new GLTFLoader().parse(ab, '', (g) => {
   if (!parts) { console.error('no parts in ' + process.argv[2]); process.exit(1); }
   const s = all.getSize(new THREE.Vector3()), c = all.getCenter(new THREE.Vector3());
   console.log('WHOLE size', s.toArray().map(v => v.toFixed(2)).join(' x '), 'centre', c.toArray().map(v => v.toFixed(2)).join(', '), 'min y', all.min.y.toFixed(3), 'tris', tris);
-}, (e) => { console.error(e.message || e); process.exit(2); });
+}, (e) => { console.error(e.message || e); process.exit(1); });

@@ -38,8 +38,9 @@ fi
 running_game() {
 	python3 - "$url" <<'PY' 2>/dev/null
 import json, sys, urllib.request
+# No proxy: Rojo is on this computer, and a proxy set for the internet can't reach it.
 try:
-    data = urllib.request.urlopen(sys.argv[1], timeout=2).read()
+    data = urllib.request.build_opener(urllib.request.ProxyHandler({})).open(sys.argv[1], timeout=2).read()
 except Exception:
     sys.exit(0)
 if data.lstrip().startswith(b"{"):
@@ -104,8 +105,16 @@ stop_rojo() {
 		echo "  FAIL  Port $port is held by program $pid, which isn't Rojo. Stopped nothing."
 		return 1
 	fi
-	kill "$pid" && rm -f "$pidfile"
+	if ! kill "$pid" 2>/dev/null; then
+		echo "  FAIL  Couldn't stop Rojo (program $pid). Close the terminal running it, then try again."
+		return 1
+	fi
+	rm -f "$pidfile"
 	sleep 1
+	if [ -n "$(running_game)" ]; then
+		echo "  FAIL  Rojo still answers on port $port. Close the terminal running it, then try again."
+		return 1
+	fi
 	echo "  ok    Stopped Rojo on port $port."
 }
 
@@ -163,6 +172,12 @@ for _ in 1 2 3 4 5 6 7 8 9 10; do
 	fi
 done
 
+# Stop the one this script started, so a slow or broken start doesn't leave it holding the port.
+pid="$(cat "$pidfile" 2>/dev/null)"
+if [ -n "$pid" ] && is_rojo "$pid"; then
+	kill "$pid" 2>/dev/null
+fi
+rm -f "$pidfile"
 echo "  FAIL  Rojo did not start. Log: $log"
 tail -20 "$log"
 exit 1

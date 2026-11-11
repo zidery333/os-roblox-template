@@ -46,7 +46,7 @@ A bug found later gets a new step (`6b. <name>`), never a rewrite of an old one.
 
 ## Studio facts every step needs
 
-- **Studio isn't Team Create here.** Changes made through the Studio link (parts, lighting,
+- **Unless the place uses Team Create,** changes made through the Studio link (parts, lighting,
   ScreenGuis) live only in the open place until the person presses File > Save. Close Studio
   without saving and they're gone. Code is safe: it lives in files and Rojo syncs it back.
 - **So world and UI are built by scripts.** Each is a `Tests/Build<Thing>.studio.luau` that can

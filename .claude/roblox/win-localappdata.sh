@@ -32,16 +32,18 @@ fi
 
 # cmd.exe won't start in a Linux folder (it sees a \\wsl.localhost path), so it runs from the C: drive.
 win_lad=""
+interop=0
 if [ -n "$cmd" ]; then
 	# 'set' prints NAME=value without cmd reading the value as a command,
-	# so a user name with & in it can't run anything. Its error goes to the
-	# same pipe, so any output at all means Windows programs can run.
-	raw="$(cd /mnt/c 2>/dev/null || cd /; "$cmd" /d /c set LOCALAPPDATA </dev/null 2>&1 | LC_ALL=C tr -d '\r')"
-	win_lad="$(printf '%s\n' "$raw" | LC_ALL=C sed -n 's/^LOCALAPPDATA=//p' | head -n 1)"
-fi
-interop=1
-if [ -z "${raw:-}" ]; then
-	interop=0
+	# so a user name with & in it can't run anything.
+	raw="$(cd /mnt/c 2>/dev/null || cd /; "$cmd" /d /c set LOCALAPPDATA </dev/null 2>&1)"
+	rc=$?
+	# 126 or more: the shell couldn't start cmd.exe at all ("cannot execute binary file"), so
+	# Windows programs can't run. That error is output too, so output alone doesn't prove they can.
+	if [ "$rc" -lt 126 ] && [ -n "$raw" ]; then
+		interop=1
+		win_lad="$(printf '%s\n' "$raw" | LC_ALL=C tr -d '\r' | LC_ALL=C sed -n 's/^LOCALAPPDATA=//p' | head -n 1)"
+	fi
 fi
 
 lad=""
@@ -73,7 +75,7 @@ done
 
 if [ "$interop" = 0 ]; then
 	if [ -n "$cmd" ]; then
-		say "WSL can't run Windows programs (cmd.exe gave nothing back): Windows interop is off. Turn it back on in /etc/wsl.conf ([interop] enabled=true), then run 'wsl --shutdown' in Windows and open Ubuntu again."
+		say "WSL can't run Windows programs (cmd.exe wouldn't start): Windows interop is off. Turn it back on in /etc/wsl.conf ([interop] enabled=true), then run 'wsl --shutdown' in Windows and open Ubuntu again."
 	else
 		say "WSL can't see Windows (no cmd.exe, and no C: drive at /mnt/c)."
 	fi

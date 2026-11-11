@@ -4,8 +4,8 @@
 local fs = require("@lune/fs")
 local Net = require("../Code/Shared/Net")
 
--- Every .luau file under `dir`, as { path, text }. Specs and the test runner are left out: they name old calls on
--- purpose. Scripts pasted into Studio (Tests/*.studio.luau) are kept in.
+-- Every .luau or .lua file under `dir`, as { path, text }. Specs and the test runner are left out: they name old
+-- calls on purpose. Scripts pasted into Studio (Tests/*.studio.luau) are kept in.
 local function sources(dir: string): { { path: string, text: string } }
 	local found = {}
 	local function walk(at: string)
@@ -17,8 +17,8 @@ local function sources(dir: string): { { path: string, text: string } }
 			if fs.isDir(path) then
 				walk(path)
 			elseif
-				string.sub(name, -5) == ".luau"
-				and string.sub(name, -10) ~= ".spec.luau"
+				string.match(name, "%.luau?$")
+				and not string.match(name, "%.spec%.luau?$")
 				and name ~= "run.luau"
 			then
 				table.insert(found, { path = path, text = fs.readFile(path) })
@@ -51,15 +51,22 @@ local OLD_CALLS = {
 	{ "SetPrimaryPartCFrame", "PivotTo" },
 	{ "GetPrimaryPartCFrame", "GetPivot" },
 	{ "FindPartOnRay", "workspace:Raycast" },
-	{ ":GetMass%(", "AssemblyMass" },
 	{ ":GetModelCFrame%(", "GetPivot" },
 	{ ":GetModelSize%(", "GetExtentsSize" },
 	{ ":MakeJoints%(", "WeldConstraint" },
 	{ ":BreakJoints%(", "destroying the welds" },
-	{ '"Body[%a]+"', "a mover constraint (LinearVelocity, AlignPosition, AlignOrientation)" },
-	{ "%.Velocity%f[^%w_]", "AssemblyLinearVelocity" },
 	{ "%.RotVelocity%f[^%w_]", "AssemblyAngularVelocity" },
 }
+-- The old body movers, by exact name: "BodyColors" and "BodyFrontAttachment" are current. (A part's old `.Velocity`
+-- isn't listed: the type check already rejects it, and a table of your own may have a Velocity field.)
+for _, mover in
+	{ "BodyVelocity", "BodyGyro", "BodyPosition", "BodyForce", "BodyAngularVelocity", "BodyThrust" }
+do
+	table.insert(
+		OLD_CALLS,
+		{ `"{mover}"`, "a mover constraint (LinearVelocity, AlignPosition, AlignOrientation)" }
+	)
+end
 
 -- Ways of finding the Remotes folder. After it comes `:WaitForChild("Name")`, `:FindFirstChild("Name")` or
 -- `.Name`, or the folder is kept in a variable.
@@ -74,9 +81,7 @@ local LOOKUP_METHODS = { WaitForChild = true, FindFirstChild = true }
 local function remoteLookups(path: string, text: string): { string }
 	local names = {}
 	local folders = {} -- variable names that hold the Remotes folder
-	local lineNumber = 0
 	for line in string.gmatch(flatten(text) .. "\n", "([^\n]*)\n") do
-		lineNumber += 1
 		local rest
 		for _, form in FOLDER_FORMS do
 			local _, stop = string.find(line, form)
@@ -93,7 +98,7 @@ local function remoteLookups(path: string, text: string): { string }
 			if method then
 				assert(
 					LOOKUP_METHODS[method],
-					`{path}:{lineNumber} looks up a remote with :{method}, which this test can't read`
+					`{path} looks up a remote with :{method}, which this test can't read: {line}`
 				)
 				table.insert(names, name)
 			elseif dotted then
@@ -103,16 +108,17 @@ local function remoteLookups(path: string, text: string): { string }
 					folders[kept] = true
 				end
 			else
-				error(`{path}:{lineNumber} finds the Remotes folder in a way this test can't follow: {line}`)
+				error(`{path} finds the Remotes folder in a way this test can't follow: {line}`)
 			end
 		end
 	end
 
 	-- Every use of a folder variable must be a lookup this test can read, so a new form can't slip past.
 	local flat = flatten(text)
+	local noStrings = string.gsub(flat, '"[^"\n]*"', '""')
 	for folder in folders do
 		local uses = 0
-		for _ in string.gmatch(flat, `%f[%w_]{folder}%f[^%w_]`) do
+		for _ in string.gmatch(noStrings, `%f[%w_]{folder}%f[^%w_]`) do
 			uses += 1
 		end
 		local read = 0
@@ -126,6 +132,9 @@ local function remoteLookups(path: string, text: string): { string }
 			read += 1
 		end
 		for _ in string.gmatch(flat, `not {folder}%f[^%w_]`) do
+			read += 1
+		end
+		for _ in string.gmatch(flat, `if {folder} then`) do
 			read += 1
 		end
 		for method, name in string.gmatch(flat, `%f[%w_]{folder}:(%a+)%("([%w_]+)"`) do
@@ -146,7 +155,22 @@ local function remoteLookups(path: string, text: string): { string }
 				.. 'look it up with :WaitForChild("Name") or :FindFirstChild("Name")'
 		)
 	end
-	return names
+	-- Any lookup cast to a remote type names a remote, whichever folder it starts from: the server's own `remotes`,
+	-- or one found through a helper that waits with a time limit.
+	for method, name in string.gmatch(flat, ':(%a+)%("([%w_]+)"[^"()]*%)%s*::%s*%a*Remote') do
+		if LOOKUP_METHODS[method] then
+			table.insert(names, name)
+		end
+	end
+	-- Each name once, though two of the ways above can both find it.
+	local once, seen = {}, {}
+	for _, name in names do
+		if not seen[name] then
+			seen[name] = true
+			table.insert(once, name)
+		end
+	end
+	return once
 end
 
 -- Every name one file declares twice at its top level (`local function free` twice, or `local x` then `local function
@@ -262,6 +286,30 @@ local _unused = ReplicatedStorage:WaitForChild("Remotes")
 		local odd =
 			pcall(remoteLookups, "odd", 'local r = ReplicatedStorage:WaitForChild("Remotes")\nfire(r["X"])\n')
 		assert(not odd, "a lookup it can't read must fail, not pass unseen")
+
+		-- The server's own folder, a helper that waits, a variable called Remotes, and `if x then`.
+		local more = [[
+local remotes = Instance.new("Folder")
+local e = remotes:WaitForChild("E") :: RemoteEvent
+local f = (waitFor(remotes, "x"):WaitForChild("F", 5) :: RemoteFunction?)
+local Remotes = ReplicatedStorage:WaitForChild("Remotes", 10)
+if Remotes then
+	local g = Remotes:WaitForChild("G")
+end
+]]
+		got = remoteLookups("more", more)
+		table.sort(got)
+		assert(table.concat(got, " ") == "E F G", `read {table.concat(got, " ")}`)
+	end,
+
+	["no remote is named twice in Net.luau"] = function()
+		local seen = {}
+		for _, list in { Net.Events, Net.Functions } do
+			for _, name in list do
+				assert(not seen[name], `Code/Shared/Net.luau lists "{name}" twice: the server would make two`)
+				seen[name] = true
+			end
+		end
 	end,
 }
 

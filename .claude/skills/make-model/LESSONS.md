@@ -20,8 +20,9 @@ someone asked for or a mistake that could happen again. How lines get here and g
 - Lay a prompt out as short labelled lines on top (Make, What it does, Size, Looks like, Colours, Special
   parts, Files, Triangles, Show), a `---`, then the game's "Rules for every model" block (below). Why:
   long prompts can't be skimmed.
-- "Low-poly" isn't enough: name the exact style the person picked, ban parts thinner than a tenth of the
-  thing, and set a triangle range (300 to 800 for small things). Why: every model still came out detailed.
+- "Low-poly" isn't enough: name the exact style picked, ban parts thinner than a tenth of the thing
+  (unless the person asks for finer), and set a triangle range (300 to 800 for small things). Why: every
+  model still came out detailed.
 - Say what can't be guessed: every surface needed (a ceiling, a see-through window and what's outside
   it), only the bare surface under things that have their own models, and left or right with the X sign
   (facing -Z, -X is on your right). Why: "the right-hand end" with the wrong sign flipped a model.
@@ -32,8 +33,8 @@ Rules for every model in this game:
 - Title the view just "<model name>", nothing more.
 - The game: <Game>, a Roblox game. <Two or three plain lines: what the player is, where it happens,
   how big the player is (Roblox characters are 5 tall), what it's seen from.>
-- The look comes only from the STYLE line. Every part is one plain colour: no painted detail, no
-  pictures on it, no text, no gradients. The game recolours parts in code, and a part with painted
+- The look comes only from the STYLE line. If the game recolours parts in code: every part is one plain
+  colour, with no painted detail, no pictures on it, no text, no gradients, because a part with painted
   detail can't be recoloured, so all the detail is in the shapes.
 - Colours: every part is one colour from the Colours line. Name every part exactly as listed. Any
   extra piece is named starting with the colour slot it takes (Body_, Trim_, Accent_), so the game can
@@ -50,8 +51,8 @@ Rules for every model in this game:
 - Markers: where the list asks for one, a tiny 0.2 cube with that exact name at that spot. The game
   turns markers into Attachments and adds any joints itself.
 - No floor, base plate or ground under it, and nothing below height 0 (the game stands a model on its
-  lowest point). Nothing thinner than about a tenth of the thing. A detail on a surface is sunk about
-  half its thickness into it: never hovering, never in the same plane, or it flickers.
+  lowest point). Nothing thinner than about a tenth of the thing unless the person asks. A detail on a
+  surface is sunk about half its thickness into it: never hovering, never in the same plane, or it flickers.
 - Units: 1 unit = 1 stud. Centred on the origin, bottom at height 0, front facing -Z. A part ending
   in L is on the model's own left, at -X.
 - Files: the .glb files on the Files line, colours baked into one 1024 x 1024 texture each, within the
@@ -77,9 +78,9 @@ creature rig up to about 20,000 in all. A model placed hundreds of times stays n
 - Frame the view so the models fill about four fifths of its width. A view from an angle fits by the
   models' own points as seen on screen, never a sphere round the box (`kit/fit-corners.mjs`), and leaves
   room for the page's own labels and buttons. Why: angled views came out cut off and off to one side.
-- Several models with levels: a straight grid from the front and a little above, one row per model,
-  levels left to right, nothing cut off or overlapping. A row read left to right from the front starts
-  at +X and steps towards -X.
+- If the game has upgrade levels of one model (a building that grows): a straight grid in
+  `kit/view-multi-page.mjs` (each level placed with `pos`, `?view=straight`), one row per model, levels
+  left to right, nothing cut off or overlapping. A row read from the front starts at +X, steps to -X.
 - A straight-down view sets `camera.up` to +Z (front at the bottom) and fits each model's own box.
   Why: the top view came out upside down and mirrored.
 - Draw `Glow_` parts unlit so they show their exact colour (lit, orange washes to yellow), and
@@ -104,18 +105,19 @@ creature rig up to about 20,000 in all. A model placed hundreds of times stays n
   A toon shell on a chamfered box is a hair off flat and can't pass: make such tiles plain boxes.
 - Run `kit/check-open-edges.mjs` (nothing to see through) and `kit/check-ground.mjs` (really resting on
   the floor) on every file.
-- If the prompt bans colours, run `kit/check-banned-colours.mjs` on every file (3D: its texture via
-  `kit/glb-colours-png.mjs`), reused pieces included. Never trust the eye.
+- If the prompt bans colours, run `kit/check-banned-colours.mjs` on every file (3D: every PNG
+  `kit/glb-colours-png.mjs` writes), reused pieces included. Never trust the eye.
 - Anything that moves gets its swing checked over the whole turn, 0.3 clear: `check-sweep` (Sweep_,
-  Aim_), `check-spin-room` (Spin_), `check-hinge` (doors, lids), `check-joint-swing` (legs, wings, tails).
+  Aim_, Bob_), `check-spin-room` (Spin_), `check-hinge` (doors, lids), `check-hinge-swing` (double
+  doors), `check-joint-swing` (legs, wings, tails). Part names they know: `REFERENCE.md`.
 - Meet every prompt rule that can be met (thinnest part, names, piece count) before showing: the
   not-done list is only for what truly can't be done.
 
 ## Building it
 - Take style C helpers from `kit/style-c-glb.mjs`, never from a saved model's script: those only show
   fit and shapes, and can hold old bugs.
-- Plain flat colour per part, smooth shading: no grain, noise or speckle in the texture, and no lighting
-  trick that turns a tinted part muddy. Check the view with the part tinted the way the game will tint it.
+- If the game tints parts in code: plain flat colour per part, smooth shading, no grain or speckle in the
+  texture, no lighting trick that turns a tinted part muddy; check the view tinted as the game will.
 - A detail on a surface (spots, studs, patches, cracks, moss) is sunk about half its thickness into it,
   so it reads as part of it, never hovering. Sinking also stops flicker, so it wins over any "sit 0.03
   off" rule. It still stands out enough to catch the light (about 8% of the width proud): one built
@@ -125,11 +127,11 @@ creature rig up to about 20,000 in all. A model placed hundreds of times stays n
 - Every part stands at 0 or above: the game stands a model on its lowest point. Anything resting on the
   floor needs a flat footprint in its final shape, cut after every random lean and lump, wide enough to
   look planted; an arch needs both feet cut flat at 0.
-- A creature never shows a flat bottom: it rests like a sleeping cat, belly, paws and tail sagging onto
-  the floor, the flat contact hidden underneath. Sink each resting tube or ball to about 60% of its
-  radius (centre 0.6 r up). Every flattened piece clamps at the one floor height (0); only a piece in
-  another colour sits 0.04 up, so the two can't flicker. Give the view a dark contact shadow under
-  every touch point.
+- A creature that lies on the floor never shows a flat bottom: it rests like a sleeping cat, belly, paws
+  and tail sagging onto the floor, the flat contact hidden underneath. Sink each resting tube or ball to
+  about 60% of its radius (centre 0.6 r up). Every flattened piece clamps at the one floor height (0);
+  only a piece in another colour sits 0.04 up, so the two can't flicker. Give the view a dark contact
+  shadow under every touch point.
 - A ground piece (a patch of grass, a mat, a pad) has no edge a player can see under: it sits flush on
   the floor or sunk into it, and ends under the thing it belongs to.
 - Outline shells are about 2% of each piece (never under 0.5 on big models), stop 0.5 over the floor,
@@ -159,8 +161,9 @@ creature rig up to about 20,000 in all. A model placed hundreds of times stays n
 - An open mouth reads from the view's own angle: a dark inside, the jaw clearly dropped, teeth sunk into
   the gum and pointing in. Teeth placed just outside the jaw read as rivets.
 - A real object reads as itself at a glance: list the 4 or 5 shapes that say what it is and build each
-  one clearly, then check its outline from the side. One box with a few bars is not a plug.
+  one clearly, then check its outline from the side. One box with a few bars stuck on reads as nothing.
 - No big plain face: any face over about 50 x 50 studs gets a few chunky shapes, tops and insides seen
   from above included. A big wall a player looks at has depth and layers, not small things stuck on.
-- Levels read as one thing growing: each is the last made bigger and stronger, plus a new big shape seen
-  from far off; the top level is grandest. Never swap the main piece for smaller ones.
+- If the game has upgrade levels of one model (a building that grows): they read as one thing growing.
+  Each is the last made bigger and stronger, plus a new big shape seen from far off; the top level is
+  grandest. Never swap the main piece for smaller ones.
