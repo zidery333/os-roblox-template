@@ -1,0 +1,134 @@
+# Lessons for every Roblox game
+
+Every game's CLAUDE.md loads this file. Each line is a rule that came from a real mistake.
+
+## How lessons are written
+
+- **When:** a check fails for a reason that could happen again, a playtest shows a mistake, the person
+  reports a bug, or they correct you.
+- **What:** in the same turn as the fix, add one line: `- <the rule>. Why: <what goes wrong>.`
+  Lines here never name a game or carry a date: each must make sense in any game.
+- **Where:** only this game? The game's own `CLAUDE.md`, under "Lessons (this game only)". Any Roblox game?
+  Here. How a model is built and how it should look? `/make-model`'s own `LESSONS.md`. Picking the right
+  Studio before any MCP call is in every game's own `CLAUDE.md`, so it isn't repeated here.
+- **Keep it clean:** search this file first. If a rule already says it, make that rule sharper instead of
+  adding a second. A rule a machine can catch becomes a check (a selene setting or a test), not a line here.
+  After each build, move game rules that hold for every game up to here, merge repeats, and drop rules a
+  check now catches. Keep this file to 80 rules or fewer.
+- **Checks that already replaced rules** (the starter kit carries them all, and `./check.sh` runs them):
+  selene's `deprecated` lint with the kit's `roblox-game.yml` (old `wait`, `spawn`, `delay`, `tick`,
+  `elapsedTime`); selene on `Tests` too (two tests with one name, an `assert` with no message);
+  `Tests/Source.spec.luau` (old calls like `:connect(` and `BodyVelocity`, every remote named in
+  `Code/Shared/Net.luau`, no top-level name declared twice in one file, no two files whose names differ only
+  in capitals); `check.sh --fix` runs stylua twice; `Tests/run.luau` fails with no tests; and luau-lsp's type
+  check with Roblox's types.
+
+## Studio and the MCP
+
+- Never use a method you haven't seen in the Roblox docs; unsure, look it up with the MCP's `rbx-docs-search` skill. Why: AI makes up methods, and the type check only catches them on a typed value, never on an `any`.
+- After an MCP edit to the world or the UI, look at the tree or a screenshot to confirm it. Why: the MCP can make a second copy of a frame by mistake.
+- `require` inside `execute_luau` gets its own copy of a module, kept between calls: never use it to read or set game state, and in a build script require `module:Clone()` (or search a module's `Source` text, since a clone has no parent for relative requires). Why: a module read 0 coins while the player had 6, and after Rojo changed a module a later `require` handed back the old one.
+- To call the game's own server functions in a playtest, put a temporary `Script` (its `Source` set) into ServerScriptService from a Server `execute_luau`; it writes what it read to a workspace attribute and is gone when play stops, and any table it hands back through a BindableFunction is a copy without its metatable, so run methods inside it. Why: code run straight from `execute_luau` sees fresh module copies, not the game's state, and a returned object failed with "attempt to call missing method".
+- Never wrap `execute_luau` edits in `ChangeHistoryService` recording, leave Lighting's `Technology` out of reads, and keep each call small (about 10 asset loads). Why: `FinishRecording(nil)` errored after the edit ran, reading `Technology` fails the whole read, and a 30-load call lost the connection.
+- A Client `execute_luau` that changes `CurrentCamera.CameraType`, or fires a remote that makes the server set your character, gets the camera type put back when the call ends: do those by a real key press or button click; to turn the follow camera, set `CurrentCamera.CFrame` while it's Custom. Why: "The execute_luau changed camera type. Resetting..." undid the change.
+- `script_grep` takes a Lua pattern, which has no `|`, and `insert_asset`'s `parentPath` can't take a name with a space: search one word per call, and move inserted things yourself. Why: a five-word search found nothing and looked like Rojo had dropped, and imports landed in Workspace.
+- When `list_roblox_studios` shows the window with `name: null` and calls say "Place is not open", read Studio's newest log for "Disconnected due to" (Mac: `~/Library/Logs/Roblox/`; Windows: `%LOCALAPPDATA%\Roblox\logs`, reached from WSL under `/mnt/c/`); only the person can reopen the place, so finish the file work, keep Studio changes as a `.studio.luau` to paste later, and say what's left. Why: Roblox can shut a Team Create server down, and a second Studio started to reopen it stops at a login page.
+- No script can set `Players.MaxPlayers`, Game Settings > Avatar, or "Enable Studio Access to API Services": try them in `pcall`, list what failed, and hand those to the person; a game that's one player per server asks them to set Max Players to 1 before it's published. Why: the settings script failed on them, the saving test couldn't reach the DataStore, and code that loads the shared world from a joiner's save loaded the second player's world over the first's.
+
+## Rojo
+
+- Before a playtest, check the new code is in Studio's copy, down to the changed value; if files are missing, the Rojo plugin has dropped (a "WebSocket error 400" box): press Connect in its panel. Rojo syncs into Edit only: a tuning change means stop, check the value in Edit, start again. Why: Studio ran the old code after a playtest stopped, a playtest started a second too soon ran the old number, and a playtest already running keeps the old code.
+- World changes made through the MCP live only in the open place until it's saved: keep them in a `.studio.luau` build script so the file and Studio match, and remind the person to save. A `.studio.luau` is run by pasting it into `execute_luau` in Edit, never by copying it under `Code/` for Rojo, and one written offline is run before it's called done. Why: a place went unsaved long after its world was built, deleting a copy under `Code/` killed Rojo's server until a person pressed Connect, and a script written blind pivoted on parts that weren't there.
+
+## Code and types
+
+- The server decides money, damage, items and saves; a client script only asks, through a remote. Why: a coin button in a LocalScript can be cheated.
+- Anything a player keeps for a round (a colour, a slot, a home spot) is given by UserId when the round starts and stored, never read from their place in the member list. Why: someone leaving shifts everyone after them, and colours changed mid-round.
+- A server check on a key press works from its copy of the character, which trails the player's screen by about 0.2 s, and presses arrive bunched: allow a little more reach (the biggest size, for something that shrinks), try a press with nothing in reach once more 0.3 s later, and let presses through closer together than the client sends them. Why: drops at the right spot were refused, fast presses counted half, and a button vanished halfway through clearing.
+- Setting `player.Character` to another model makes Roblox destroy the old one about a frame later: to keep it, clone it first, set the copy up through the same function as a new one (`Clone()` drops `SetStateEnabled` and connections), put it in place, destroy the original yourself, and remember it by a number attribute. Why: the model a player left was deleted, and copies could fall over again.
+- A controller's stick also moves Roblox's own button selection (`GuiService.SelectedObject`): a screen where the stick does something else picks its buttons with the d-pad or bumpers and never sets the selection. Why: the selection wandered off the menu and A did nothing.
+- A mouse drag works from `GetMouseLocation()` at the press and each move, never `InputObject.Delta`. Why: `Delta` read (0, 0) on every move with the mouse free.
+- A Luau `if ... then f() else g()` expression keeps only the first value a call returns: call it in a plain `if` block. Why: `local cf, size = if m then m:GetBoundingBox() else ...` left `size` nil.
+- Numbers that count down or add up drift: a zero text is returned before rounding (`math.ceil` of a tiny negative is -0, and `math.max(-0, 0)` is still -0), and a "crossed it this tick" check uses the same small slack on both sides. Why: timers read "-0s", and an event fired on two ticks in a row.
+- With `StreamingEnabled`, client code that walks the world at start also listens to `DescendantAdded` and disconnects a thing's connections when it leaves; a model the client always needs is `ModelStreamingMode = Persistent`, one it changes whole is `Atomic`. Why: far parts arrive later, and a streamed-out instance comes back as the same instance with its old connections, so it was missed or watched twice.
+- With no character (`CharacterAutoLoads` off) the server calls `player:AddReplicationFocus(part)` on a still part in the middle of the play area and keeps it across rebuilds. Why: nothing made at runtime reached the screen.
+- Client start-up never waits for ever: `WaitForChild` gets a time limit, warns once naming what's missing, then carries on, and a script that waits runs in its own `task.spawn`. Why: "Infinite yield" filled every log, and one missing label would stop every client script after it.
+- A remote fired just before the server changes a value can arrive after that change has replicated: a screen that holds a number back reads the new total from the remote's own data. Why: a prize showed in the bar before its reveal.
+- Anything that waits (a path, a tween, `task.wait`, a store read) can come back to a changed world: look the thing up again by its number, check the reason still holds, stop if it's gone, and ignore the same press until it's done. Why: an ending rewarded a player freed during its banner, a removed thing errored, and two quick presses opened two of the same thing.
+- Each thread makes its own `Path`, and a chunked build that stops for a newer one first puts in or throws away the chunk it made. Why: a shared path handed one walker another's route, and half-made pieces could be hit but never seen.
+- MessagingService allows 1 KB a message, (40 + 80 x servers) received a minute per topic, and 600 + 240 x players sent a minute per server: anything sent on a timer packs into as few messages as fit and caps its rate. Why: a live feature sent up to 1,900 messages a minute to one topic.
+- Measure the player's own character in the Client, and cast rays that find a spot from above everything, or from just above a thing at the floor parts only (`Include`). Why: the Server's copy was a stud off, a ray that starts inside a part never hits it, and a high ray hit a roof instead of the floor.
+- Find a part by name with a class check and its parent, never `FindFirstChild(name, true)`, and reach a child named like a property ("Name", "Size") with `FindFirstChild`, never a dot. Why: a joint with the same name was found instead, and `slot.Name` is the slot's own name.
+- Set `Motor6D.Transform` in `RunService.PreSimulation`; to check what's drawn, read parts in a `task.defer` from `PreRender`. Why: set later it shows a frame late, and a fix looked like it didn't work.
+- Roblox deletes loose parts below `Workspace.FallenPartsDestroyHeight` (-500 unless set), and cuts any part side over 2048 studs down without a word: set the height in Edit for a low play area, and build long walls in pieces. Why: a character walking to a low floor lost its body, and players walked off a wall cut short.
+- `PathfindingService` ignores parts with `CanCollide` off: a no-go zone is `CanCollide` on, `CanQuery` off, in a collision group that collides with nothing, and walkers share a group that doesn't collide with itself. Why: walkers cut through zones and bumped each other.
+- Path points ramp smoothly up a step and over open edges: every walker the server moves feels for steps with a short ray and jumps, high floors get walls, and a walker sent within reach R of something aims at most 0.7 x R out, then walks straight at it. Why: walkers stalled at steps, dropped off decks, and stood just out of reach re-pathing for ever.
+- A wall walkers may break gets a `PathfindingModifier` with `PassThrough` and a `Label`, every path sets `Costs[label]` (`math.huge` goes round), and wall-breakers don't jump. Why: without a cost on every agent all of them walk through, and jumping paths go over a 4-tall wall.
+- Two client modules that need each other never `require` each other, even through a third: the lower one takes the other's functions, handed in by the start script. Why: luau-lsp fails a require loop.
+- The type check can't follow some shapes: a value set inside `if not x then`, `map[k] = if v then v else nil`, a loop over an untyped table literal or `if ... then {} else {}`, a table literal passed to a map-typed parameter, a list of a big record passed as a smaller shape, string locals compared then set, a `string.gsub` callback typed `string?`. Fix the shape (a new or typed local, a plain `if`), never cast to `any` or add an ignore. Why: these were most of the errors when the check was added.
+
+## Tests
+
+- A save test sets the field it tests on the raw save before reading it, never on what `read` returned. Why: a reading rule dropped the field and the test still passed.
+- A pick that must match on every server (daily goals from the day and UserId) hashes its seed with a 32-bit mix, never a plain Park-Miller seed, and a test counts the spread over a month. Why: one of 9 goals was never picked in 30 days.
+- Test a "might hang" worry before fixing it: a tween's `Completed` still fires when its part is destroyed mid-tween. Why: a review listed three hangs from an old comment and none could happen.
+- A timer cut short for a test runs out between MCP calls (each takes seconds): put the steps that race it in one call, and keep a test that fails while the timer is still short. Why: the thing being tested had reset between the action and the read.
+
+## Saving
+
+- Wrap every DataStore call in `pcall` and handle the failure; treat an error as not worth retrying ("API Services", "publish") only in Studio, and live, retry with waits. Until "Enable Studio Access to API Services" is on, saving in Studio uses a memory store and says so once, and a real save test waits for the person to turn it on. Why: an unguarded call killed a first run, live outages also say "502: API Services", and no script can turn API access on.
+- Build the save from its parts, each in `pcall`, and guard each load hook and each item of a saved list: on a failure warn, keep what was saved for that part, mark the save not writable, and kick outside Studio. Why: one broken part would end autosave for the server's life, one bad piece stopped the load and nothing saved all session, and items after a broken one were wiped by the next autosave.
+- Never write over a newer save: store a `savedAt`, refuse a write when the stored one is newer (`UpdateAsync`), and on join wait for that player's last leave save to finish. Why: a fast leave and rejoin, or two servers, loaded an old save and wrote it over the new one.
+- On server shutdown, `game:BindToClose` saves every player still in and waits for those saves. Why: without it a closing server loses everything since the last autosave.
+- Only the save module drops a player's data, after its last snapshot on leave. Why: another module cleared its part on `PlayerRemoving` and the leave save read an empty one.
+- Never trust saved data: a missing, text or negative version is floored and clamped, tables already there are kept, numbers are checked for NaN and `math.huge` and capped above and below, lists lose doubles, places are checked against the play area, and levels are held to what unlocks them. Why: `math.max(NaN, 0)` and `math.clamp` hand NaN straight back, a negative version looped for ever, and a bad version rebuilt the wallet empty and saved it.
+- Save what a thing's state is ("finished") instead of working it out from its model. Why: a model that gained pieces made every finished one load half built.
+- Gains made while a save is loading are added to it, and a queued save says "saved" only after its write worked. Why: coins earned in the first seconds vanished, and a failed write was logged as saved.
+
+## UI
+
+- UI is built in StarterGui through the MCP, not made by code at runtime, and a copied piece is checked for `Visible`. Why: runtime UI can't be edited in Studio, and a copy of a hidden line never showed.
+- With `CharacterAutoLoads` off, the server clones StarterGui's screens into each player's PlayerGui itself (with `ResetOnSpawn` off), and removes a second copy when setting `player.Character` copies them in again. Why: Roblox copies StarterGui only when a character spawns, so screens never showed, then showed twice.
+- A new screen piece is checked in a playtest screenshot, in Studio's ~700-high play window, with every other screen open that can share its spot; anything drawn over the world hides while a panel covers it, and a piece another script sets every frame is hidden by asking that script. Why: a button sat on an open menu's card, a pointer drew over a panel, and a piece hidden from outside was back the next frame.
+- A two-line `TextScaled` label in a turned frame gets a fixed `TextSize`. Why: it came out at its `MinTextSize` and was unreadable.
+- Esc also opens Roblox's own menu, which swallows every key press while open: a "close with Esc" also listens to `GuiService.MenuOpened`, and a playtest presses Esc again before the next key. Why: keys pressed after Esc did nothing.
+- Roblox's top-left buttons reach about 208 pixels in: top UI uses `ScreenInsets = TopbarSafeInsets` and a width that can shrink, UI under them `CoreUISafeInsets`, and a full-screen effect its own ScreenGui with `IgnoreGuiInset` on and `ScreenInsets = None`; check `GuiService.TopbarInset` at phone size. Why: a centred bar covered them on a phone, and top-strip scale sizes can't fill the screen.
+- Icons are pictures with one outline thickness, never emojis. Upload UI pictures with the MCP's `upload_image` (serve the folder with `python3 -m http.server`, pass `http://localhost:<port>/<file>.png`) or `open_cloud_invoke` with assetType `Image`; a decal id already uploaded turns into an image id in Edit with `game:GetObjects("rbxassetid://<id>")`. Why: emojis show as black boxes, and an `ImageLabel` can't show a decal id ("Asset type does not match").
+- A BillboardGui inside a ScreenGui is never drawn: parent each sign under PlayerGui or a part, size it in pixels, stack two on one thing with `SizeOffset`, and measure them with `PlayerGui:GetGuiObjectsAtPosition`. Why: signs never showed, side-by-side ones swapped which was in front, and `screen_capture` leaves signs out.
+- UI put at a world point takes `Camera:WorldToScreenPoint` less its ScreenGui's `AbsolutePosition`. Why: `WorldToViewportPoint` landed 58 pixels low.
+
+## Playtesting
+
+- For a framed screenshot: stop the playtest, set `workspace.CurrentCamera.Focus` and `.CFrame` in Edit, set `settings().Rendering.EditQualityLevel` to the level being judged, then `screen_capture` with no camera numbers; take a just-made copy twice. Why: a low level draws only ~550 studs and looked like grey haze, and a new copy can miss the first shot.
+- A camera that stays put in play: a Client `BindToRenderStep` at `Enum.RenderPriority.Camera.Value + 10` setting `CurrentCamera.CFrame`, its target found first. Why: `screen_capture` ignores its own camera numbers in play, and a bound function that errors floods the log every frame.
+- An effect lasting under a second is caught by a Client `execute_luau` that waits on `workspace.DescendantAdded`, clones what was drawn and holds it for the shot; grab short screens straight after the call that shows them. Why: tool calls between trigger and grab missed it six times, and `screen_capture` can hand back a frame from seconds earlier.
+- A screenshot that proves a fix shows the bug's spot from where the person saw it, beside a known-good shot, with nothing in the way; judge camera fixes by screenshot, not numbers. Why: a shot from the wrong view passed as the fix while the bug was still there.
+- A ProximityPrompt only works on screen and well inside its `MaxActivationDistance`: in one call aim the camera at it and print the distance, or call `InputHoldBegin()`, wait, `InputHoldEnd()`; a key hold is keyDown, wait, keyUp in one call. Why: holds did nothing with the camera away or the character just out of reach, and a hold split over two calls let go in between.
+- A `user_mouse_input` click is in points below Roblox's top bar (take `GuiService:GetGuiInset().Y` off a `WorldToViewportPoint`, never off an `AbsolutePosition`), can land twice or on the next thing, so log changes with `GetPropertyChangedSignal` and read back what changed. Why: clicks landed 58 pixels low, and three clicks stepped a button five times.
+- `character_navigation` can stop at corners, fail past an invisible wall, or leave the character on a roof: check where it ended up, or walk with held keys after reading `CurrentCamera.CFrame.LookVector`, never `Humanoid:Move` or `MoveToFinished:Wait()`. Why: tests ran from the wrong spot, Roblox's control script overwrites `Move` every frame, and a blocked walk timed the call out.
+- Server changes in one frame reach the client as one: to watch a quick server sequence, listen on the server. Why: a save, reset and load looked like nothing from the client.
+- Frame rate from `execute_luau` reads about 15 fps whenever Studio isn't the front window, and 0 means the screen went to sleep: compare idle with during the effect (Mac: `caffeinate -u -t 3` wakes the screen; Windows: ask the person to keep it on). Why: a check read 15 fps both times, and captures timed out while nobody was there.
+- The 2-player test (Test > Add Clients) needs the person or Studio on screen: test the second player with the game's test dummy and say what it couldn't cover. Why: it is greyed out in a plain Play session.
+- Three `ContentId: rbxassetid://203785492 failed due to: Asset type does not match` lines at play start come from Roblox itself, and new uploads look grey for a few minutes: don't chase either. Why: steps spent time on noise that fixed itself.
+
+## Models
+
+- Never pick a colour, style or look the person hasn't chosen: show 2 or 3 real versions in screenshots from where the player stands, let them pick, and write the answer in the game's Plan.md; check a real thing the game copies against a photo first. Why: looks built from a description miss, and steps were built on a wrong colour.
+- After building a model, measure it with `GetBoundingBox()` against the plan, with `WorldPivot` set to a plain position first; once it has a PrimaryPart, move the pivot with `PrimaryPart.PivotOffset`. Why: a small part made a model too tall, a turned pivot gave a wrong box, and `WorldPivot` doesn't stick.
+- A MeshPart with dips or holes on "Default" `CollisionFidelity` gets a rough shape with gaps: set ones players touch to `PreciseConvexDecomposition` (it reads back a moment later), map the top with rays, and put an invisible solid part under a thin floor. Why: characters and the camera sank through.
+- Two surfaces in the same place flicker: keep different-coloured faces 0.01 to 0.1 studs apart, measured on the drawn mesh with `AssetService:CreateEditableMeshAsync` and `RaycastLocal` (Edit only). Why: `workspace:Raycast` hits the collision shape, and frames flickered as the camera moved.
+- A model placed hundreds of times is merged into a few parts before upload; props sit flat; a moving part's group holds everything that moves with it and stays clear across its whole swing (`GetPartsInPart`). Why: thousands of parts slowed the place, players got stuck under a tilted prop, and an arm swung into a roof.
+- Roblox only draws a part within the graphics level's distance (level 1 ~550 studs, 3 ~1,250, 5 to 12 ~1,650, 15 ~3,000, 21 everything), and a part in range is drawn whole: cut anything seen from far into pieces with a corner near the player. Why: a big room wasn't drawn at all at a normal level.
+- `Lighting.FogEnd` and `FogColor` only work with no Atmosphere in Lighting, upright see-through parts never read as fog, a `PointLight`'s `Range` stops at 60, and a `Highlight` draws nothing on see-through parts; a see-through lid under bright light is SmoothPlastic, not Glass; a MeshPart with a `TextureID` ignores `Color` (clear it to recolour); and even very dark Neon draws as a bright slab in a dark room. Why: slabs read as a wall, bigger ranges are ignored, a see-through preview showed no colour, Glass washed everything white, a tint changed nothing, and a faint glow showed as a red band.
+- A model from `/make-model` comes as a .glb with its parts named by what the game does to them: `Body_`, `Trim_` and `Accent_` parts take that colour slot, `Outline_<piece>` shells move with their piece, `Glow_` parts become Neon, `Spin_`, `Sweep_`, `Bob_` and `Aim_` groups move as named, and it stands on its `Foot_1`, `Foot_2` parts (or its lowest point). Game code finds parts by these names. Why: a .glb can't carry Roblox attributes, so the names are all the game has to go on.
+
+## Windows
+
+- On Windows the AI, `./os` and the scripts run in WSL while Studio runs in Windows: keep the game folder in WSL's own Linux home (`~/...`, never under `/mnt/c`), and start Rojo from there with `./start-rojo.sh`, on Rojo's default `127.0.0.1`, never `--address 0.0.0.0`; Studio reaches it at `localhost`, or `127.0.0.1` typed into the Rojo panel. In WSL, Rojo stops when the last Ubuntu window closes: after opening one again, run `./start-rojo.sh` and press Connect in Studio's Rojo panel. Why: file watching misses changes made under `/mnt/c` and it is slow there, `0.0.0.0` opens Rojo to the whole network, and Studio kept showing old code after Ubuntu was closed and opened again.
+- On Windows the Rojo plugin goes in as the matching `Rojo.rbxm` in `%LOCALAPPDATA%\Roblox\Plugins` (one way only), and Studio links through `.mcp.json` alone, never Quick connect. Why: `rojo plugin install` fails inside WSL, two copies of the plugin double every script, and Quick connect can't reach the AI inside WSL.
+- If a script fails with "\r: command not found", a Windows editor saved it with Windows line endings: run `sed -i 's/\r$//' <file>`. The kit's `.gitattributes` only keeps those endings out of git, not out of files on disk. Why: a script saved in Notepad stopped running in WSL.
+- Mac tools (`caffeinate`, `screencapture`, `open`, `~/Library`) don't exist in WSL: use the Windows way or ask the person. Why: a Mac-only step stops the work on Windows.
+
+## Keys and safety
+
+- Never ask for or accept an API key in chat: keys go in an environment variable, and Open Cloud through the MCP needs none. Why: a key in chat is stored for good.

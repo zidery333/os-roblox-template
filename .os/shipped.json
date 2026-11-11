@@ -1,0 +1,1341 @@
+{
+  "what": "sha1 of every version of each shipped file the template has ever released. upgrade.py overwrites a file only when it still matches one of these; anything the person edited is kept and the new version set aside. Refresh with: python3 .os/upgrade.py --record",
+  "files": {
+    ".claude/agents/builder.md": [
+      "063d3bd54f1b5dcd3dd2a4882d759c45a0f26144",
+      "121487c6d60f5c36c5bf9b716743b54a135e84d2",
+      "785b33a1acb6042e571d20bfef79d701757fb4d9",
+      "4468c6fd487460e7dd02ff8330dda984fc550059",
+      "5d6ee350bc75c0918bc198d189de249eb9f1fca6",
+      "fc277a5ad80fafcd5102ebc830ae05fe97bd6531"
+    ],
+    ".claude/agents/researcher.md": [
+      "38f6ddcce47c1850039d6d339b33cf580358313a",
+      "3badb40d03b33527d7024586e3d72d1facaa7bd0",
+      "aa303f16191ad00561676f4bd2a9a2881552aed6",
+      "134a3134e590c0d19e0f29eff9e9f235cd6b5b3d",
+      "95296f9fb4df8a0c4e66f6b5c2b925f32f02e7bd",
+      "1b1c19e4748c3373bf5c1b8da6d240feea75adec",
+      "83cb79799eb13b2ccc30148b5f14832d74e33aaf"
+    ],
+    ".claude/agents/reviewer.md": [
+      "85c25f7e6c33e624c5819aa88aa312561809e92a",
+      "f13ca30600636e8c6f81bd47b7efb0adb4fc8530",
+      "f9d81dc1b30485526c61e167c9b158a420d11228",
+      "3e3b781179dd9b4e6f1392e936a91cfa4d919a25",
+      "7ee619201441059db146722dadd02d1de556c60a",
+      "4f7160a794894e35c425efcebb9561d9ee700f87",
+      "eac9762bfddeeb4f0bf2eb5fc63de4cbe4895c58"
+    ],
+    ".claude/agents/student.md": [
+      "427c4e5c4f75470237e976cc810d53c3c6584915",
+      "4eb6f30fe09332a0297623362901ae02c66f02a8",
+      "6b8c2a07d19d4de607be5e3fbfea6b681ab2c00f",
+      "011080297572b66eb661029fe814c3397c2c3bcd",
+      "38d3444792b9e53939083c1589f33a894c251b3b",
+      "c3854265b63a3070b394638ab28a1ae10e0255cd",
+      "01ad93488a039cd16c7d193b54cd09f4f3a0893d",
+      "5e3af1a1be6822f00ec1d41b7ac5c851732c51ae",
+      "ec0ff520c0e81cca6e3076e35b9dfb978a23d672"
+    ],
+    ".claude/hooks/mark-dirty.sh": [
+      "827447642c152214315f2bd307aba995e22984d2",
+      "ee15c808e68f7ffd1423772db00aa592e157afc8"
+    ],
+    ".claude/hooks/session-start.sh": [
+      "c5cf660b7593146a5f6cd27d023925c23525e97f",
+      "adacaf7f2d5669361751302c16413ace5f2d06a5",
+      "984bfb035695bf7b188c94eddf84f108f9ff7b3b"
+    ],
+    ".claude/hooks/settle.sh": [
+      "3d5a93ccb29a9f903990bd0da7ebd5c1cc221107",
+      "fcbe21308e5a406e376a05605cfe01e0f0bf6187",
+      "69002f84a7ba054836bc72b068f2c7a56637be05"
+    ],
+    ".claude/skills/catchup/SKILL.md": [
+      "373ba7efc8d5e7047592af002dda6ce7b56fff2f",
+      "57ea51e2ee2eefc79ab0b98544a710cad233b277",
+      "a342902956ac3eb7751bd4ac777ce8e28538b962",
+      "c04f4e2277dd5243df0786e84da43c0702610f67",
+      "85217cd0a4751cf580ab539f28bbd4fd2be002db",
+      "81caf6dc07ec15e45ca274c1ecf8b94030559639"
+    ],
+    ".claude/skills/find/SKILL.md": [
+      "304e11faae5bd27589698a59732927d5143c3bb7",
+      "3ce647097b5766897938f7d857dbf835224c75f2",
+      "eba6281a78f44f30b21fbf6f4b3a2ded63c13a4e",
+      "b590c0cf230e596d9786d8b82af49f8ad2235feb",
+      "b4ce6fb34b39fddbda912751933c20f85bcfbf28",
+      "cb1fe72d1409c3df999c2840abad5ae04f211da5"
+    ],
+    ".claude/skills/learn/NOTE.md": [
+      "3f7c8843add51eb99eb30e7bd4f8b789bf730ba6",
+      "f8dc62c9dcf410159c092a95e076ff4dcbd1df23",
+      "7cfa198e327a06273be487d4e597f0505f045635",
+      "f92d9e774e7ae1b1747fd686b9688dba533c7ff3"
+    ],
+    ".claude/skills/learn/SKILL.md": [
+      "25b156ff7dc552427d3e98c4aa6e4c07d4b8fdad",
+      "4d3e7de393797445fdc749e604e0c415e934c8eb",
+      "6359341f71e520bb0d5cbb661faed4132eaf91c4",
+      "b7e3ea12aece6730faa5af3e48529c7ce3321112",
+      "e35b9f7e71b206aebd4da09be020aa7911de60b9",
+      "1f9dc7e7135c39555d1395eb24befb34647d290f",
+      "9f8ca78c142bd3bb63233402b35b1db8570acd16",
+      "4756546748360f1602f311db97449505e4f9530b",
+      "3b1fc7ec1f9af3206a0db2fc25cf01e64f32d744",
+      "34618296f75ccc3eaa04542b92d8e154523ef0b7"
+    ],
+    ".claude/skills/learn/SOURCES.md": [
+      "5abab194cbf3cbeb374f33c29c64c9b269b24223",
+      "72070579432a92de587b40fbe28e177ad42b1447",
+      "a121203af2616f9797ee57965967259e3aa8dec9",
+      "20502323e350476aac4790a3d0aba8e7f206a0eb",
+      "aaba240aa5281c5d2c9cc6484f5ba5a80ccd0d18",
+      "8eb07d1b70a50ed8afbf08adadd542446c66b9d4",
+      "2e4b9e4c7ed630552fcc5b1177c7655c5b881844"
+    ],
+    ".claude/skills/make-skill/SKILL.md": [
+      "472a923fecf5064b84b10d56e075fd668742652f",
+      "7a8c30c3e98de7300b52c4af0c6c5e2097db13d1",
+      "c7ae7ec567c920ba21c708142bed8a2b80ce1a38",
+      "5228e0f4902bbb89aeb72509c0a435980ada83ea",
+      "0a9fdd8dca52cb0d058304953824b55dac6db7b8"
+    ],
+    ".claude/skills/save/SKILL.md": [
+      "533966aafee3a4d1f648c0380c3f0c8c65c5914c",
+      "ea3a27ab6bac6d6701d9668f782ab6b5e1b9990c",
+      "ed73800f573a4d56d58c40d747c9d7ed4dd92b8c",
+      "90b59dc051297c0d41feabc78606cbc7d0b48bf2",
+      "71fe6004842ec7fb7c7bd4962a557a743d92834a",
+      "06e2a2557c7a047a4d4b273cef338c9f192bdf1e",
+      "c902ba515ea9cfeb6e86efc3fa316382dfd311e2",
+      "335eb133a826dc9db20ad91b81c4c6c2a5904300",
+      "52552070294e36a492762fa1f9419c24697cef7f"
+    ],
+    ".claude/skills/tidy/SKILL.md": [
+      "13a987e8d4ae79e0d2c6ce5955a2ca298dc17e70",
+      "d6c119ea59316a2b060bada6c41f5b6c45adc315",
+      "f7aa5c5297b2728866bd5fb91c42f7f4a708a96b",
+      "ffd50c3f356a20d036f941c4524ef929ab80c00f",
+      "600a613f35696f5c057e7dc3f66f5132fa98696c",
+      "82a64f941225436155c2274351f6d58ad03029a2",
+      "248b367b84387111e19087326e67dc944ebc8842",
+      "23674999fc7af1813daedcdcb62ee4be127b9e3b",
+      "4ad15dcfbb1530c82242e2ec848e3440546745df"
+    ],
+    ".claude/skills/wrapup/SKILL.md": [
+      "3cdf8c093eb1a9f185b8a45f978bcdc9bb04d420",
+      "4aad4412ef617fa33aed9f97d215ad51a6281934",
+      "5794832f985812923ab774c0771db026e11786de",
+      "a11abf8ac9abf23a80bf6dec3892cc87c4b39726",
+      "119133b5e129cc20f118bf4578999a7e422819ce",
+      "ba560738f1cfc9485a72cad46937fd4ea246aeae",
+      "1315c4527ad5d602d06c6d98d6ae383968352974",
+      "247a32bbaf19410bd0f59bff5090ac22e3d9446c",
+      "cc1236d899620949afb9a6bcc40d9616c36a3a0b",
+      "0cc44e5dce2487579f95027bfd1f078c4a238288"
+    ],
+    "AGENTS.md": [
+      "1465c7fd260a28aeb5b61b3a7fa1c45011fb4422",
+      "1c59926b5ec5c0f6b47775f7b411517123ca3113",
+      "4f98f5809d77db5fdbf023ef88563c8e133fec3e",
+      "51352f4603d30dadcf4fad30744b5fe0955daf46",
+      "69ca2ec9fe7f419f22602714dc3467236b366736",
+      "84a673ed02c4af524d9e9b97c88c7fa573172b59",
+      "9c1cf88d9bc39383e1dc45062fe15f3907bd3ea2",
+      "cb6e37623cc6cc825657962889cec20c00da1662",
+      "f3b2aeb1572edaa21c78478a5a2d6ad0c24ff1ad",
+      "71b331414cf8652a50e2fe99422eb855c5631d51",
+      "cf3eb9c384c63eda3bef065553407c7abf8e3403",
+      "4723eb93c98e26f524c5e6121ad38bb0a31c8836",
+      "42a6148b771dcdedcfd6b0db42e4bf8c3ccded83",
+      "ae0d5e3192accff7d7634b02ba5d11a9243ae57b",
+      "6fe46721e318717b775481de9f383fc554754d43",
+      "8f5181c79ccb7c78873357687d495598f7fec33b",
+      "c9fe50a4823f8be584622eca89e72f51f9ff02ca",
+      "b8ced0088a60cfed62b610c80f834fbdcd8a9d8b",
+      "33e76abb9a8f419320a8a20f1c94617944bc0a48",
+      "c84a620ad6d086f19b8bbb618912fcecda02ca75",
+      "3b1d58abe10a140315a1680c96090ce11c5cff89",
+      "a33b912e098a37ddd0fd01fc1ee0aafc164cbd01",
+      "d76ece52fcbe08a2245d15588dc9d0bb0121442e",
+      "f2dcd034c56f88f218bba9ad5314b24d5eafbf5a",
+      "9ca4a2e323a1ce2006a4721235e530e43316080f",
+      "0ecd62f10ce39e2eeb52e32ae80648c5c2b1b112"
+    ],
+    ".claude/skills/decide/SKILL.md": [
+      "3cca9ea27ea1c94e0d40795cd8f2f45655b8b83e",
+      "7ad6dab4ca512976b59bd7ffd473d35339790a80",
+      "cca0af09fa78fae035bbadd0723ac1d335e229d2",
+      "b73123f0b1dee9f5d2c398157061a8438e127f4a"
+    ],
+    ".claude/skills/handoff/SKILL.md": [
+      "398733315dc52ff972dc06b22e8592f32cd1d1bb",
+      "a2e1589f211353e1286c194ff1f6de578ba57105",
+      "7446628fb434357b687c0074c0c8e5b8dfa94dcb",
+      "62d0cd515327be818f849a940958a22d0bef8ccb",
+      "6595643ebb93672ecd3976c92800560ebb590d2d"
+    ],
+    ".claude/skills/commands/SKILL.md": [
+      "4466f23ac9fbfae74b36a8245793237319bd3ed5",
+      "716b19f6d87641157b671f842169363827779dee",
+      "59e749b12a833add51cb122a830299a8836acff8"
+    ],
+    "os": [
+      "bb7de1bb647842ec1f518e495677380a4dffabe9",
+      "d78f7b0c82b00c6d2616003cf240bddc7b78b256",
+      "4ef74dab6617e677a1b8fe960b9ce111f1cfcb57"
+    ],
+    ".os/engine.py": [
+      "bac237136e89196303b5a92c4b5a36792a42fd8c",
+      "43efdf1f8b6271f90307868c486a50579fa32bcd",
+      "36b2202ca981f6e500993c757b2f5a13f5675390",
+      "f5dac18d51569a6fe05bce8ff5e1ef41dabbbf33",
+      "05c5380fceed41979da1084bd54f797b156f0efd",
+      "ff08376da471c70558f7e71ce060e8c7084c0ca3",
+      "514e772c224b7f29c7e5f5d77403734a45c4d772",
+      "09b9159a16bd356f45231852db64058b697527ba",
+      "cf5464dc83f299c25f525638bdefa15d480a1930",
+      "977285085b030e8fa19b7b501656528fc6bc7384",
+      "cc9184436fb789fd84d80dce8fc0adeacb68b45f",
+      "9c7bac7e56e7374658e96cf7443b2ef022b2be23",
+      "c4c2df37f4a5f556087643739022856a76f987c5",
+      "0c92c1f9a9001af8945c254452b63ae42808e7ae",
+      "025cf550902df2431301767674f4c7e5b4ed3b62",
+      "1ee66b8c56d110efdb32387c53fa574e671e5760",
+      "3cdc4b2c0bc42de336bbf58b383e9ffa5cc3bc07",
+      "14ee8ea8c336bdd22934ee818e3877b58ef0a2c2",
+      "75908f90e08f9cb0bef4d2f16acebe0cad95bb10"
+    ],
+    ".os/learn.py": [
+      "1b3f236a4556a3114e445c7288f8dd82805cc540",
+      "e565af6fb716a0c3c54bafd82cdd196306b61ca8",
+      "76c2d7e467045de0514fd1ab85afa17fbb511a13",
+      "1959dc8f72cac95f58691114593463772ad6f4df",
+      "bb8093de2e2bde878f7ba0ce9933d650c7e8b93c"
+    ],
+    ".os/upgrade.py": [
+      "b02cb5841cb06fe71994843ae60e0f459e197d38",
+      "019cc47636454d0117d43d3800524d707ec790aa",
+      "2f3057e0ad322a5699c44c611b12f8ca4ee9ac95",
+      "bf37f3650e115e8553f2db9bc8433bc042809f40",
+      "87b5caf4067546842404ccaa925098e72a6ff723",
+      "7b71fc6bd3e4a8431b2b44ba33615e81bed6b4fe",
+      "cbd4df57089d21dfc8b6320c0020cf23cae0013d",
+      "c27fe51a4ee320f0f72d929ca3260738de90526d",
+      "c2cbfac9ad15be49963a986c84781527b0ba37b7",
+      "c3a52911fba4e766516244cb1092b8c302cf2707",
+      "4cf310b7e095b83499847df06e40bbdc083dc38f",
+      "a5da5ba63823d0897031da2693dc00a2a4dc8e99"
+    ],
+    ".claude/settings.json": [
+      "549c7cdfc1efeb7e3a7af4e220add26b636197cc",
+      "48ef7c6634aaae040d1a31968e3e5db58fab14c6",
+      "d46fe385abc12e6970368116f0ee02a4e341b392",
+      "4a8904daea864eba82dbdb4680c0774de295901e",
+      "b1cfbb36960f8420e49cb95d32d74954a4d9bebf",
+      "cf9b9a70bd210da3ec5875c1fb21edf59f330638",
+      "46d675f2167c538db8df38d0a645d344d0cb1a52"
+    ],
+    ".gitignore": [
+      "110cb56982daa3818afbb83c42b9ac5d6a966009",
+      "039832c7eadaa3cab6876a2157fad883f702fd38",
+      "00e1071cdd8bc922562a3d478554cb6a92af05b0",
+      "1430a32aea904e697fc7469e8844d6d60db753d6"
+    ],
+    ".claude/hooks/keep-the-record.sh": [
+      "35ba9345866878510b97c336aee5aa1bdc45048b",
+      "c10781f22755a3ffec6188a1496ee4d05ec79944",
+      "9667a9685ac123f5cd6b4e0da89d337e20ade339"
+    ],
+    ".claude/hooks/plain-words.sh": [
+      "e17a4a696afd62ae01743f6b19c83aae9dd9e42c",
+      "d7b1e5a750d8dbf935948d048ea5237a2af0c99b"
+    ],
+    ".claude/hooks/plain-words.tsv": [
+      "6073a3e562fb84b1986f331e4c08ab742f7a85e4"
+    ],
+    ".claude/output-styles/plain-words.md": [
+      "b668a836a6b81808f416024b0b3afeece15b50c4"
+    ],
+    ".claude/skills/setup/SKILL.md": [
+      "bd0392f6ec9ee049d267ea76bc6cee808e5c8038",
+      "14fd16be45da50509b6e18e575108537dd153779",
+      "5c0398b55d2f29a020a28a73e4646fd460ea8a48",
+      "1822d26bde00e871c860cb7c7f7d05629cb56085",
+      "e6ee5fb1aa6a5f20bf86438c23309d8155733bc9"
+    ],
+    ".os/templates/about-me.md": [
+      "09240a850de482ca975a410d515d07fa3319d977",
+      "9660e1614376348f8260ced746393e554e56f830"
+    ],
+    ".os/templates/agent.md": [
+      "41824f1841e4caad37aa2dfead3ecbe18f9a510e",
+      "4c4287a87dc98c4b1987ff67a3bbcf5c5f03d762",
+      "504f0e406c013d2852221134069cadb73b19874c"
+    ],
+    ".os/templates/holding.md": [
+      "7e2f8947feb41af35cd70feb2d9997e13b6ea0d9",
+      "a8fdd2c970eaf3ac9d0ad09ddf588253da35d5b6",
+      "e933f19811fac06cd8e9f7e4ecf0ac3f9b0b1d45"
+    ],
+    ".os/templates/learning.md": [
+      "06f92f3371685686335a4de7dc40e5bd446f8d5d",
+      "28ce97cdefcd0afe29b286f4937424bd63623137",
+      "2fbc4031f3a4ed83c0dc1b84557d3234d80c3815",
+      "4353ed9a40a9f7438fa41ae2b9e28bc28a5765a1",
+      "6106757f615966ec6694d9bda31db0781bd9f29e",
+      "a1c4f137f92fe3da672e32132a0a73362c64d38a",
+      "d6665cca6b147edcd5a309c865b4dd15e87bc090"
+    ],
+    ".os/templates/note.md": [
+      "233b0f9ea81a6dfb89e611e3d91327c9f5521863",
+      "4fe423d38eac606639a8f82fdee2c784ae95b069",
+      "dbfa3ba0b1086b5fec7366546546d0ed15b5b0e1"
+    ],
+    ".os/templates/pushing.md": [
+      "2a0fec97c189ffaa7543c95149d5988860d2ecf0",
+      "352c56cb0f99186561a90c16defd690b3651c267",
+      "ba8afdce5acdd07aba285df8c182f4d917a01f36",
+      "bed4e04380d9c8ada161b612e6638819eff2dfb5"
+    ],
+    ".os/templates/skill.md": [
+      "142a08fa85d4d5f7843f3ea929568bd91888b23f",
+      "30a5d550702c8bdda1f4729f43d628bee8f6437b",
+      "a1935a798a61b9f8cd7072843b429c9f2a3a2992"
+    ],
+    ".claude/hooks/only-this-folder.sh": [
+      "b234fc86bc9761cda142c7dc7d277515dd7109b0"
+    ],
+    ".claude/skills/build-game/REFERENCE.md": [
+      "b03cb4b7b5334ed0c6845793bd5fc6cf6d695aa9"
+    ],
+    ".claude/skills/build-game/SKILL.md": [
+      "7f009e3e687a37cb7d841fc2a17052d7fbfa8dbe"
+    ],
+    ".claude/skills/make-model/LESSONS.md": [
+      "a1d46900bcae5fc1ac25d33133ff1b76cc770418"
+    ],
+    ".claude/skills/make-model/REFERENCE.md": [
+      "a90da262d7e3109a8d223b7d94fc7d7c7e1577a4"
+    ],
+    ".claude/skills/make-model/SKILL.md": [
+      "7b652059a3e2be7a17774e79533f4fb3d838b755"
+    ],
+    ".claude/skills/make-model/kit/README.md": [
+      "779728b9c640c425955f6554d570ff924a990015"
+    ],
+    ".claude/skills/make-model/kit/brick-glb.mjs": [
+      "5dc59853c790ec83b319e5f537418898abf8ea47"
+    ],
+    ".claude/skills/make-model/kit/candy-glb.mjs": [
+      "0a92bdbcbe51319d1f44931a1a930dfcbb6fb30d"
+    ],
+    ".claude/skills/make-model/kit/check-banned-colours.mjs": [
+      "f189cc0b5317a04c1e8292e28f96285c01e871a5"
+    ],
+    ".claude/skills/make-model/kit/check-cut-edges.mjs": [
+      "2bb40c1978aef6e8f55d8d9a4314907530c72e80"
+    ],
+    ".claude/skills/make-model/kit/check-ground.mjs": [
+      "78fd816a185ca86031316805a81f6b0d269303c1"
+    ],
+    ".claude/skills/make-model/kit/check-hinge-swing.mjs": [
+      "97a13c711f789cc957729d9548e3d83c11c9c472"
+    ],
+    ".claude/skills/make-model/kit/check-hinge.mjs": [
+      "ed8c7bf5d049c72e9d76ce66284e88750b572d44"
+    ],
+    ".claude/skills/make-model/kit/check-joint-swing.mjs": [
+      "d6cc84f7c5209da0d96c23dbc4f4eb16aec2c1dc"
+    ],
+    ".claude/skills/make-model/kit/check-open-edges.mjs": [
+      "72e18d24371682e812cec90e453252b33b39df70"
+    ],
+    ".claude/skills/make-model/kit/check-pictures.mjs": [
+      "0fe9c1a0cd3d180a0d2757ad7fa2a8333337e0d7"
+    ],
+    ".claude/skills/make-model/kit/check-planes.mjs": [
+      "c32bed3be2ea39885595ff59bdbfde914dcfb8c1"
+    ],
+    ".claude/skills/make-model/kit/check-spin-room.mjs": [
+      "0bc52b477941b6e266cdc772835a2b0d43eeabf6"
+    ],
+    ".claude/skills/make-model/kit/check-sweep.mjs": [
+      "3a1955dbcdaa6d6866814918be13b60b190c1054"
+    ],
+    ".claude/skills/make-model/kit/clay-glb.mjs": [
+      "bde278259a6df3e282b2db920997e923545acc28"
+    ],
+    ".claude/skills/make-model/kit/contact-sheet.mjs": [
+      "e5ce93b47548d1ff7777d3bb5b03dd205d2d68e0"
+    ],
+    ".claude/skills/make-model/kit/creature-shapes.mjs": [
+      "8bcd9ae23cbcf5db54e175f11435189be3e1df71"
+    ],
+    ".claude/skills/make-model/kit/crop-stage.mjs": [
+      "7bf9703a6fdf373514927362b6d4950305c0e9d0"
+    ],
+    ".claude/skills/make-model/kit/fit-corners.mjs": [
+      "30b0257f3e8a5a06634308c271ce442e5cafc8bd"
+    ],
+    ".claude/skills/make-model/kit/gadget-glb.mjs": [
+      "a2c8cbd0d4ca1fc0add3658748c2573b2e631eb6"
+    ],
+    ".claude/skills/make-model/kit/glb-colours-png.mjs": [
+      "600eab5eca66666a00663e1629044173ffcd9ff9"
+    ],
+    ".claude/skills/make-model/kit/glb-textures.mjs": [
+      "6a74b7f1a500afdfbf5faee73a008b230a954f03"
+    ],
+    ".claude/skills/make-model/kit/hull-octagons.mjs": [
+      "b93b3d34f43eed0306d969b4e33612fce8ddd866"
+    ],
+    ".claude/skills/make-model/kit/hull-pieces.mjs": [
+      "a08546a06a41c7a70ab48a7f2b679beccbda5317"
+    ],
+    ".claude/skills/make-model/kit/inspect-glb.mjs": [
+      "8acd2830bd12073cf1b6821a7082e8a320374408"
+    ],
+    ".claude/skills/make-model/kit/package.json": [
+      "5110fd5a0e57fa711a324f26315bf7c5797c6ef0"
+    ],
+    ".claude/skills/make-model/kit/picture-helpers.mjs": [
+      "add9c21bd4e39c2d37229b22a677e6b55c57a76a"
+    ],
+    ".claude/skills/make-model/kit/recolour-picture.mjs": [
+      "5502a4e6eb54e03dada9276cd32e3dd39d2403f3"
+    ],
+    ".claude/skills/make-model/kit/save-png-server.mjs": [
+      "0022f2ecbb878602c9a110c81043378b90f07f04"
+    ],
+    ".claude/skills/make-model/kit/shots-wait.mjs": [
+      "69fefd029af51c31207594eb7d64bf458602970a"
+    ],
+    ".claude/skills/make-model/kit/stretch-frames.mjs": [
+      "0f93fb9386c78ca453f1b44e443e303074c08ede"
+    ],
+    ".claude/skills/make-model/kit/style-a-painted-toy.mjs": [
+      "72cd06a8160a8e256872664d31c985c3bf48abc1"
+    ],
+    ".claude/skills/make-model/kit/style-c-flat-shape.mjs": [
+      "92c33374d14494457789442e15ec2edaca21cbbb"
+    ],
+    ".claude/skills/make-model/kit/style-c-glb.mjs": [
+      "6b3b45618f7822e073c6b3d7b77b5b314ec1a46f"
+    ],
+    ".claude/skills/make-model/kit/style-c-joined-boxes.mjs": [
+      "447fa6840079eb6305333c4d7c7c939a50b6aa95"
+    ],
+    ".claude/skills/make-model/kit/style-c-leaning-sign.mjs": [
+      "3dbc7e2446c5ee73376602987bd0db869c220926"
+    ],
+    ".claude/skills/make-model/kit/style-c-moving-parts.mjs": [
+      "1c6c03c8fcf19b01d3a64b854a60242d59d5afd6"
+    ],
+    ".claude/skills/make-model/kit/style-c-plates.mjs": [
+      "ffa861d1dda680c711df31c5697a3b7091d94ea1"
+    ],
+    ".claude/skills/make-model/kit/style-c-tilted-piece.mjs": [
+      "4557c33b06e26f94f08901d1684c25533e0b606a"
+    ],
+    ".claude/skills/make-model/kit/style-f-faceted-gem.mjs": [
+      "e64ddfb0b05e04b37eedfb01c6fb6f48ebc801f0"
+    ],
+    ".claude/skills/make-model/kit/style-i-wooden-toy.mjs": [
+      "df67957a1a17986a9c931a963a5e9cf028e76e94"
+    ],
+    ".claude/skills/make-model/kit/toon-extras.mjs": [
+      "0d4d7acb570f384a96d58331471d0ad01c3568aa"
+    ],
+    ".claude/skills/make-model/kit/toon-glb.mjs": [
+      "fbed48b28b5e6f094e5775de2c555603f702b623"
+    ],
+    ".claude/skills/make-model/kit/toon3.mjs": [
+      "c879db3227799ef80b207f21264b710902bfd2cb"
+    ],
+    ".claude/skills/make-model/kit/view-3d-page.mjs": [
+      "1b2e0c9184486f9b9dcd2d9a6d18f457dde2c02d"
+    ],
+    ".claude/skills/make-model/kit/view-look-sheet-page.mjs": [
+      "ba87daa0b21c3e837589d02ddd8936b6bfc94e98"
+    ],
+    ".claude/skills/make-model/kit/view-multi-page.mjs": [
+      "3b31ee8768b454db3a0e0a027847e70721e7f04d"
+    ],
+    ".claude/skills/make-model/kit/view-sheet-page.mjs": [
+      "226b2e8875644a67b099795ffed4287bc7046841"
+    ],
+    ".claude/skills/make-model/kit/voxel-glb.mjs": [
+      "e0e48496d3e7c9845e66e070aef82ae766484c8f"
+    ],
+    ".claude/skills/new-game/SKILL.md": [
+      "e351e2854798e7d4a96d98070d592bb03dd4d696"
+    ],
+    ".claude/skills/subchat-chain/SKILL.md": [
+      "afdc744a37d645049edfd0db7b45f843aa7287e6"
+    ],
+    ".os/flavour.json": [
+      "4996b471cdac2f60aeec64cfef659b0af18da654"
+    ],
+    ".claude/roblox/LESSONS.md": [
+      "efa69511909f7e221b6586fe6418870f0af3e922"
+    ],
+    ".claude/roblox/README.md": [
+      "614323c0f72776359c5ad0cfa344d19c4fd3438b"
+    ],
+    ".claude/roblox/Template/.gitattributes": [
+      "7b00af9e37d1d04a36cf678668356a7ad4d487d8"
+    ],
+    ".claude/roblox/Template/.gitignore": [
+      "20c58f903b398d1d47e195e9f16e1d9f4946893b"
+    ],
+    ".claude/roblox/Template/CLAUDE.md": [
+      "b029f6cf64434d4eb548c0b417c45ee1fbceb241"
+    ],
+    ".claude/roblox/Template/Code/Client/Main.client.luau": [
+      "5f0a68ea8b3fd5ef95cedebcbf2d0828110987d9"
+    ],
+    ".claude/roblox/Template/Code/Server/Main.server.luau": [
+      "f2621fd20a77579393217a8991ff3fca73aea9f0"
+    ],
+    ".claude/roblox/Template/Code/Shared/Config/Economy.luau": [
+      "70308a04e7663bb66e2dcf9ad93df130ebb399a0"
+    ],
+    ".claude/roblox/Template/Code/Shared/Logic/Wallet.luau": [
+      "1841b99238217d6b1e4209680b8893140d3307f4"
+    ],
+    ".claude/roblox/Template/Code/Shared/Net.luau": [
+      "5a78c280a68699f3d8fd0194129fe2ab75bc9da9"
+    ],
+    ".claude/roblox/Template/Plan.md": [
+      "d20553e37788a5461ab9909a2bf6dabfa171c415"
+    ],
+    ".claude/roblox/Template/Tests/Source.spec.luau": [
+      "24a1864724b71e3ee07605abd9d5da3885b2dc75"
+    ],
+    ".claude/roblox/Template/Tests/Wallet.spec.luau": [
+      "2f526dd593f57c6488c10da07d593864c3017230"
+    ],
+    ".claude/roblox/Template/Tests/run.luau": [
+      "60413aa4315e88b344e8429a55b9d844d9b8ead1"
+    ],
+    ".claude/roblox/Template/Types/globalTypes.d.luau": [
+      "f4be27fc5c1c0ded4c864fe4d18e3af037cc420a"
+    ],
+    ".claude/roblox/Template/check.sh": [
+      "ff353d286a083b51ec1ffa8578d548b480087bb7"
+    ],
+    ".claude/roblox/Template/default.project.json": [
+      "872aec5018bb2983aac3efeb55a8ef332bd06bcd"
+    ],
+    ".claude/roblox/Template/roblox-game.yml": [
+      "35409293d599d25ae2d723c84339d41d255b4cda"
+    ],
+    ".claude/roblox/Template/rokit.toml": [
+      "43f4ee707c4abfe14531ab7bd0f26e4ae746aad3"
+    ],
+    ".claude/roblox/Template/selene.toml": [
+      "4a427f8084e085f41e968e135c9d88413a24eb71"
+    ],
+    ".claude/roblox/Template/start-rojo.sh": [
+      "a648f05aeb30de36f935ed8d25e9baaa77659cbf"
+    ],
+    ".claude/roblox/Template/stylua.toml": [
+      "7c44e89b3c891a74a2835b49b1f01088beebc604"
+    ],
+    ".claude/roblox/add-template.sh": [
+      "719b495e6e4637baefd7e02e7bb136ec844baef5"
+    ],
+    ".claude/roblox/how-roblox-games-are-built.md": [
+      "1d516fe88aec7771a046f888bd543644463f72f6"
+    ],
+    ".claude/roblox/studio-mcp.sh": [
+      "49054cc8254f3bb26869a784856a64666a7585cf"
+    ],
+    ".claude/roblox/win-localappdata.sh": [
+      "37c21022c776ebd1ee4fc4442e3eed9cc5ed385f"
+    ],
+    ".mcp.json": [
+      "d455f437516658657099dc72c924a70f0829cfc7"
+    ]
+  },
+  "keywords": {
+    "engineering": [
+      "c04e9c8748e72f10a3b603a142ab4a1c96746023"
+    ],
+    "writing": [
+      "5a1026dddaab600b10cfc5478388d0a9f3be6700"
+    ],
+    "research": [
+      "0ac66c61221dca8daa42d72556ba50b1649c8866"
+    ],
+    "business": [
+      "abb701fadba115cdaf69fd5a5a43c535788d5b06"
+    ],
+    "product": [
+      "c7850a600e63ceb318a4e3735af896bcc4089300"
+    ],
+    "design": [
+      "55bc02fb673c5a8f827f31d00ca5442b6a42d7e4"
+    ],
+    "marketing": [
+      "b375749f2dd169db4bb3e5f62fa6fabadef8af3c"
+    ],
+    "finance": [
+      "883c4ea40fcbb8e35e267e69a7b43dde403adfb8"
+    ],
+    "learning": [
+      "6191cb4eaa657d353a387836e95d842105b131d8"
+    ],
+    "operations": [
+      "0c9aede43c2b53e8b537f89833d0d2dbd3f40940"
+    ],
+    "personal": [
+      "5aad9709db6db5ba0c1954cdb62091bd8702a8de",
+      "8b0c1f3b8bac74f0624740032bb601d7e7b528a7"
+    ],
+    "ai": [
+      "933e9315451ce0b6d4054b7d64c62dcc9a7dfe1f"
+    ],
+    "home": [
+      "3a95c7f3b79999085fe057715d853b728a999ca7"
+    ],
+    "food": [
+      "c8066323f460070bb1c8cc27465a1b292d1b75ff"
+    ],
+    "garden": [
+      "d666d97e8cb31ae6e4cf9810d634a894d695e84b"
+    ],
+    "health": [
+      "660bb2da624ca070ad9bd858e01cc781402ecf4b"
+    ],
+    "money": [
+      "819999f32d102dfeff18bcdfd11388c17bdb57ba"
+    ],
+    "general": [
+      "97d170e1550eee4afc0af065b78cda302a97674c"
+    ],
+    "games": [
+      "77a2499b951b54ad8dcc967c00a0c5a3fba88546"
+    ]
+  },
+  "rules": [
+    "allow:Bash(./os:*)",
+    "allow:Bash(bash ./os:*)",
+    "allow:Bash(bash os:*)",
+    "deny:Read(/.os/backups/**)"
+  ],
+  "release": "2026-11-11.1",
+  "extensions": {
+    "engineering": [
+      "6c94c6112e87cd1c969a0c6eee562f9726093b5b"
+    ],
+    "writing": [
+      "b78b605de40d32e532b6535739caa99c31b2ceee",
+      "ff19399860461e91890aef661fd7b55c4027cf50"
+    ],
+    "research": [
+      "4f916b5b6d00383aadf51705fb7fb2a2e4dc3805"
+    ],
+    "business": [
+      "97d170e1550eee4afc0af065b78cda302a97674c"
+    ],
+    "product": [
+      "97d170e1550eee4afc0af065b78cda302a97674c"
+    ],
+    "design": [
+      "923da89e6615980de36c5359acb51e969a129882"
+    ],
+    "marketing": [
+      "97d170e1550eee4afc0af065b78cda302a97674c"
+    ],
+    "finance": [
+      "b7f9b4b0d5fc896e30b84597d02f3c7ed9bbdae7"
+    ],
+    "learning": [
+      "97d170e1550eee4afc0af065b78cda302a97674c"
+    ],
+    "operations": [
+      "97d170e1550eee4afc0af065b78cda302a97674c"
+    ],
+    "personal": [
+      "97d170e1550eee4afc0af065b78cda302a97674c"
+    ],
+    "ai": [
+      "97d170e1550eee4afc0af065b78cda302a97674c"
+    ],
+    "home": [
+      "97d170e1550eee4afc0af065b78cda302a97674c"
+    ],
+    "food": [
+      "97d170e1550eee4afc0af065b78cda302a97674c"
+    ],
+    "garden": [
+      "97d170e1550eee4afc0af065b78cda302a97674c"
+    ],
+    "health": [
+      "97d170e1550eee4afc0af065b78cda302a97674c"
+    ],
+    "money": [
+      "97d170e1550eee4afc0af065b78cda302a97674c"
+    ],
+    "general": [
+      "97d170e1550eee4afc0af065b78cda302a97674c"
+    ],
+    "games": [
+      "fb280a4cd1ffd52dd05ed1875097a624d73d42d9"
+    ]
+  },
+  "intent_keywords": {
+    "pushing": [
+      "fc092d415f5cd08c5ac69693b31ab5805fdcef4d"
+    ],
+    "holding": [
+      "18c3c38d55b96fe62b3b082e20cf2788bf60ab1a",
+      "e0d26564cdea7ae1d359c2035a982ddd46c2421a"
+    ],
+    "note": [
+      "04ba4a019f7770089b0de5e630fd3eff68414206",
+      "48d3f1dbcaf9ab0dfa1676240c2348501ad47a50"
+    ]
+  },
+  "intent_patterns": {
+    "pushing": [
+      "63d0a36ea6802771dc7b936c7679082482193a9b"
+    ],
+    "holding": [
+      "f43e817677fb4762a0656b26c38b64700e6378bd"
+    ],
+    "note": [
+      "4cf5311d959fae8949918d7b1257767b2d178f75",
+      "813d89c28a22694d2f7cd6de2de9f85c8a3af0f2"
+    ]
+  },
+  "taglines": [
+    "One folder for your notes, plans and files.",
+    "Make Roblox games with Claude, and keep your notes and plans in order."
+  ],
+  "settings_keys": [
+    "$schema",
+    "autoMemoryEnabled",
+    "enabledMcpjsonServers",
+    "outputStyle",
+    "permissions"
+  ],
+  "hook_groups": {
+    "SessionStart": [
+      "95f62568d3b344bf53682a89dd783a2d98b35688"
+    ],
+    "PreToolUse": [
+      "9058ec606d6fef3ad00c15475a7b66acc4c49f15",
+      "8f20f2ed2b92493dc3f1d16c5ac47da0469eaddb",
+      "610ae8510d8242d22c38a359f8a180142cc03a2a"
+    ],
+    "PostToolUse": [
+      "cf03b5ded385e0550ca83f1d05defda0f6a74fac",
+      "60947b8189c4f5176baae504da76204ddbb498be"
+    ],
+    "Stop": [
+      "dc29c4b9ce49068ea9e7f9c7196af6f3b9862378",
+      "2d8fe8c50a6bbddea8315b0c063497f022078294"
+    ]
+  },
+  "words": {
+    "keywords": {
+      "engineering": [
+        "code",
+        "codebase",
+        "repo",
+        "repository",
+        "bug",
+        "refactor",
+        "api",
+        "endpoint",
+        "deploy",
+        "deployment",
+        "build",
+        "compile",
+        "test",
+        "tests",
+        "pytest",
+        "typescript",
+        "python",
+        "rust",
+        "golang",
+        "react",
+        "backend",
+        "frontend",
+        "database",
+        "schema",
+        "migration",
+        "docker",
+        "kubernetes",
+        "ci",
+        "cd",
+        "pipeline",
+        "git",
+        "branch",
+        "merge",
+        "pull request",
+        "stack trace",
+        "exception",
+        "latency",
+        "performance",
+        "cache",
+        "server",
+        "sdk",
+        "cli",
+        "regression",
+        "lint",
+        "runtime",
+        "crash",
+        "crashes",
+        "error",
+        "fails",
+        "failing",
+        "broken",
+        "bug in",
+        "staging",
+        "production",
+        "prod",
+        "release",
+        "rollback",
+        "hotfix",
+        "token",
+        "auth",
+        "login",
+        "logout"
+      ],
+      "writing": [
+        "draft",
+        "essay",
+        "article",
+        "newsletter",
+        "blog",
+        "post",
+        "chapter",
+        "manuscript",
+        "edit",
+        "copy",
+        "headline",
+        "hook",
+        "narrative",
+        "paragraph",
+        "prose",
+        "outline",
+        "script",
+        "screenplay",
+        "story",
+        "voice",
+        "tone",
+        "publish",
+        "substack",
+        "word count",
+        "revision"
+      ],
+      "research": [
+        "research",
+        "study",
+        "paper",
+        "findings",
+        "hypothesis",
+        "source",
+        "citation",
+        "evidence",
+        "analysis",
+        "survey",
+        "benchmark",
+        "experiment",
+        "literature",
+        "dataset",
+        "methodology",
+        "reference",
+        "whitepaper",
+        "arxiv",
+        "summary of",
+        "deep dive",
+        "competitive analysis"
+      ],
+      "business": [
+        "client",
+        "customer",
+        "contract",
+        "proposal",
+        "invoice",
+        "pricing",
+        "revenue",
+        "margin",
+        "deal",
+        "pipeline",
+        "stakeholder",
+        "meeting",
+        "agenda",
+        "roadmap",
+        "okr",
+        "kpi",
+        "quarter",
+        "strategy",
+        "partnership",
+        "vendor",
+        "sow",
+        "retainer",
+        "onboarding",
+        "churn",
+        "mrr",
+        "arr"
+      ],
+      "product": [
+        "product",
+        "feature",
+        "user story",
+        "spec",
+        "requirement",
+        "prd",
+        "backlog",
+        "sprint",
+        "release",
+        "launch",
+        "mvp",
+        "user research",
+        "persona",
+        "funnel",
+        "retention",
+        "activation",
+        "roadmap",
+        "acceptance criteria",
+        "scope"
+      ],
+      "design": [
+        "design",
+        "figma",
+        "mockup",
+        "wireframe",
+        "layout",
+        "typography",
+        "palette",
+        "brand",
+        "logo",
+        "ui",
+        "ux",
+        "component",
+        "spacing",
+        "icon",
+        "visual",
+        "prototype",
+        "style guide",
+        "accessibility",
+        "contrast"
+      ],
+      "marketing": [
+        "marketing",
+        "campaign",
+        "audience",
+        "seo",
+        "keyword",
+        "ad",
+        "ads",
+        "conversion",
+        "landing page",
+        "email list",
+        "social",
+        "twitter",
+        "linkedin",
+        "youtube",
+        "thumbnail",
+        "ctr",
+        "impressions",
+        "funnel",
+        "positioning",
+        "messaging",
+        "launch plan",
+        "growth"
+      ],
+      "finance": [
+        "budget",
+        "expense",
+        "tax",
+        "taxes",
+        "receipt",
+        "invoice",
+        "payment",
+        "payroll",
+        "accounting",
+        "bookkeeping",
+        "forecast",
+        "cash flow",
+        "runway",
+        "statement",
+        "reconcile",
+        "subscription cost",
+        "salary",
+        "equity",
+        "valuation"
+      ],
+      "learning": [
+        "learn",
+        "learning",
+        "course",
+        "tutorial",
+        "lesson",
+        "practice",
+        "exercise",
+        "flashcard",
+        "notes on",
+        "how to",
+        "fundamentals",
+        "curriculum",
+        "study plan",
+        "certification",
+        "reading list",
+        "book notes",
+        "learn to",
+        "want to learn",
+        "teach myself",
+        "practise",
+        "beginner",
+        "getting started with",
+        "reading",
+        "book",
+        "podcast",
+        "video on"
+      ],
+      "operations": [
+        "process",
+        "sop",
+        "checklist",
+        "workflow",
+        "runbook",
+        "policy",
+        "procedure",
+        "template",
+        "automation",
+        "routine",
+        "weekly review",
+        "backup",
+        "maintenance",
+        "inventory",
+        "logistics",
+        "scheduling",
+        "standard operating"
+      ],
+      "personal": [
+        "personal",
+        "travel",
+        "trip",
+        "family",
+        "journal",
+        "gratitude",
+        "habit",
+        "birthday",
+        "gift",
+        "hobby",
+        "anniversary",
+        "holiday",
+        "vacation",
+        "appointment",
+        "car",
+        "move",
+        "moving",
+        "friend",
+        "partner",
+        "kids",
+        "school",
+        "pet"
+      ],
+      "home": [
+        "home",
+        "house",
+        "apartment",
+        "kitchen",
+        "bathroom",
+        "bedroom",
+        "living room",
+        "boiler",
+        "heating",
+        "radiator",
+        "plumber",
+        "electrician",
+        "builder",
+        "handyman",
+        "landlord",
+        "tenancy",
+        "lease",
+        "repair",
+        "repairs",
+        "leak",
+        "damp",
+        "mould",
+        "fuse box",
+        "wifi",
+        "router",
+        "broadband",
+        "bins",
+        "bin day",
+        "recycling",
+        "cleaning",
+        "hoover",
+        "laundry",
+        "washing machine",
+        "dishwasher",
+        "fridge",
+        "freezer",
+        "decorating",
+        "wallpaper",
+        "furniture",
+        "sofa",
+        "curtains",
+        "diy",
+        "loft",
+        "attic",
+        "gutter",
+        "roof",
+        "neighbour",
+        "neighbours",
+        "moving house"
+      ],
+      "food": [
+        "food",
+        "recipe",
+        "recipes",
+        "ingredients",
+        "cook",
+        "cooking",
+        "bake",
+        "baking",
+        "cake",
+        "bread",
+        "sourdough",
+        "dough",
+        "pastry",
+        "biscuits",
+        "breakfast",
+        "lunch",
+        "dinner",
+        "meal",
+        "meals",
+        "meal plan",
+        "groceries",
+        "shopping list",
+        "supermarket",
+        "oven",
+        "preheat",
+        "simmer",
+        "roast",
+        "soup",
+        "stew",
+        "curry",
+        "pasta",
+        "salad",
+        "sauce",
+        "dessert",
+        "pudding",
+        "jam",
+        "flour",
+        "butter",
+        "sugar",
+        "eggs",
+        "lentils",
+        "chocolate",
+        "tablespoon",
+        "teaspoon",
+        "tbsp",
+        "tsp",
+        "takeaway",
+        "restaurant"
+      ],
+      "garden": [
+        "garden",
+        "gardening",
+        "allotment",
+        "greenhouse",
+        "lawn",
+        "mow",
+        "mowing",
+        "hedge",
+        "prune",
+        "pruning",
+        "weeds",
+        "weeding",
+        "compost",
+        "mulch",
+        "soil",
+        "seeds",
+        "seedlings",
+        "sow",
+        "sowing",
+        "plant",
+        "plants",
+        "planting",
+        "bulbs",
+        "pots",
+        "watering",
+        "flowers",
+        "roses",
+        "shrubs",
+        "herbs",
+        "tomato",
+        "tomatoes",
+        "potatoes",
+        "courgettes",
+        "beans",
+        "sweet peas",
+        "raised bed",
+        "veg patch",
+        "vegetable patch",
+        "slugs",
+        "aphids",
+        "potash",
+        "frost",
+        "bird feeder"
+      ],
+      "health": [
+        "health",
+        "healthy",
+        "doctor",
+        "doctor appointment",
+        "gp",
+        "dentist",
+        "hospital",
+        "nurse",
+        "prescription",
+        "medicine",
+        "medication",
+        "pharmacy",
+        "symptoms",
+        "headache",
+        "migraine",
+        "back pain",
+        "allergy",
+        "allergies",
+        "blood pressure",
+        "blood test",
+        "vaccine",
+        "jab",
+        "physio",
+        "therapy",
+        "therapist",
+        "mental health",
+        "anxiety",
+        "fitness",
+        "workout",
+        "gym",
+        "yoga",
+        "stretching",
+        "sleep",
+        "diet",
+        "injury",
+        "optician",
+        "eye test",
+        "check-up",
+        "checkup"
+      ],
+      "money": [
+        "money",
+        "bank",
+        "bank account",
+        "savings",
+        "savings account",
+        "pension",
+        "mortgage",
+        "rent",
+        "bills",
+        "energy bill",
+        "electricity bill",
+        "gas bill",
+        "water bill",
+        "phone bill",
+        "council tax",
+        "insurance",
+        "direct debit",
+        "standing order",
+        "credit card",
+        "debit card",
+        "loan",
+        "overdraft",
+        "debt",
+        "payslip",
+        "pay rise",
+        "pocket money",
+        "spending",
+        "household budget",
+        "isa",
+        "interest rate",
+        "refund"
+      ],
+      "ai": [
+        "claude",
+        "anthropic",
+        "llm",
+        "prompt",
+        "agent",
+        "subagent",
+        "skill",
+        "mcp",
+        "context window",
+        "token",
+        "model",
+        "gpt",
+        "embedding",
+        "rag",
+        "fine-tune",
+        "inference",
+        "hook",
+        "slash command",
+        "system prompt",
+        "eval",
+        "temperature",
+        "tool use"
+      ],
+      "general": [],
+      "games": [
+        "game",
+        "games",
+        "roblox",
+        "roblox studio",
+        "studio mcp",
+        "rojo",
+        "scriptsync",
+        "rokit",
+        "wally",
+        "selene",
+        "stylua",
+        "lune",
+        "luau",
+        "luau lsp",
+        "open cloud",
+        "remoteevent",
+        "remotefunction",
+        "localscript",
+        "modulescript",
+        "server authority",
+        "playtest",
+        "game loop",
+        "core loop",
+        "ccu",
+        "game pass",
+        "dev product",
+        "developer product",
+        "robux",
+        "datastore",
+        "leaderstats",
+        "leaderboard",
+        "badge",
+        "obby",
+        "tycoon",
+        "simulator",
+        "spawn point",
+        "startergui",
+        "humanoid",
+        "hitbox",
+        "creator store",
+        "creator hub",
+        "devforum",
+        "exploiter",
+        "place file"
+      ]
+    }
+  },
+  "base_release": "2026-11-11.3"
+}

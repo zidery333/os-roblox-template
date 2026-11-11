@@ -1,0 +1,35 @@
+# Old Roblox calls the AI still writes. selene flags them as deprecated.
+base: roblox
+name: roblox-game
+globals:
+  wait:
+    args:
+      - type: number
+        required: false
+    deprecated:
+      message: "use task.wait instead"
+      replace:
+        - "task.wait(%1)"
+  spawn:
+    args:
+      - type: function
+    deprecated:
+      message: "use task.spawn instead"
+      replace:
+        - "task.spawn(%1)"
+  delay:
+    args:
+      - type: number
+      - type: function
+    deprecated:
+      message: "use task.delay instead"
+      replace:
+        - "task.delay(%1)"
+  tick:
+    args: []
+    deprecated:
+      message: "use os.clock() to time things, or os.time() for the date"
+  elapsedTime:
+    args: []
+    deprecated:
+      message: "use os.clock() instead"

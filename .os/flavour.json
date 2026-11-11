@@ -1,0 +1,12 @@
+{
+  "name": "OS Roblox",
+  "about": "It also makes Roblox games with you: say \"new game\" to start one.",
+  "repo": "zidery333/os-roblox-template",
+  "branch": "main",
+  "addon_repo": "zidery333/os-template",
+  "skills": ["new-game", "build-game", "subchat-chain", "make-model"],
+  "agents": [],
+  "hooks": [],
+  "files": [".claude/roblox", ".mcp.json"],
+  "settings": {"enabledMcpjsonServers": ["Roblox_Studio"]}
+}

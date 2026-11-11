@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "Roblox_Studio": {
+      "type": "stdio",
+      "command": "bash",
+      "args": [".claude/roblox/studio-mcp.sh"],
+      "env": {}
+    }
+  }
+}

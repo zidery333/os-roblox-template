@@ -1,0 +1,8 @@
+# Every text file ends lines the Linux way, so scripts run in WSL and on a Mac alike.
+* text=auto eol=lf
+*.rbxl binary
+*.rbxlx binary
+*.rbxm binary
+*.rbxmx binary
+*.png binary
+*.jpg binary

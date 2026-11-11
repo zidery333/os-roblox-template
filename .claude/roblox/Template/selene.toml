@@ -1,0 +1,4 @@
+std = "roblox-game"
+
+[lints]
+deprecated = "deny"

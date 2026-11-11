@@ -1,0 +1,7 @@
+# Made again by the tools. Nothing of yours is in them.
+*.rbxl
+*.rbxlx
+*.rbxm
+sourcemap.json
+roblox.yml
+roblox.d.luau
