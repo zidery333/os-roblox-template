@@ -9,16 +9,18 @@ Type these in the chat, or just ask for them in your own words.
 
 | | What it does |
 | --- | --- |
-| `/build-game` | Plan and build a Roblox game made with /new-game. Plan first with the person, then one subchat per step, each passing the five… |
+| `/build-game` | Make a Roblox game from its idea card, as one job. Plan it on one page, set the game up, build it one step per subchat, stop at… |
 | `/catchup` | Catch up on everything in this folder — what's moving, what's gone quiet, what's waiting, what's broken |
 | `/commands` | Show everything you can ask for in this folder, like a bot's help menu — the skills, the helpers, and the plain things you can… |
 | `/decide` | Write a settled decision into the item it belongs to, with what it rules out |
 | `/find` | Find and pull together anything in this folder — notes, projects, decisions, files, past sessions |
+| `/game-idea` | Find a Roblox game idea worth a cheap test. The person plays rising games and says what they think, the notes build up, and the… |
+| `/game-ui` | Make a Roblox game's screens and first three minutes clear and rewarding on a phone, with two scores per screen |
 | `/handoff` | Write the one note that lets another person or AI pick a project up cold |
 | `/learn` | Learn how good practitioners actually do something, and bring back a note you can work from — from the official source and from… |
-| `/make-model` | Make the models and UI pictures for a Roblox game made with /new-game, from the game's Model Prompts.md, one subchat per model… |
+| `/make-model` | Make the models and UI pictures for a Roblox game made with /build-game, when the person starts a model chat. Each model is… |
 | `/make-skill` | Build a new reusable skill or helper for this folder — interview, write, check, register |
-| `/new-game` | Start a new Roblox game in this folder, set up the AI way: Rojo, the five checks, shared lessons, a plan file, Studio linked |
+| `/market-game` | Get a Roblox game found and growing: page, thumbnails, video, publishing, first players, weekly read |
 | `/save` | Write something down into this folder and file it — a thought, a link, a quote, a file, a half-formed idea |
 | `/setup` | Set this folder up for someone opening it for the first time — say what it's for in plain words, check the computer has what it… |
 | `/subchat-chain` | Run a big job as a main chat that hands each step to its own subchat, one after another, then checks the work and reports back |

@@ -1,9 +1,9 @@
 // A flat style C sign leant back on a roof, held up by a wedge behind it, so it reads from the front and from above (a shop sign on a roof);
-// plus the shapes for one example sign: a fan-shaped board with three arcs and a dot on it.
+// plus the shapes for one example sign: a plain rounded board with a dot on it.
 // Use: copy it with style-c-glb.mjs and style-c-flat-shape.mjs beside your build script, npm install three@0.170.0, then
-//   import { leanSign, fanSignShapes } from './style-c-leaning-sign.mjs';
-//   const w = fanSignShapes(1.5);   // board, arcs, dot outlines in X-Y, the dot at (0, 0); s scales them
-//   leanSign(pal, { board: ['Sign', w.board, 'red'], faces: [['Arc_1', w.arcs[0], 'gold'], ..., ['Glow_Dot', w.dot, 'glow', true]],
+//   import { leanSign, exampleSignShapes } from './style-c-leaning-sign.mjs';
+//   const w = exampleSignShapes(1.5);   // board and dot outlines in X-Y, the dot at (0, 0); s scales them
+//   leanSign(pal, { board: ['Sign', w.board, 'red'], faces: [['Glow_Dot', w.dot, 'glow', true]],
 //     stand: ['Sign_Stand', 'dark', 1.5 * s], lean: 60, roof: 7.8, z: -1.8, low: 1.2 * s }) -> [[mesh, Outline_ mesh], ...]
 // The board is 1 thick (local z 0..1, facing -Z), face pieces stand 0.9 proud and sink 0.1 into it. It is leant back by `lean` degrees
 // round X, its lowest back corner 0.3 into the roof at height `roof`, its (0, 0) point at depth z. `low`: how far the board reaches
@@ -12,19 +12,14 @@ import * as THREE from 'three';
 import { piece } from './style-c-glb.mjs';
 import { flatPiece } from './style-c-flat-shape.mjs';
 
-export function fanSignShapes(s = 1) {
-	const d = THREE.MathUtils.degToRad;
-	const arc = (r0, r1) => {
-		const p = [];
-		for (let k = 0; k <= 6; k++) p.push([r1 * Math.cos(d(45 + k * 15)), r1 * Math.sin(d(45 + k * 15))]);
-		for (let k = 6; k >= 0; k--) p.push([r0 * Math.cos(d(45 + k * 15)), r0 * Math.sin(d(45 + k * 15))]);
-		return p;
-	};
-	const board = [[0, -1.2 * s]];
-	for (let k = 0; k <= 5; k++) board.push([5.7 * s * Math.cos(d(40 + k * 20)), 5.7 * s * Math.sin(d(40 + k * 20))]);
+export function exampleSignShapes(s = 1) {
+	const w = 5 * s, h = 2.5 * s, c = 0.8 * s, d = THREE.MathUtils.degToRad;
+	const board = [];
+	for (const [cx, cy, a0] of [[w - c, h - c, 0], [-w + c, h - c, 90], [-w + c, -h + c, 180], [w - c, -h + c, 270]])
+		for (let k = 0; k <= 4; k++) board.push([cx + c * Math.cos(d(a0 + k * 22.5)), cy + c * Math.sin(d(a0 + k * 22.5))]);
 	const r = (0.6 * s) / Math.cos(Math.PI / 8);
 	const dot = Array.from({ length: 8 }, (_, i) => [r * Math.cos(Math.PI / 8 + (i * Math.PI) / 4), r * Math.sin(Math.PI / 8 + (i * Math.PI) / 4)]);
-	return { board, arcs: [[1.1, 2.1], [2.6, 3.6], [4.1, 5.1]].map(([a, b]) => arc(a * s, b * s)), dot };
+	return { board, dot };
 }
 
 const sizeOf = (poly) => { const xs = poly.map((p) => p[0]), ys = poly.map((p) => p[1]); return Math.max(Math.max(...xs) - Math.min(...xs), Math.max(...ys) - Math.min(...ys)); };

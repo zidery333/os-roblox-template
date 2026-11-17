@@ -7,6 +7,7 @@
 # The same file works for every game: it reads the game's name from default.project.json.
 # Works on a Mac and on Windows inside WSL. Needs bash and python3, nothing else.
 
+unset CDPATH # a CDPATH someone set can send cd to another game's folder
 cd "$(dirname "$0")" || exit 1
 export PATH="$HOME/.rokit/bin:$PATH"
 port="${ROJO_PORT:-34872}"

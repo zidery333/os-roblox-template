@@ -3,16 +3,34 @@
 Newest first. Each release says, in plain words, what you'll notice.
 `./os update` shows you the ones that are new to you.
 
+## 2026-11-17.1
+
+- A whole new way to make a game. Say "new game idea" first: Claude checks
+  the idea and writes it on one idea card. Then "build the game" plans it on
+  one page and builds it in gates.
+- Gate 1 is only the core loop in grey boxes. You play it for about 15
+  minutes, and nothing more gets built until you say it's fun.
+- Three new skills: one for checking a game idea, one for designing the
+  game's screens, and one for getting players (the game's page, thumbnails,
+  publishing, and reading how players behave).
+- Setting up a game is now part of "build the game". Saying "new game"
+  still works.
+- Building while you're away: say "I'm going to sleep" and it keeps going
+  step by step. Needs a Mac with the Claude desktop app.
+- "Make a model" can now use Blender or Meshy as well as code, with new
+  checks. Meshy is paid, and Claude says the cost before using it.
+- Many more lessons for every game, from building real games since the
+  last release.
+- A new game's checks catch five more mistakes: saving data without a
+  safety net, emoji in the game's text, two values taken from one `if`
+  that only gives one, Studio-only scripts in the game's code, and a test
+  that hangs. Games you already made keep their old checks: ask Claude to
+  bring the new `Tests/` files and `check.sh` across.
+
 ## 2026-11-12.1
 
 - Nothing new in the Roblox part this time. What the normal folder gained
   is below.
-
-From the normal template:
-
-- Skills learn from their mistakes. When one goes wrong, or you correct
-  it, your AI writes the lesson down beside that skill, and reads it the
-  next time. Updates never touch what a skill has learned.
 
 ## 2026-11-11.2
 

@@ -14,13 +14,13 @@ it knows where you left off.
 
 **OS Roblox is the normal folder, plus everything you need to make Roblox
 games with Claude.** It still keeps your notes, plans and files in order. On
-top of that, you say "new game" and Claude sets up a game folder that's ready
-to build, then builds it with you one step at a time, with Roblox Studio
-linked so it can test what it made.
+top of that, it takes a game from the first idea to a published game: it
+checks the idea is worth making, plans it on one page, sets up a game folder
+with Roblox Studio linked, and builds it one small step at a time.
 
 You don't need to know how to code. You bring the idea and the taste: what
 the game is, what feels fun, what looks right. Claude writes the code, checks
-it, and playtests it.
+it, and playtests it. You play it at each gate and say if it's fun.
 
 ### What else you need
 
@@ -29,26 +29,39 @@ it, and playtests it.
 - **Roblox Studio**, free from [create.roblox.com](https://create.roblox.com).
 - **A Mac, or a Windows PC through WSL.** On Windows, the folder and Claude
   live inside WSL (see [Install](#install)), and Roblox Studio runs on
-  Windows as normal. `new game` links the two.
+  Windows as normal. Setting up a game links the two.
+- Only if you want them: **Blender** (free) and a **Meshy** account (paid)
+  for 3D models. Claude says the cost before anything that uses credits.
 
 ### The first three things to say
 
 Once it's installed, type these in the chat, one at a time:
 
 1. `/setup` sets up the folder, the same as the normal one.
-2. `new game` asks what your game is called, makes its folder, puts in the
-   tools it needs, and walks you through linking Roblox Studio. You'll click
-   a few buttons in Studio once.
-3. Then say what you want to build, like "plan the game". Claude asks you
-   questions first, writes a plan, and builds it one step at a time.
+2. `new game idea` asks about your idea, checks it against what keeps people
+   playing, and writes it on one idea card.
+3. `build the game` plans it on one page, sets up the game folder (you'll
+   click a few buttons in Studio once), then builds Gate 1.
 
-### Four skills it adds
+### How a game gets made
+
+The game grows in **gates**. Gate 1 is only the core loop, in grey boxes:
+no models, menus, saving or shop. You play it for about 15 minutes. Nothing
+more gets built until you say it's fun. That one rule stops a game growing
+for weeks before anyone finds out it's boring.
+
+On a Mac with the Claude desktop app, say "I'm going to sleep" and it keeps
+building step by step while you're away.
+
+### Six skills it adds
 
 | Say | What happens |
 | --- | --- |
-| "New game" | Makes a game folder that builds and passes all five checks while it's still empty |
-| "Build the game" | Plans with you, then builds one step at a time. Each step has to pass the checks, a playtest and a screenshot |
-| "Make a model" | Builds 3D models and pictures for your game's screens |
+| "New game idea" | Checks the idea and writes its idea card |
+| "Build the game" | Plans on one page, sets up the game, then builds one step at a time. Each step has to pass the checks, a playtest and a screenshot |
+| "Make the screens" | Designs the game's menus and buttons, checked on a phone and a computer |
+| "Make a model" | Builds 3D models and pictures for your game, by code, Blender or Meshy |
+| "Get players" | The game's page, thumbnails, publishing, and reading how players behave |
 | "Split this up" | Runs a big job as a chain of smaller chats, then checks the work |
 
 Every game learns from its own mistakes. When something goes wrong, Claude
@@ -58,8 +71,9 @@ every game if it applies to all of them.
 ### Honest bit
 
 It has only been tried on a Mac so far. Windows through WSL should work the
-same way, but no one has tried it on a real Windows PC yet. If something
-breaks, tell Claude what happened, in plain words.
+same way, but no one has tried it on a real Windows PC yet. Building while
+you're away needs a Mac with the Claude desktop app. If something breaks,
+tell Claude what happened, in plain words.
 
 ## New to this?
 

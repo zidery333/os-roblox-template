@@ -9,11 +9,12 @@ from nvm (Node 18 or newer), and keep the copy in the Linux home (`~/`), not `/m
 Chrome: on a Mac, Google Chrome is found by itself; in WSL, run
 `npx @puppeteer/browsers install chrome-headless-shell@stable` in the kit copy, or set `CHROME_PATH`. Any
 recent Chrome works; if one ever won't start, use `chrome-headless-shell@131.0.6778.204`, the one the kit's
-puppeteer-core was made for.
+puppeteer-core was made for. The `meshy/` folder also needs the person's own Blender, and Meshy itself needs
+their own account and costs credits.
 
-**Checks.** Every `check-*` file exits 1 when it finds a problem, and also when it was given nothing to
-check (no file, no pictures, no moving group by that name), with a line saying which. Part names the
-checks look for are listed in `../REFERENCE.md`, "Part names the checks know".
+**Checks.** Every `check-*` file exits non-zero when it finds a problem, and also when it was given nothing to
+check (no file, no pictures, no arguments, no moving group by that name), with a line saying which. Part names
+the checks look for are listed in `../REFERENCE.md`, "Part names the checks know".
 
 **The styles.** Builders are named after the look they make. The letters are just labels:
 - style C, "bare minimum": the fewest flat-faced shapes, each with a black outline shell.
@@ -32,7 +33,7 @@ checks look for are listed in `../REFERENCE.md`, "Part names the checks know".
 - `style-c-tilted-piece.mjs`: one piece whose parts are each turned (a tool tilted at an elbow), outlines turning with them.
 - `style-c-plates.mjs`: shapes that face the front (a frame with round holes, rings, a star of blades, a plus shape) with closed outlines, mixed with box prisms in one piece.
 - `style-c-joined-boxes.mjs`: box pieces joined edge to edge (a long top in two halves) with no black line at the join, and shells kept under a walked-on top.
-- `style-c-leaning-sign.mjs`: a flat sign leant back on a roof with a wedge stand behind it, so it reads from the front and from above, plus one example sign's shapes (a fan-shaped board, three arcs and a dot).
+- `style-c-leaning-sign.mjs`: a flat sign leant back on a roof with a wedge stand behind it, so it reads from the front and from above, plus one example sign's shapes (a plain rounded board and a dot).
 - `style-a-painted-toy.mjs`: soft-bevelled pieces with no outlines (rounded boxes, cylinders, cones, domes, gem crystals) with painted light baked into one gradient texture.
 - `style-i-wooden-toy.mjs`: style A pieces plus pegs and wheels, with a faint wood grain baked in that follows each piece.
 - `style-f-faceted-gem.mjs`: flat-faceted low-poly pieces with no outlines, a shade per facet baked into one texture so it survives in Roblox.
@@ -48,10 +49,13 @@ checks look for are listed in `../REFERENCE.md`, "Part names the checks know".
 
 ## Checking models
 
+- `check-order.mjs`: whether a model may start yet, from a game's `Model Prompts.md`: its `Look model: <id>` line and its Make after models must be saved first. Prints OK or WAIT. Run it before starting any model.
 - `inspect-glb.mjs`: each part's size, centre and triangles, then the whole model's, to compare with the prompt.
 - `check-planes.mjs`: faces that would flicker (two looks in one plane). Run it on every model.
 - `check-open-edges.mjs`: parts you can see through (an uncapped tube end, a hole in a shell); `Outline_` shells and T-joins (a big face meeting two small ones) don't count. Run it on every model.
-- `check-ground.mjs`: whether a model really rests on the floor at 0: names parts hovering just off it, and fails one sitting on a point or whose bottom isn't at 0. Run it on every model.
+- `check-ground.mjs`: whether a model really rests on the floor at 0: names parts hovering just off it, and fails one sitting on a point or whose bottom isn't at 0. `--skip <names>` leaves out parts that sit inside another one near the floor (a jaw, a tongue). Run it on every model.
+- `check-clear.mjs`: the gap between separate things that sit near each other (a handle and the body it sits on, wings and body, a prop and its model), across one or more .glb files: `node check-clear.mjs m.glb props.glb "Handle|Body"`. Fails under 1 stud (`--min`).
+- `check-wing-clear.mjs`: a creature's posed `Wing…` parts stay clear of everything past the shoulder joint, and how far each folds back down while still clear (an animation's swing).
 - `check-spin-room.mjs`: turns every `Spin_` group a full turn and says how close it comes to anything else (its `Mount` or `Axle` left out).
 - `check-sweep.mjs`: swings `Sweep_` groups a half turn, turns `Aim_` heads a full circle and moves `Bob_` groups up and down (`--bob`), and says how close they come to other parts.
 - `check-hinge.mjs`: swings hinged pieces (a lid round X; `--axis y` for an upright door) a quarter turn and says how close they come to every other part.
@@ -62,12 +66,22 @@ checks look for are listed in `../REFERENCE.md`, "Part names the checks know".
 - `glb-textures.mjs`: saves every texture inside several .glb files as PNGs in one folder.
 - `fit-corners.mjs`: frames an angled view by the models' own points on screen, centred, nothing cut off. `view-3d-page.mjs`, `view-multi-page.mjs` and `view-look-sheet-page.mjs` use it; paste it into any new view page.
 
+## Finishing a Meshy model (`meshy/`)
+
+Needs the person's own Blender, and a model they already made in their own Meshy account (credits are spent there, never here). Steps and cautions: `../MESHY.md`. Runs on Mac, Linux and WSL.
+
+- `meshy/finish_meshy.sh`: the whole chain on one Meshy .blend: pulls out the textures, splits the model into parts with a 1024 texture each, cleans the shading, sizes it in studs, turns it to face Roblox's front, exports the .glb and makes a check sheet. Never overwrites a Meshy file.
+- `meshy/finish_remesh.py`: pulls a Meshy file's colour and bump textures out as PNGs (Blender script).
+- `meshy/split_sharp.py`: splits the model into parts, each with its own UV layout and 1024 texture, cleans the shading, sizes and turns it, and exports .glb, .fbx and .blend (Blender script).
+- `meshy/views.py`: renders a model from six angles for checking (Blender script).
+- `meshy/sheet.py`: puts several pictures side by side on one labelled check sheet (Python with Pillow).
+
 ## Looking at models
 
 - `view-3d-page.mjs`: the one-page 3D view the person judges by (spin, zoom, `?view=front`, a player-sized block, extras as toggles).
 - `view-multi-page.mjs`: one 3D view of several .glb files side by side (toggles, parts hidden, a character built from several files, upgrade levels in a grid with `pos` and `?view=straight`).
 - `view-sheet-page.mjs`: a style test sheet: one .glb's top-level groups in a row, labelled, with Three-quarter, Top-down and Front buttons, each group's size and triangles, and a picture under it on a checkerboard.
-- `view-look-sheet-page.mjs`: a pick-a-look page: several .glb in one spinnable row on white, toon-lit, a grey 5-tall player beside each, a label and a Download button over each; hooks for screenshots (`?focus=<id>&view=side`). Use it for the first model's 4 versions.
+- `view-look-sheet-page.mjs`: a pick-a-look page: several .glb in one spinnable row on white, toon-lit, a grey 5-tall player beside each, a label and a Download button over each; hooks for screenshots (`?focus=<id>&view=side`). Use it for the first model's 4 versions, and for the bench's sheets.
 - `shots-wait.mjs`: screenshots of a view page from one headless Chrome, each after the page sets `window.ready`; about 2 s a shot, never blank.
 - `crop-stage.mjs`: crops view-page screenshots to the 3D stage, for `contact-sheet.mjs`.
 - `save-png-server.mjs`: serves a view page on this computer and saves the PNGs it sends back.

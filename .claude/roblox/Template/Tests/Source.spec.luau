@@ -216,6 +216,80 @@ local function caseClashes(dir: string): { string }
 	return clashes
 end
 
+-- Every line that hands two or more locals one `if` expression ending in a call: `local cf, size = if m then
+-- m:GetBoundingBox() else ...` keeps only the call's first value, so `size` is nil or the fallback. Two expressions
+-- (`local a, b = if x then 1 else 2, if y then 3 else 4`) are fine.
+local function ifSplits(text: string): { string }
+	local found = {}
+	for line in string.gmatch(flatten(text) .. "\n", "([^\n]*)\n") do
+		local targets, rest = string.match(line, "^%s*local ([^=]+)=%s*(if%f[^%w_].*)$")
+		if targets and string.find(targets, ",") and not string.find(rest, ", if%f[^%w_]") then
+			if string.find(rest, "then [^%s]-%b()%s+else") or string.find(rest, "else [^%s]-%b()%s*$") then
+				table.insert(found, line)
+			end
+		end
+	end
+	return found
+end
+
+-- Every DataStore call one file makes that isn't inside a pcall: the call's line, or one of the two before it, holds
+-- `pcall(` (`local ok, v = pcall(function()` then `return store:GetAsync(key)`). Lessons: "Wrap every DataStore call
+-- in pcall", now a check.
+local DATASTORE_CALLS = {
+	"GetAsync",
+	"SetAsync",
+	"UpdateAsync",
+	"RemoveAsync",
+	"IncrementAsync",
+	"GetSortedAsync",
+	"MessageAsync",
+	"StartSessionAsync",
+}
+local function bareStoreCalls(text: string): { string }
+	local found = {}
+	local lines = {}
+	for line in string.gmatch(flatten(text) .. "\n", "([^\n]*)\n") do
+		table.insert(lines, line)
+	end
+	for i, line in lines do
+		for _, call in DATASTORE_CALLS do
+			if string.find(line, `:{call}%(`) then
+				local near = line .. (lines[i - 1] or "") .. (lines[i - 2] or "")
+				if not string.find(near, "pcall%(") then
+					table.insert(found, line)
+				end
+			end
+		end
+	end
+	return found
+end
+
+-- Emoji (U+1F000 and up, four bytes in UTF-8): Roblox draws them as black boxes on many devices, so icons are
+-- pictures. Plain text symbols (a star, a triangle) are fine.
+local function emojis(text: string): { string }
+	local found = {}
+	for line in string.gmatch(text .. "\n", "([^\n]*)\n") do
+		if string.find(line, "\240\159") then
+			table.insert(found, line)
+		end
+	end
+	return found
+end
+
+-- In Lune, `_G` set by a script isn't seen by the modules it requires, so a test switch put there is never read
+-- (a test meant to try several versions ran the same one each time). Hand switches
+-- through a small shared module's table instead. A `.studio.luau` (pasted into execute_luau, where `_G` carries a
+-- helper from one call to the next) may use it.
+local function globalTables(text: string): { string }
+	local found = {}
+	for line in string.gmatch(flatten(text) .. "\n", "([^\n]*)\n") do
+		if string.find(line, "%f[%w_]_G%f[^%w_]") then
+			table.insert(found, line)
+		end
+	end
+	return found
+end
+
 local tests = {
 	["no two files differ only in capitals"] = function()
 		for _, dir in { "Code", "Tests" } do
@@ -309,6 +383,111 @@ end
 				assert(not seen[name], `Code/Shared/Net.luau lists "{name}" twice: the server would make two`)
 				seen[name] = true
 			end
+		end
+	end,
+
+	["no Lune-run file uses _G (a required module never sees it)"] = function()
+		local files = sources("Code")
+		for _, file in sources("Tests") do
+			if string.sub(file.path, -12) ~= ".studio.luau" then
+				table.insert(files, file)
+			end
+		end
+		for _, file in files do
+			local found = globalTables(file.text)
+			assert(
+				#found == 0,
+				`{file.path} uses _G, which the modules it requires never see in Lune: hand it through a shared module's table: {found[1]}`
+			)
+		end
+		assert(#globalTables("_G.Variant = 2\n") == 1, "the check must catch _G")
+		assert(
+			#globalTables("-- _G in a comment\nlocal my_G = 1\n") == 0,
+			"a comment or a longer name is fine"
+		)
+	end,
+
+	["no two locals take one if expression that ends in a call"] = function()
+		for _, file in sources("Code") do
+			local found = ifSplits(file.text)
+			assert(
+				#found == 0,
+				`{file.path} gives two locals one if expression with a call, which keeps only its first value: `
+					.. `use a plain if block: {found[1]}`
+			)
+		end
+		local caught =
+			ifSplits("local cf, size = if m then m:GetBoundingBox() else CFrame.new(), Vector3.zero\n")
+		assert(#caught == 1, "the check must catch a call inside a two-local if expression")
+		local fine = ifSplits("local a, b = if x then f() else 0, if y then g() else 1\n")
+		assert(#fine == 0, "two if expressions, one per local, are fine")
+	end,
+
+	["every DataStore call is inside a pcall"] = function()
+		for _, file in sources("Code") do
+			local found = bareStoreCalls(file.text)
+			assert(
+				#found == 0,
+				`{file.path} calls a DataStore outside a pcall (an error there stops the whole thread): {found[1]}`
+			)
+		end
+		local caught = bareStoreCalls("local v = store:GetAsync(key)\n")
+		assert(#caught == 1, "the check must catch a bare GetAsync")
+		local fine = bareStoreCalls("local ok, v = pcall(function()\n\treturn store:GetAsync(key)\nend)\n")
+		assert(#fine == 0, "a GetAsync inside pcall(function() ... end) is fine")
+	end,
+
+	["no emoji in the code: icons are pictures"] = function()
+		for _, file in sources("Code") do
+			local found = emojis(file.text)
+			assert(
+				#found == 0,
+				`{file.path} has an emoji (a black box on many devices): use an ImageLabel: {found[1]}`
+			)
+		end
+		assert(#emojis('label.Text = "\240\159\148\165 hot"') == 1, "the check must catch an emoji")
+		assert(#emojis('label.Text = "\226\152\133"') == 0, "a text star is fine")
+		assert(#emojis('label.Text = "a \226\128\148 b"') == 0, "a dash is fine")
+	end,
+
+	["no Studio-only script lives under Code"] = function()
+		-- Lessons: a .studio.luau copied under Code/ for Rojo to sync and then deleted left Rojo's server dead (paste it
+		-- into execute_luau instead).
+		local function walk(at: string)
+			for _, name in fs.readDir(at) do
+				local path = `{at}/{name}`
+				if fs.isDir(path) then
+					walk(path)
+				else
+					assert(
+						string.sub(name, -12) ~= ".studio.luau",
+						`{path} is a Studio-only script under Code/: keep it in Tests/ and paste it into execute_luau`
+					)
+				end
+			end
+		end
+		if fs.isDir("Code") then
+			walk("Code")
+		end
+	end,
+
+	["no test waits on MoveToFinished or sets a Source with [[ ]]"] = function()
+		-- Lessons: MoveToFinished:Wait() inside execute_luau timed the call out on a blocked character; a Script or
+		-- LocalScript Source written [[ ... ]] ends early at an index like t[a[1]] (write [=[ ... ]=]).
+		local files = sources("Code")
+		for _, file in sources("Tests") do
+			table.insert(files, file)
+		end
+		for _, file in files do
+			local text = flatten(file.text)
+			assert(
+				not string.find(text, "MoveToFinished:Wait%("),
+				`{file.path} waits on MoveToFinished: a blocked character never fires it; poll the distance instead`
+			)
+			assert(
+				not string.find(text, "Source%s*=%s*%[%["),
+				`{file.path} sets a Source with [[ ]]: write [=[ ]=], or an index like t[a[1]] ends the string early`
+			)
 		end
 	end,
 }

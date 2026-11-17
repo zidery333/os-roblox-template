@@ -1,5 +1,7 @@
 // Says whether a model really rests on the floor: no part hovering just over it, and real contact, not one point. Takes a few seconds.
-// Run: node check-ground.mjs model.glb [more.glb] [--tol 0.05] [--gap 0.6] [--ratio 0.3]   (needs three@0.170.0). Exits 1 on a fail.
+// Run: node check-ground.mjs model.glb [more.glb] [--tol 0.05] [--gap 0.6] [--ratio 0.3] [--skip <name regex>]   (needs three@0.170.0). Exits 1 on a fail.
+// --skip leaves out parts that sit inside another one near the floor (a resting head's jaw, tongue and mouth: 'Jaw|Tongue|Gums|MouthInside|Belly_Teeth').
+// Pieces that live inside a closed head (Belly_Teeth, MouthInside, Pupils) are not resting parts and are never named as hovering, like Glow_.
 // How: looks straight up from under the model on a fine grid (Outline_ shells skipped: they stop over the floor on purpose) and finds the
 // lowest surface in each cell. "Near" cells are lower than --gap (default 2% of the height, at least 0.3); "touching" ones are within --tol of
 // the floor. Fails if a patch of near cells has no touching cell (that part hovers: you see a slit of light under it), or if touching cells
@@ -10,8 +12,9 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 globalThis.self ??= globalThis; console.warn = () => {};
 const args = process.argv.slice(2), opt = (k, d) => { const i = args.indexOf(k); return i < 0 ? d : Number(args.splice(i, 2)[1]); };
+const si = args.indexOf('--skip'), SKIP = si < 0 ? null : new RegExp('^(Outline_)?(' + args.splice(si, 2)[1] + ')$');
 const TOL = opt('--tol', 0.05), GAP = opt('--gap', NaN), RATIO = opt('--ratio', 0.3), files = args;
-if (!files.length) { console.error('Usage: node check-ground.mjs model.glb [more] [--tol 0.05] [--gap 0.6] [--ratio 0.3]'); process.exit(1); }
+if (!files.length) { console.error('Usage: node check-ground.mjs model.glb [more] [--tol 0.05] [--gap 0.6] [--ratio 0.3] [--skip <name regex>]'); process.exit(1); }
 let failed = 0;
 for (const f of files) {
 	const buf = fs.readFileSync(f), ab = buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength);
@@ -20,7 +23,7 @@ for (const f of files) {
 	g.scene.updateMatrixWorld(true);
 	const tris = []; const box = new THREE.Box3();
 	g.scene.traverse((o) => {
-		if (!o.isMesh || /^Outline_/.test(o.name) || /Outline/.test(o.parent?.name || '')) return;
+		if (!o.isMesh || /^Outline_/.test(o.name) || /Outline/.test(o.parent?.name || '') || (SKIP && SKIP.test(o.name))) return;
 		const P = o.geometry.attributes.position, I = o.geometry.index, n = I ? I.count : P.count;
 		const v = (i) => new THREE.Vector3().fromBufferAttribute(P, I ? I.getX(i) : i).applyMatrix4(o.matrixWorld);
 		for (let t = 0; t < n; t += 3) { const a = v(t), b = v(t + 1), c = v(t + 2); box.expandByPoint(a).expandByPoint(b).expandByPoint(c); tris.push([a, b, c, o.name]); }
@@ -65,7 +68,7 @@ for (const f of files) {
 	// parts low enough that they should rest on the floor (lowest point in the bottom 10%) but stop short of it
 	const partMin = new Map();
 	for (const [a, b, c, n] of tris) partMin.set(n, Math.min(partMin.get(n) ?? Infinity, a.y, b.y, c.y));
-	for (const [n, m] of partMin) if (m - floor > TOL && m - floor < 0.1 * H && !/^Glow_/.test(n)) {
+	for (const [n, m] of partMin) if (m - floor > TOL && m - floor < 0.1 * H && !/^(Glow_|Belly_Teeth|MouthInside|Pupils)/.test(n) && !(SKIP && SKIP.test(n))) {
 		bad = true; console.log(`LIFTED ${name} ${n}: lowest point ${(m - floor).toFixed(2)} over the floor (rest it on the floor, or lift it clearly)`);
 	}
 	for (const h of hovering) { bad = true; console.log(`HOVER ${name} ${h.part}: ${h.gap.toFixed(2)} over the floor, patch ${h.area.toFixed(1)} sq studs`); }

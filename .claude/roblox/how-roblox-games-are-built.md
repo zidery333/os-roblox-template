@@ -14,7 +14,7 @@ written rule, so it never happens twice.
 1. **Code lives in files, never typed into Studio.** Rojo (a free tool) copies the files into Studio
    each time they're saved. Studio and the files drifting apart sank SyphoDev's first try
    (SyphoDev [04:37], [11:11]). With code in files, the AI can check its own work before Studio ever
-   sees it (fwjelaa [06:11]). Install the Rojo plugin one way only (`new game` picks the way for a Mac
+   sees it (fwjelaa [06:11]). Install the Rojo plugin one way only (`/build-game`'s set-up part picks the way for a Mac
    or for Windows). Installing it a second way gives two plugins and doubled scripts (fwjelaa [10:44]).
 2. **Five checks gate every change.** It builds (`rojo build`), the lint is happy (selene), the
    layout is right (StyLua), the tests pass (Lune), and the types check (luau-lsp). The empty starter
@@ -29,8 +29,11 @@ written rule, so it never happens twice.
    (SyphoDev [02:35]).
 5. **Skills hold the detail.** A skill loads only when it's needed, for example saving data,
    networking, UI or animation (SyphoDev [01:32]–[03:07]; fwjelaa [11:47]).
-6. **Plan first, then one feature at a time.** Have the AI ask 20–40 questions, read the plan, then
-   say yes to it (fwjelaa [06:41]–[07:41]). Build a daily spinner, then rounds, then saving, one at a
+6. **Idea first, then a one-page plan, then one feature at a time.** `/game-idea` checks the idea
+   before anything is built, and `/build-game` writes the plan on one page. Have the AI ask 20–40
+   questions, read the plan, then say yes to it (fwjelaa [06:41]–[07:41]). The plan is split into gates:
+   a gate is a point where the person plays what exists and says if it is worth more building. Nothing
+   past a gate is built before it is passed. The first gate is the core loop in grey boxes. Build the core loop first, then rounds, then saving, one at a
    time. A whole game in one go gives a bland one (SmartyRBX 0ENeVVC9QT0 [10:14]).
 7. **Playtest through Studio's MCP.** The AI can start and stop play, read the output log, take
    screenshots, and press keys and click (Roblox docs). Screenshots work while the game is stopped,
@@ -89,7 +92,7 @@ the triangle count, since Roblox caps a mesh at 20k triangles (SyphoDev [05:38]�
 
 ## Practice
 
-Say "new game", then get the empty starter to pass `./check.sh`, all five ok.
+Say "build a game" and let `/build-game` set up the empty starter, then get it to pass `./check.sh`, all five ok.
 
 ## Sources
 

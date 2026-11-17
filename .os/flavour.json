@@ -4,9 +4,23 @@
   "repo": "zidery333/os-roblox-template",
   "branch": "main",
   "addon_repo": "zidery333/os-template",
-  "skills": ["new-game", "build-game", "subchat-chain", "make-model"],
+  "skills": [
+    "build-game",
+    "game-idea",
+    "game-ui",
+    "market-game",
+    "make-model",
+    "subchat-chain"
+  ],
   "agents": [],
   "hooks": [],
-  "files": [".claude/roblox", ".mcp.json"],
-  "settings": {"enabledMcpjsonServers": ["Roblox_Studio"]}
+  "files": [
+    ".claude/roblox",
+    ".mcp.json"
+  ],
+  "settings": {
+    "enabledMcpjsonServers": [
+      "Roblox_Studio"
+    ]
+  }
 }

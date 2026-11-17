@@ -313,25 +313,31 @@
     ],
     ".claude/skills/build-game/REFERENCE.md": [
       "b03cb4b7b5334ed0c6845793bd5fc6cf6d695aa9",
-      "0c3a12b5705e686c643ae2dd15072113a3310186"
+      "0c3a12b5705e686c643ae2dd15072113a3310186",
+      "a4ed7cbd2d52e8c1306a21da618059558fdc7a99"
     ],
     ".claude/skills/build-game/SKILL.md": [
-      "7f009e3e687a37cb7d841fc2a17052d7fbfa8dbe"
+      "7f009e3e687a37cb7d841fc2a17052d7fbfa8dbe",
+      "7a9bd21a08058b739a4a902af6cea587f12764fc"
     ],
     ".claude/skills/make-model/LESSONS.md": [
       "a1d46900bcae5fc1ac25d33133ff1b76cc770418",
-      "f1c76bf6bf29a11c7e7de2bd9f1b3b9ed4cb68b3"
+      "f1c76bf6bf29a11c7e7de2bd9f1b3b9ed4cb68b3",
+      "a6d2bb7725b9b2271c894f93f2b69d6817ca4fe3"
     ],
     ".claude/skills/make-model/REFERENCE.md": [
       "a90da262d7e3109a8d223b7d94fc7d7c7e1577a4",
-      "8f2b4f2acf666b27d8bfe108dad2978764a5653f"
+      "8f2b4f2acf666b27d8bfe108dad2978764a5653f",
+      "7efc26ba93c03c6f67c9e66914307315fcc63096"
     ],
     ".claude/skills/make-model/SKILL.md": [
-      "7b652059a3e2be7a17774e79533f4fb3d838b755"
+      "7b652059a3e2be7a17774e79533f4fb3d838b755",
+      "83b2b4bfff6356228415ed2c6f27834f9062f303"
     ],
     ".claude/skills/make-model/kit/README.md": [
       "779728b9c640c425955f6554d570ff924a990015",
-      "046f31d6df09a32cfa589bd342c1e36977974bd7"
+      "046f31d6df09a32cfa589bd342c1e36977974bd7",
+      "4ead17f2e05377458a0d50528211f43c0b29e458"
     ],
     ".claude/skills/make-model/kit/brick-glb.mjs": [
       "5dc59853c790ec83b319e5f537418898abf8ea47"
@@ -349,7 +355,8 @@
     ],
     ".claude/skills/make-model/kit/check-ground.mjs": [
       "78fd816a185ca86031316805a81f6b0d269303c1",
-      "66416766592b354456211e9ec9be1d0aa49961d9"
+      "66416766592b354456211e9ec9be1d0aa49961d9",
+      "f6a709c88ef286405ef7f4b19f994ba560b289aa"
     ],
     ".claude/skills/make-model/kit/check-hinge-swing.mjs": [
       "97a13c711f789cc957729d9548e3d83c11c9c472",
@@ -454,7 +461,8 @@
     ],
     ".claude/skills/make-model/kit/style-c-leaning-sign.mjs": [
       "3dbc7e2446c5ee73376602987bd0db869c220926",
-      "8eb3c838fe7f6ea9efa42c6f0e96dd5b0094df5b"
+      "8eb3c838fe7f6ea9efa42c6f0e96dd5b0094df5b",
+      "47d81497983fce4c042de75019515fda34dd26c5"
     ],
     ".claude/skills/make-model/kit/style-c-moving-parts.mjs": [
       "1c6c03c8fcf19b01d3a64b854a60242d59d5afd6"
@@ -508,14 +516,17 @@
       "afdc744a37d645049edfd0db7b45f843aa7287e6"
     ],
     ".os/flavour.json": [
-      "4996b471cdac2f60aeec64cfef659b0af18da654"
+      "4996b471cdac2f60aeec64cfef659b0af18da654",
+      "49c9868123ef1a337a3f1dab1bc1e462d60f0c81"
     ],
     ".claude/roblox/LESSONS.md": [
       "efa69511909f7e221b6586fe6418870f0af3e922",
-      "8a6360e2a07aa317f3c748246d5c5f4fc9fe72df"
+      "8a6360e2a07aa317f3c748246d5c5f4fc9fe72df",
+      "854df0bb36dd8bc17679dab052595e0bdf34b3cd"
     ],
     ".claude/roblox/README.md": [
-      "614323c0f72776359c5ad0cfa344d19c4fd3438b"
+      "614323c0f72776359c5ad0cfa344d19c4fd3438b",
+      "08580ba631319f19c34ad8f0f736e083516581fe"
     ],
     ".claude/roblox/Template/.gitattributes": [
       "7b00af9e37d1d04a36cf678668356a7ad4d487d8"
@@ -545,11 +556,13 @@
       "77fcefc3aee960997202825c956c557430416595"
     ],
     ".claude/roblox/Template/Plan.md": [
-      "d20553e37788a5461ab9909a2bf6dabfa171c415"
+      "d20553e37788a5461ab9909a2bf6dabfa171c415",
+      "6f2b91201032c10405ab186fabd9102fdbbd055a"
     ],
     ".claude/roblox/Template/Tests/Source.spec.luau": [
       "24a1864724b71e3ee07605abd9d5da3885b2dc75",
-      "e98d7266d5f8880864d2b35749fbe3bd7920a76b"
+      "e98d7266d5f8880864d2b35749fbe3bd7920a76b",
+      "d0e1fe54199c545dba95b5ac35757e7792183ad2"
     ],
     ".claude/roblox/Template/Tests/Wallet.spec.luau": [
       "2f526dd593f57c6488c10da07d593864c3017230"
@@ -563,7 +576,8 @@
     ],
     ".claude/roblox/Template/check.sh": [
       "ff353d286a083b51ec1ffa8578d548b480087bb7",
-      "199c6c74acbb8be4aac70778de513c3bc1705a8a"
+      "199c6c74acbb8be4aac70778de513c3bc1705a8a",
+      "1020aa97d2373191511cec6fcdcbf598630d6598"
     ],
     ".claude/roblox/Template/default.project.json": [
       "872aec5018bb2983aac3efeb55a8ef332bd06bcd"
@@ -580,7 +594,8 @@
     ],
     ".claude/roblox/Template/start-rojo.sh": [
       "a648f05aeb30de36f935ed8d25e9baaa77659cbf",
-      "8120a0d0718a28a48201ef658a36d71846b7cb6b"
+      "8120a0d0718a28a48201ef658a36d71846b7cb6b",
+      "dff0ff41bf85d4c470b3fbb8c88df79ffc02dc96"
     ],
     ".claude/roblox/Template/stylua.toml": [
       "7c44e89b3c891a74a2835b49b1f01088beebc604"
@@ -590,7 +605,8 @@
       "54095a155861e1774e067b26f806efd83fc70499"
     ],
     ".claude/roblox/how-roblox-games-are-built.md": [
-      "1d516fe88aec7771a046f888bd543644463f72f6"
+      "1d516fe88aec7771a046f888bd543644463f72f6",
+      "bc87d5ae344b5500f23526d91df2115e5eec6d29"
     ],
     ".claude/roblox/studio-mcp.sh": [
       "49054cc8254f3bb26869a784856a64666a7585cf"
@@ -604,6 +620,78 @@
     ],
     ".claude/roblox/.gitattributes": [
       "1be7db09c7839f3e72160705b36206b95b60b46b"
+    ],
+    ".claude/skills/build-game/AWAY-LESSONS.md": [
+      "bce1b2ff81b0423443254cb35098c8131eea063d"
+    ],
+    ".claude/skills/build-game/AWAY.md": [
+      "bc1cfd1fb50cd4067d8028c47af9f53451cfe796"
+    ],
+    ".claude/skills/build-game/BRIEFS.md": [
+      "d9661047c7db5da78426d1eed9705a33f7c0459a"
+    ],
+    ".claude/skills/build-game/ONE-PAGE.md": [
+      "1011e9595586b861089d9e95ad882d8b0514e411"
+    ],
+    ".claude/skills/build-game/PLAN.md": [
+      "0ad8f1c68bc70d5971e59411f92afb2a36433035"
+    ],
+    ".claude/skills/build-game/SETUP.md": [
+      "f9b0182b842e20aa4715dfff24ac5ee57d6af8bb"
+    ],
+    ".claude/skills/game-idea/QUESTIONS.md": [
+      "39e9771cb9cdf095d7a29de9e3075b046095c6cb"
+    ],
+    ".claude/skills/game-idea/REFERENCE.md": [
+      "a37cec9250d30bec246818f3153cfe4819560809"
+    ],
+    ".claude/skills/game-idea/SKILL.md": [
+      "103405199e1340654058db6c706f5ce8592a4a3a"
+    ],
+    ".claude/skills/game-ui/REFERENCE.md": [
+      "0b66a819a73a0bdaaf4640bff8d4a4f66cd77445"
+    ],
+    ".claude/skills/game-ui/SKILL.md": [
+      "2802d5ec029f5debf499ec5ba3202a7527057ffd"
+    ],
+    ".claude/skills/make-model/BENCH.md": [
+      "09726f3abf857696c945d7ed4fad9226a24019c7"
+    ],
+    ".claude/skills/make-model/MESHY.md": [
+      "bfc685410efdaed8cd36f54b79205a416aba9e37"
+    ],
+    ".claude/skills/make-model/ROUTES.md": [
+      "b6e06020e5a13fc3893dd84419e88df3b7ac8ee5"
+    ],
+    ".claude/skills/make-model/kit/check-clear.mjs": [
+      "b71e7b5a1612938b2c7063a49c1657a75ed4bd68"
+    ],
+    ".claude/skills/make-model/kit/check-order.mjs": [
+      "5e98423b5ea08a82bab478f65e3a28b25d1a9283"
+    ],
+    ".claude/skills/make-model/kit/check-wing-clear.mjs": [
+      "b224f949054bc85f2718a7570fddb621c9898f77"
+    ],
+    ".claude/skills/make-model/kit/meshy/finish_meshy.sh": [
+      "6bcf0768895cc4e7f66efaac5c5319d1cfb08126"
+    ],
+    ".claude/skills/make-model/kit/meshy/finish_remesh.py": [
+      "031273277a3642174e6c7163bc873431d98f0a35"
+    ],
+    ".claude/skills/make-model/kit/meshy/sheet.py": [
+      "6030c87ab18f4e0b21f7a6cef61aa89bc9e1b130"
+    ],
+    ".claude/skills/make-model/kit/meshy/split_sharp.py": [
+      "2937fde744241c62f5cdb8b53ff51ddabf9deb95"
+    ],
+    ".claude/skills/make-model/kit/meshy/views.py": [
+      "8b8bad5d70d0fc27e3b0de1df02f1c1590d16df9"
+    ],
+    ".claude/skills/market-game/REFERENCE.md": [
+      "7ebbc86f17b7892ca24cc6b2fc04cfd83024b804"
+    ],
+    ".claude/skills/market-game/SKILL.md": [
+      "4cf7239d82c229f53fd133252c1a2cb53ef75e52"
     ]
   },
   "keywords": {
@@ -663,7 +751,8 @@
       "97d170e1550eee4afc0af065b78cda302a97674c"
     ],
     "games": [
-      "77a2499b951b54ad8dcc967c00a0c5a3fba88546"
+      "77a2499b951b54ad8dcc967c00a0c5a3fba88546",
+      "196a3b4d2e8496221058f11f9af9a6560a94873f"
     ]
   },
   "rules": [
@@ -672,7 +761,7 @@
     "allow:Bash(bash os:*)",
     "deny:Read(/.os/backups/**)"
   ],
-  "release": "2026-11-12.1",
+  "release": "2026-11-17.1",
   "extensions": {
     "engineering": [
       "6c94c6112e87cd1c969a0c6eee562f9726093b5b"
@@ -1378,7 +1467,17 @@
         "creator hub",
         "devforum",
         "exploiter",
-        "place file"
+        "place file",
+        "idea card",
+        "grey box",
+        "gate",
+        "game page",
+        "thumbnail",
+        "game icon",
+        "retention",
+        "blender",
+        "meshy",
+        "game ui"
       ]
     }
   },

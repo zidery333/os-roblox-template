@@ -1,116 +1,121 @@
 ---
 name: make-model
-description: Make the models and UI pictures for a Roblox game made with /new-game, from the game's Model Prompts.md, one subchat per model, with a 3D view to spin or a picture sheet, and nothing kept until the person says yes. It learns from every change they ask for. Use when they say make the models, make the next models, make a model, do the model prompts, fix a model, or start the model chat.
+description: Make the models and UI pictures for a Roblox game made with /build-game, when the person starts a model chat. Each model is sorted by role, made by a route with proof, in its own subchat, shown on a page they can spin, and kept only after their yes. It learns from every change they ask for. Use when they say make the models, make the next models, make a model, do the model prompts, fix a model, finish my Meshy model, run the model bench, or start the model chat.
 argument-hint: "[game] [which models, e.g. M04 or \"the next four\"]"
 effort: high
 ---
-
 # Make models
+Make the models and UI pictures one game needs, when the person starts a model chat. The AI makes every one. Good
+looks like this: every model has a role, a triangle budget and a route, and the person said yes to it on a page they
+can spin. Claude writes the code or script that builds each model, here in the folder, so the person never pastes
+a prompt or a file.
 
-Claude writes code that builds each model, here in the folder, so the person never pastes a
-prompt or a file. No Blender: models are built in Node (three.js for new ones, a .glb editing
-tool for changes). It works for any game in `Work/` made with /new-game.
+**Effort:** the main model chat runs on high effort. Each model subchat runs on medium: start it with `effort: "medium"`.
 
-**Effort:** the main model chat runs on high effort. Each model subchat runs on medium: start it
-with `effort: "medium"`.
+**Mac and Windows:** the kit is plain Node, the same on both (on Windows, inside WSL). How to get Node and Chrome on
+each is in `REFERENCE.md`, under "Mac and Windows". Two routes need something of the person's own: Blender (route 3,
+and finishing a Meshy model) is their own install, and Meshy (`MESHY.md`) is their own account and costs credits.
 
-**Mac and Windows:** plain Node, the same on both (on Windows, inside WSL). How to get Node and
-Chrome on each is in `REFERENCE.md`, under "Mac and Windows".
+**Needs the Claude desktop app:** starting one subchat per model needs Claude Code in the Claude desktop app, which
+can start sessions. In a plain terminal or another AI, make one model at a time yourself, following the brief in
+`REFERENCE.md`.
 
-## Who does what
+## Before you start
+- Read the About me note in `Notes/`, if there is one (no step here may break a line in it), and "What we tried" at the
+  end of `ROUTES.md` beside this file: the researched method and its sources. "Settled rules" below are newer and win.
+- Read `REFERENCE.md` (the subchat brief and the view), `kit/README.md` and `BENCH.md` (how this skill gets better
+  by itself, and its two tables). Read `MESHY.md` only to finish a model the person already made in Meshy.
+- A number in `ROUTES.md` with a date over a month old: open its source again first (the file lists them). Roblox's
+  rules change often.
+- Read the game's `CLAUDE.md` (it loads `.claude/roblox/LESSONS.md`: read "Models"), then `LESSONS.md` here: "Writing
+  the prompt" first, then only the lines naming your route (search `Blender`, `Meshy`, or a style name). A game's own
+  look: its `Model Lessons.md`.
+- **The gate.** Make nothing until Gate 1, the grey box, has the person's date in `Work/<Game>/Plan.md`. No date: ask them.
 
-- **The main model chat** talks with the person, starts one subchat per model, passes on what they
-  say, checks each model before showing it, keeps the checkpoints and keeps the lessons tidy. It
-  builds nothing itself. It never touches game code or `Plan.md`: the /build-game chat builds the game.
-- **Each subchat** makes one model (or one set of pictures, like a UI kit) from its prompt, shows it,
-  changes it until the person says yes, then saves it, marked "saved, not in the game". It never
-  opens Studio: the game's main chat puts it in. It writes a lesson each time it is asked for a change
-  it could have got right first time.
+## Settled rules
+- **Who makes hero models?** The AI makes every model, and `BENCH.md` is how it gets better at it by itself. Paid
+  outside tools are used only when the AI can't do the job.
+- **May a model chat use Studio's generate tools?** Yes, when the person has Studio open with its MCP server
+  connected. It may open Studio for two things only: those tools, and a look at a model in the game's own light.
+  What it makes there goes at once into one folder, `ModelDrafts`. It takes that folder and any material it made out
+  before the chat ends, and never saves the place. The game's place or an empty one, with a build chat maybe in it?
+  Not settled: ask the person.
 
-This needs Claude Code in the Claude desktop app, which can start sessions. In a plain terminal or
-another AI, make one model at a time yourself, following the brief in `REFERENCE.md`.
+## Roles and routes
+Every model gets a role (kit, filler, hero, character), a triangle budget and a route (1 code with the kit,
+2 Studio's generate tools, 3 Blender, 4 a paid tool). The table, the budgets and what each route needs are in
+`REFERENCE.md`, "Roles and routes". Read it before step 1.
+
+## Steps
+1. **List and sort.** From `Work/<Game>/Plan.md` and its stand-ins, give each model a prompt and a row in the order
+   table of `Work/<Game>/Model Prompts.md`: role, size in studs, triangle budget, moving parts, icon or not, Make after,
+   Status. Pictures: pixel size, no role. No colour or style in a prompt before step 3. *Done when:* no row has a gap.
+2. **Give each row a route.** If `BENCH.md` says a run is due, ask the person, and on their yes run it first. Route 1:
+   only its own kinds. Any other row: its bench winner, or the words "stand-in stays". *Done when:* no row lacks one.
+3. **The look model first (20 to 30 minutes of the person's time a game).** Ask which model sets the look. The
+   research says the icon character. Offer a small one too: a big creature can leave dozens of models waiting.
+   Write `Look model: <id>` at the top of `Model Prompts.md`. Its subchat shows three or four real looks on one page
+   (`kit/view-look-sheet-page.mjs`). The person picks. *Done when:* it is saved, with colours and the style line in
+   `Model Lessons.md`.
+4. **One subchat per model** (`start_session`), up to four drafting at once. The main chat builds nothing. Ask the
+   person once first: each subchat runs the kit's `npm install`, a download. Start one only on OK from
+   `node .claude/skills/make-model/kit/check-order.mjs "Work/<Game>/Model Prompts.md" <id>`
+   Send the brief in `REFERENCE.md`, filled in, with `use_worktree: false`, initiation `"user_asked"`,
+   `effort: "medium"` and your session id. Ask it to name the lesson lines it used and any check that failed first
+   time. *Done when:* each has sent its draft.
+   - **Wait for what it builds on.** A row that says "make after M03" doesn't start until M03 has a yes and is saved:
+     `check-order.mjs` says WAIT. Start the next free one instead.
+   - **Fix or remake?** If the model already has a .glb, say so in the brief: the subchat edits that file.
+   - **Keep four going.** The moment a model has a yes, start the next free one. A model only saving its files
+     doesn't count towards the four.
+5. **Check each draft before the person sees it.** Open every screenshot at full size: size, triangles, colours, part
+   names, front at -Z, bottom at 0, readable at phone size. Passing the scripts is not "looks good": list everything
+   that looks wrong to a player. Wrong: send it back, with a lesson. *Done when:* it matches its row.
+6. **Show the person (their step; minutes never measured here).** One draft, one picture, one question. Open the view
+   (Artifact `open`), send the screenshot itself, and give the link in every reply where they must look. One sheet for
+   kit and filler (research: under 15 minutes) is untried here and bends that rule: ask first. *Done when:* they answered.
+7. **A change: how it learns.** Their words go to that subchat, quoted: one more try. Could it have been right first
+   time? Then it writes one lesson line now, before rebuilding, with the try it came from: any game in `LESSONS.md`,
+   this game in `Model Lessons.md`. A taste line only when they name what they liked. *Done when:* they see the new draft.
+8. **A yes: save.** Anything textured gets the text check first: stop on letters, logos or known characters in
+   any texture or render. The subchat saves the model beside its build script in `Work/<Game>/Models/<kind>/` or
+   `Work/<Game>/UI Kit/<Set>/` (no script: a note with its source, picture, prompt and command), marked "saved, not in
+   the game". *Done when:* you saw the files, wrote its `BENCH.md` row and ran
+   `./os checkpoint "<Game>: model <id> <name>"` (only this chat checkpoints, so checkpoints never clash).
+9. **Close.** Run the count in `BENCH.md` ("The learning rules"). Add its dated line to "What we tried". Tidy the
+   lessons (`REFERENCE.md`, "Tidy the lessons"). Archive each saved subchat, then delete them all in one
+   `delete_session` call. *Done when:* the line is in and none is left.
 
 ## How it learns
+Every-game lessons in `LESSONS.md` here, this game's in `Work/<Game>/Model Lessons.md`, and code that worked in
+`kit/`. Every subchat reads all three before it builds. How a line is written, and where taste goes: `REFERENCE.md`,
+"How it learns".
 
-Three things grow as models are made. Every subchat reads all three before it builds.
+## Never
+- Make a model before Gate 1 has passed: the game runs on stand-ins until then. Why: a game can collect dozens of
+  models and still not be fun to play.
+- Make models on your own or outside a model chat the person started, or pick a colour, style or look for them.
+- Start a new model in Meshy unless the person asks. Use route 2, 3 or 4 on a game model before a bench win.
+- Reshape, smooth or repaint a model the person made or supplied: animating it means animating it, nothing else.
+- Save a draft into `Models/` or `UI Kit/` before their yes, or save over a Meshy file they paid for.
+- Change game code or `Plan.md`, or the game's world, or save its place: the game's main chat puts models in.
+- Let any chat upload without the text check and the person's yes for that batch (1 to 2 minutes of their time). Why:
+  uploads are permanent, and AI-made text in a picture can get an account banned. `generate_avatar` uploads by
+  itself: never.
+- Publish, pay, ask for an API key in chat, or download without asking, the kit's `npm install` included.
+- Run a paid step (Meshy or any other) without saying the cost first and getting a yes.
 
-| What | Where | What goes in it |
-| --- | --- | --- |
-| Every-game lessons | `LESSONS.md` beside this file | Making a model well in any game: building it in code, the view, sizes, checks |
-| This game's lessons | `Work/<Game>/Model Lessons.md` | This game only: its style, its exact colours, what the person liked or changed |
-| The kit | `kit/` beside this file (`kit/README.md` lists every file) | Code that worked and will again: builders, checks, view pages |
+## Proof so far
+- `ROUTES.md` is research, not yet run here on a real game: no role list, budget, gate or proving day.
+- `BENCH.md` is this skill's own design, not run yet: no route has won a subject.
+- No route has been run yet in this folder: none has a yes yet.
 
-- **When:** they ask for a change, or the main chat sends a draft back. Before fixing it, ask: could
-  I have got this right first time? If yes, write one line in the same turn.
-- **Taste:** only when they name what they liked ("the outlines are perfect"). A plain "yes" says
-  nothing about what to repeat. Taste always goes in the game's `Model Lessons.md`, never in
-  `LESSONS.md`: one person's taste is not a rule for every game.
-- **Line:** `- <the rule>. Why: <what goes wrong>.` A few words each. No names, no dates.
-- **Which file:** true in any game? `LESSONS.md` here. Only this game? Its `Model Lessons.md` (make
-  the file with its first line).
-- **Search first.** A rule that already says it gets sharper, not a twin. Re-read the file just
-  before editing: other subchats write to it too.
-- **The kit:** after a yes, code that would help the next model (a helper, a better check, a view
-  fix) goes into `kit/` as its own file, with one line at the top saying what it does and how to run
-  it, and a line in `kit/README.md`. Change an existing kit file only when it's broken.
-
-## Do this
-
-1. Read the game's `CLAUDE.md` (it loads `.claude/roblox/LESSONS.md`: read "Models"), this skill's
-   `LESSONS.md`, the game's `Model Lessons.md` if it has one, and the top of `Model Prompts.md`: its
-   order list says which models come next. No `Model Prompts.md` yet: ask the person what to make
-   first and what it should look like (ask for a picture), and write its prompt there in the layout
-   `LESSONS.md` gives ("Writing the prompt"), with the "Rules for every model" block under it.
-2. Start one subchat per model with the brief in `REFERENCE.md`, putting this chat's own session id
-   in it (`get_session` with "self"). **The first model sets the look:** start only that one, show it
-   as 4 clearly different versions to pick from, and start the others only after the person says yes
-   to one. After that, up to four drafting at a time, in the order list's order. Use
-   `use_worktree: false`, initiation `"user_asked"` and `effort: "medium"`.
-   - **Wait for what it builds on.** A prompt that says "make it after M03" or uses another model's
-     pieces doesn't start until that model is a yes and saved. Start the next free one instead.
-   - **Fix or remake?** If the model already has a .glb, say so in the brief: the subchat edits that
-     file instead of building from nothing.
-3. **Never wait for the others.** Each subchat messages this chat the moment its draft is ready,
-   which wakes it. Deal with that one draft straight away: read the screenshot it sends and check it
-   against the prompt and the lessons (size, exact colours, the game's style, named parts). Anything
-   plainly wrong goes back before the person sees it, and is a lesson.
-4. Show the person that draft at once: open its view with the Artifact tool's `open` action, give
-   the link and the subchat's short list of what it couldn't do, and ask yes or what to change, with
-   buttons. Every time they have to look, the link goes in that reply again.
-5. Their answer goes to that same subchat straight away, their words quoted. A change means a lesson
-   if it was avoidable, then a new draft and a new look. A yes means it saves the files. It never imports.
-6. **Keep four going.** The moment a model is a yes, start the next free one. A model only saving its
-   files doesn't count towards the four.
-7. **When a subchat says its model is saved:** check its files are in the game folder with its build
-   script beside them, it's marked "saved, not in the game" in `Model Prompts.md`, and its lessons and
-   kit files are written. Then run `./os checkpoint "<Game>: model <id> <name>"` (only this chat
-   checkpoints, so checkpoints never clash), and archive that subchat with `archive_session`. If it
-   says it's still working, archive it when its "finished a turn" note comes.
-8. When the list asked for is done, or the person stops, delete every subchat this chat archived
-   with one `delete_session` call (one card to click for all of them).
-9. After every few yeses, and at the end: tidy the lessons (`REFERENCE.md`, "Tidy the lessons").
-
-## Rules
-
-- **Nothing is kept until the person says yes.** Drafts live in the subchat's own scratchpad. Only
-  after a yes does anything go into `Models/`, `UI Kit/` or `Model Prompts.md`. Lessons and the kit are
-  the exception: they are about how to work, and are written as they're learned.
-- **Every saved model keeps its build script beside it** (`Models/Props/Crate.glb` and `Crate.mjs`; a
-  picture set's script in its own `UI Kit/<Set>/` folder), so it can be changed after its subchat is gone.
-- Follow the prompt and the lessons exactly: the game's style, `Outline_` and `Glow_` parts where the
-  game uses them, the size, the triangle range, front at -Z, bottom at 0. Never pick a colour they
-  haven't chosen: the prompt's colours, a colour a saved set already uses (exactly), or ask.
-- **The view is what they judge by:** a private Artifact page with everything inside it (no fetching).
-  - A 3D model gets a 3D viewer: white background, soft even light, soft shadow, spin and zoom,
-    filling the view, a player-sized block (5 tall) beside it when the prompt says.
-  - Pictures (UI kits, icons, logos) get one sheet: every picture labelled with its name and size, on
-    a light checkerboard so see-through edges show. No game mock-ups or phone screens.
-- **Models only, never Studio.** The model chat and its subchats never open Studio, upload, import or
-  change the game. The game's main chat puts saved models in when a step needs them.
-- Never change game scripts, `Plan.md` or the world. Never publish the game.
+## Hand over
+- From /build-game: Gate 1 passed by the person, and a game that runs on stand-ins.
+- To /build-game: each model's file, size and part names, marked "saved, not in the game". That chat puts it in, swaps
+  the stand-in and asks the person before each upload batch. To /game-ui and /market-game: the saved pictures.
 
 ## Done when
-
-Every model asked for was shown, changed until the person said yes, saved in the right folder with its
-build script, marked "saved, not in the game" in `Model Prompts.md` and checkpointed, its subchat
-deleted, and the lessons tidied.
+Every model asked for has a role, a budget, a route, the person's yes on its view and a row in `BENCH.md`. Each is
+saved with its build script, marked "saved, not in the game" and checkpointed. No subchat is left. The count is
+written and the lessons are tidy.

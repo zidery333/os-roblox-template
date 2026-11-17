@@ -715,7 +715,17 @@
         "creator hub",
         "devforum",
         "exploiter",
-        "place file"
+        "place file",
+        "idea card",
+        "grey box",
+        "gate",
+        "game page",
+        "thumbnail",
+        "game icon",
+        "retention",
+        "blender",
+        "meshy",
+        "game ui"
       ],
       "extensions": [
         ".luau",

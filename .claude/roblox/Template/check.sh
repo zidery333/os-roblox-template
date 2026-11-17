@@ -4,6 +4,7 @@
 #   ./check.sh --fix  fix the formatting first, then run them
 # Works on a Mac and on Windows inside WSL. The tools come from rokit (rokit.toml pins them).
 
+unset CDPATH # a CDPATH someone set can send cd to another game's folder
 cd "$(dirname "$0")" || exit 1
 export PATH="$HOME/.rokit/bin:$PATH"
 
@@ -23,11 +24,18 @@ fail=0
 check() {
 	local name="$1"
 	shift
-	local out
-	if out=$("$@" 2>&1); then
+	local out status
+	out=$("$@" 2>&1)
+	status=$?
+	if [ "$status" -eq 0 ]; then
 		echo "  ok    $name"
 	else
 		echo "  FAIL  $name"
+		# 142 is the 5-minute stop on the tests below (perl's alarm).
+		if [ "$status" -eq 142 ]; then
+			out="${out:+$out
+}Stopped after 5 minutes with no end: something waits for ever, often a syntax error in a module a test needs."
+		fi
 		printf '%s\n' "$out" | sed 's/^/        /'
 		fail=1
 	fi
@@ -38,7 +46,25 @@ check "builds        (rojo)" rojo build default.project.json -o "$build_out"
 rm -f "$build_out"
 check "lint          (selene)" selene Code Tests
 check "formatting    (stylua)" stylua --check Code Tests
-check "tests         (lune)" lune run Tests/run.luau
+# Runs a command, and after $1 seconds stops it and everything it started (exit 142). Everything matters: the
+# `lune` rokit puts on the PATH is a small program that starts the real Lune, so stopping only the first one would
+# leave the real one running for ever. perl comes with every Mac and with Ubuntu on Windows.
+with_limit() {
+	perl -e '
+		my $secs = shift;
+		my $pid = fork() // die "cannot start: $!\n";
+		if (!$pid) { setpgrp(0, 0); exec @ARGV or die "cannot run $ARGV[0]: $!\n" }
+		setpgrp($pid, $pid);
+		$SIG{ALRM} = sub { kill "KILL", -$pid; waitpid($pid, 0); exit 142 };
+		alarm $secs;
+		waitpid($pid, 0);
+		exit($? & 127 ? 128 + ($? & 127) : $? >> 8);
+	' "$@"
+}
+
+# A syntax error in a module a test needs can leave Lune printing it and then waiting for ever: stop it after
+# 5 minutes.
+check "tests         (lune)" with_limit 300 lune run Tests/run.luau
 
 # Types: --!strict is checked here, not only in Studio's editor, so a misspelled Config key fails. The map of
 # where each script sits in the game comes from Rojo; Roblox's own types are in Types/ (from luau-lsp 1.70.1).

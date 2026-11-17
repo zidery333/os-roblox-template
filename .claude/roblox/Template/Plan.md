@@ -1,42 +1,33 @@
 # {{GAME}}: the plan
 
-Written in the planning chat with the person making the game. Steps are built one at a time, in this
-order. A step is done when its "done when" is true, `./check.sh` passes, the playtest is clean, and the
-person has seen it.
+Not written yet. The plan part of `/build-game` writes the one page, the gates and the features for the next gate here.
+A step is done when its "done when" is true, `./check.sh` passes and the playtest is clean.
+A gate is passed only when the person has played it and given the date. Nothing past a gate gets built before that.
 
-## The game in three sentences
+## The one page
 
-<!-- Who you are and what you do. What makes it tense or fun. Why you come back. -->
+<!-- The plan part of /build-game fills this from `.claude/skills/build-game/ONE-PAGE.md`. One page, never more. -->
+
+## Gates
+
+<!-- Gate, what it proves, who passes it, passed on. Gate 1 is the core loop in grey boxes, played by the person. -->
 
 ## Sizes
 
-<!-- In studs: the player, the main things, the map. Fixed before building. -->
-
-## Core loop
-
-<!-- What the player does again and again, one line each, ending with why they come back. -->
-
-## Rules for every step
-
-- Look: <!-- the style they picked, with a picture or a link -->
-- Stand-ins: until a real model exists, a plain block of the right size and name in
-  ReplicatedStorage.Models, so the real one swaps in with no code change.
-- Test panel: Studio-only, folded by default. Each step adds the buttons it needs.
-- The server decides every <!-- money, item, result -->. The client only asks.
-- Phone, computer or both: <!-- which -->
-- Never happens: <!-- the things they said must never happen -->
+<!-- How big the player, the main things and the map are, in studs. Only what the next gate needs. -->
 
 ## Steps
 
-<!-- One feature each, smallest playable thing first. Copy this block per step.
+<!-- One feature each, only for the next gate. Copy this block per step.
 
 ### 1. <name>
 - What: <one sentence>
 - Done when: <what the person will see or be able to do>
-- Test: <which Tests/ file and what it checks; what the playtest checks; what the person checks>
+- Test: <which Tests/ file and what it checks (a Logic module's test is `Tests/<Module>.spec.luau`); what the playtest proves, with a screenshot>
+- The person checks: <the exact steps they do, and how many minutes>
 - Status: todo
 
 When a step is done: "Status: done. <files>, screenshots <paths>", plus "Still owed: ..." for anything
-left (a two-player check, a sound check). A bug found later gets a new step (6b), never a rewrite.
+left (a two-player check, a sound check). A bug found later gets a new step at the end, never a rewrite of a done one.
 
 -->
