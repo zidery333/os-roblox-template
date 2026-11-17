@@ -3,6 +3,16 @@
 Newest first. Each release says, in plain words, what you'll notice.
 `./os update` shows you the ones that are new to you.
 
+## 2026-11-17.2
+
+- Built on the newest OS template, the normal folder this one adds to.
+  Messages that used to say Zenith now say OS template.
+
+From the normal template:
+
+- The template is now called OS template. It used to be Zenith. Your own
+  folder keeps whatever name it has.
+
 ## 2026-11-17.1
 
 - A whole new way to make a game. Say "new game idea" first: Claude checks
